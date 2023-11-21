@@ -1,0 +1,49 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "./utils/variables";
+
+@import "../../../node_modules/bootstrap/scss/variables-dark"; // maps 裡面有一個 variable 定義在 variable-dark 裡面，所以要先 import
+@import "../../../node_modules/bootstrap/scss/maps";
+@import "./utils/utilities"; // mixins 裡面的 grid 有需要用到 utilities，所以 utilities 要放前面
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "./utils/mixins";
+
+//bs components
+@import "../../../node_modules/bootstrap/scss/reboot";
+@import "../../../node_modules/bootstrap/scss/root";
+@import "../../../node_modules/bootstrap/scss/type";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/containers";
+@import "../../../node_modules/bootstrap/scss/alert";
+@import "../../../node_modules/bootstrap/scss/buttons";
+@import "../../../node_modules/bootstrap/scss/card";
+@import "../../../node_modules/bootstrap/scss/carousel";
+@import "../../../node_modules/bootstrap/scss/forms";
+@import "../../../node_modules/bootstrap/scss/images";
+@import "../../../node_modules/bootstrap/scss/nav";
+@import "../../../node_modules/bootstrap/scss/navbar";
+@import "../../../node_modules/bootstrap/scss/offcanvas";
+
+@import "../../../node_modules/bootstrap/scss/helpers";
+@import "../../../node_modules/bootstrap/scss/utilities/api";
+
+//base
+@import "./base/base";
+@import "./base/typography";
+
+//utils
+@import "./utils/helpers"; 
+
+//components
+@import "./components/images";
+@import "./components/progress_bar";
+@import "./components/messages";
+
+//layouts
+@import "./layouts/header";
+@import "./layouts/footer";
+@import "./layouts/containers";
+
+//pages
+@import "./pages/homepage";
+@import "./pages/class";
+@import "./pages/detail";

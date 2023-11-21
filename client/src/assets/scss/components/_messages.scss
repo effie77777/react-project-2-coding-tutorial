@@ -1,0 +1,14 @@
+.msg {
+    @extend .alert;
+    @extend .my-5;
+}
+
+.error_msg {
+    @extend .msg;
+    @extend .alert-danger;
+}
+
+.success_msg {
+    @extend .msg;
+    @extend .alert-success;
+}

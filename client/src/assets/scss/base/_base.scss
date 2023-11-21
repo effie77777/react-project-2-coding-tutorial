@@ -1,0 +1,36 @@
+p, div, ul, ol, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    line-height: 1.5;
+}
+
+ul, ol {
+    list-style-type: none;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+// button {
+//     background-color: transparent;
+// }
+
+select {
+    background-color: transparent;
+}
+
+a, button {
+    border-radius: 8px;
+    border-width: 2px;
+}
+
+.alert {
+    border-radius: 0;
+    border: none;
+}
+
+.section {
+    @extend .py-10;
+    @extend .py-md-20; 
+}

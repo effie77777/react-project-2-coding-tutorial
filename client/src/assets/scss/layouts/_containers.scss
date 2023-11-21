@@ -1,0 +1,25 @@
+.container-fluid {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    @include sm {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    @include md {
+        padding-right: 2rem;
+        padding-left: 2rem;
+    }
+    @include lg {
+        padding-right: 2.5rem;
+        padding-left: 2.5rem;
+    }
+    @include xl {
+        padding-right: 3.5rem;
+        padding-left: 3.5rem;
+    }
+    @include xxl {
+        padding-right: 4.5rem;
+        padding-left: 4.5rem;
+        max-width: 1440px;
+    }
+}

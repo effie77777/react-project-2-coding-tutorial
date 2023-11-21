@@ -1,0 +1,121 @@
+.bg-linear {
+    background: linear-gradient(90deg, #09ACF5, #62DB54);
+}
+
+.text-linear {
+    background: linear-gradient(#09ACF5, #62DB54);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.right-arrow {
+    width: 0px;
+    height: 0px;
+    border-top: 0.8rem solid transparent;
+    border-bottom: 0.8rem solid transparent;
+    border-left: 1rem solid $third;
+}
+
+.square-tiny {
+    @include square(0.5rem);
+    @extend .bg-white;
+    @extend .position-absolute;
+}
+
+.rounded-8 {
+    border-radius: 8px;
+}
+
+.rounded-12 {
+    border-radius: 12px;
+}
+
+.rounded-24 {
+    border-radius: 24px;
+}
+
+.w-sm-32 {
+    @include sm {
+        width: 32% !important;
+    }
+}
+
+.w-sm-37 {
+    @include sm {
+        width: 37% !important;
+    }
+}
+
+.w-sm-48 {
+    @include sm {
+        width: 48% !important;
+    }
+}
+
+.w-md-24 {
+    @include md {
+        width: 24%;
+    }
+}
+
+.w-md-48 {
+    @include md {
+        width: 48%;
+    }
+}
+
+.w-lg-32 {
+    @include lg {
+        width: 32%;
+    }
+}
+
+.w-xl-24 {
+    @include xl {
+        width: 24% !important;
+    }
+}
+
+.h-md-32rem {
+    @include md {
+        height: 32rem;
+    }
+}
+
+.ratio-md-4-3 {
+    @include md {
+        aspect-ratio: 4/3;
+    } 
+}
+
+.font-fill-1 {
+    font-variation-settings: "FILL" 1;
+}
+
+.active {
+    color: white;
+    span {
+        @extend .text-linear;
+    }
+}
+
+.hover-bg-third {
+    &:hover {
+        @extend .text-fourth;
+        @extend .bg-third;
+    }
+}
+
+.hover-bg-primary {
+    &:hover {
+        @extend .bg-primary;
+        @extend .text-fourth;
+    }
+}
+
+// .hover-border-white {
+//     &:hover {
+//         border-color: white;
+//     }
+// }
+

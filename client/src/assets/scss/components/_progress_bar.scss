@@ -1,0 +1,45 @@
+.progress_bar {
+    @extend .col-12;
+    @extend .col-sm-9;
+    @extend .col-lg-7;
+    @extend .col-xl-6;
+    @extend .position-relative;
+
+    >div:not(:first-child) {
+        @extend .d-flex;
+        @extend .flex-column;
+        @extend .align-items-center;
+        @extend .position-absolute;
+        top: -1px;
+        >div {
+            @extend .w-6;
+            @extend .h-6;
+            @extend .d-flex;
+            @extend .align-items-center;
+            @extend .justify-content-center;
+            @extend .rounded-circle;
+            transform: translateY(-50%);
+        }
+    }
+
+    >div:nth-child(2) {
+        @extend .start-0;
+        background: linear-gradient(90deg, #1C1C1C 50%, 50%, transparent);
+        >div {
+            @extend .bg-linear;
+            @extend .border-0;
+        }
+        small {
+            @extend .text-dark;
+        }
+    }
+
+    >div:nth-child(3) {
+        @extend .start-50;
+        transform: translateX(-50%);
+    }
+    >div:last-child {
+        @extend .end-0;
+        background: linear-gradient(90deg, transparent 50%, 50%, #1C1C1C);
+    }
+}

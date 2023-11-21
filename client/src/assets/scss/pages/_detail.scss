@@ -1,0 +1,47 @@
+.detail-ul {
+    li:last-child {
+        border: 0 !important;
+    }
+}
+
+.detail-li {
+    @extend .d-flex;
+    @extend .justify-content-between;
+    @extend .w-100;
+    @extend .hover-bg-third;
+    border-bottom: 1px solid white;
+    &:hover {
+        p {
+            color: $dark !important;
+        }
+    }
+    
+    p:first-child {
+        @extend .fs-3;
+        @extend .text-white;
+    }
+    
+    button {
+        @extend .w-100;
+        @extend .py-4;
+        @extend .px-3;
+        @extend .text-start;
+    }
+}
+
+.detail-square {
+    @extend .fs-1;
+    @extend .text-primary;
+    @extend .me-2;
+    @extend .font-fill-1;
+}
+
+.detail-card-instructor-name {
+    @extend .text-center;
+    width: 80px;
+    height: 80px;
+    @include md {
+        width: 100px;
+        height: 100px;
+    }
+}

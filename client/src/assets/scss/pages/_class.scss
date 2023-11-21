@@ -1,0 +1,68 @@
+.class-category {
+    @extend .section4-link;
+    button {
+        @extend .btn;
+        @extend .bg-fourth;
+    }
+}
+
+.class-card {
+    @extend .p-4;
+    @extend .p-sm-6;
+    @extend .bg-opacity-10;
+    @extend .bg-third;
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .justify-content-between;
+    @extend .align-items-center;
+    @extend .rounded-24;
+    @extend .w-md-48;
+    @extend .w-lg-32;
+    @extend .mb-4;
+    @extend .mb-md-0;
+    @extend .flex-md-grow-0;
+    @extend .flex-md-shrink-0;
+    border: 1px solid $fourth;
+    &:hover {
+        border-color: white;
+    }
+    height: 29rem;
+    @include sm {
+        height: 27rem;
+    }
+    @include md {
+        margin-right: 4%;
+        height: 32.5rem;
+    }
+    @include lg {
+        margin-right: 2%;
+        height: 34rem;
+    }
+}
+
+.class-card-header {
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .align-items-center;
+}
+
+.class-card-body {
+    @extend .mt-2;
+    @extend .mt-md-4;
+    @extend .mt-xl-6;
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .justify-content-between; 
+    height: calc(100% - 112px);
+    @include md {
+        height: calc(100% - 132px);
+    }
+}
+
+.class-card-footer {
+    @extend .d-flex;
+    @extend .border-top;
+    @extend .justify-content-between;
+    @extend .pt-4;
+    @extend .w-100;
+}

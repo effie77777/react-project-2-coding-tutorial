@@ -1,0 +1,32 @@
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const User = require("../models/index").User;
+
+// JWT 部分
+let opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
+opts.secretOrKey = process.env.PASSPORT_SECRET;
+passport.use(new JwtStrategy(opts, async(payload, done) => {
+    await User.findOne({ _id: payload.id })
+    .then((d) => {
+        if (!d) {
+            return done(null, false); // done 的兩個參數分別是 error 和 user
+        } else if (d) {
+            return done(null, d);
+        }
+    })
+    .catch((e) => {
+        return done(e);
+    })
+}))
+
+// Google Oauth 部分
+// passport.use(new GoogleStrategy({
+//     clientID: process.env.GOOGLE_CLIENT_ID,
+//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//     callbackURL: "/auth/google/redirect",
+// }, (accessToken, refreshToken, profile, cb) => {
+//     console.log(profile);
+// }))

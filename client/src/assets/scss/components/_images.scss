@@ -1,0 +1,10 @@
+.profile_img {
+    @extend .object-fit-cover;
+    @extend .rounded-circle;
+    height: 80px;
+    width: 80px;
+    @include md {
+        height: 100px;
+        width: 100px;
+    }
+}

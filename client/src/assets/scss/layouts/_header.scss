@@ -1,0 +1,19 @@
+.nav-link {
+    @extend .text-third;
+    @extend .px-3;
+    @extend .px-md-6;
+    @extend .hover-bg-third;
+    @extend .rounded-0;
+}
+
+.offcanvas-body a, .offcanvas-body button {
+    @extend .d-block;
+    @extend .w-100;
+    @extend .rounded-0;
+    @extend .text-third;
+    @extend .px-6;
+    @extend .py-4;
+    @extend .fs-3;
+    @extend .fw-bold;
+    @extend .hover-bg-third;
+}

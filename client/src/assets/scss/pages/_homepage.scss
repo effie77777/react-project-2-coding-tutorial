@@ -1,0 +1,152 @@
+.banner {
+    @include md {
+        height: calc(100vh - 93.2px);
+    }
+}
+
+.title {
+    @extend .fw-bold;
+    @extend .text-white;
+    @extend .fs-4;
+}
+
+.title-vr {
+    @extend .border-top;
+    @extend .border-3;
+    @extend .border-primary;
+    @extend .mt-2;
+    width: 3rem;
+}
+
+.section2-card {
+    @extend .col-12;
+    @extend .col-md-4;
+    @extend .col-lg-3;
+    @extend .px-6;
+    @extend .py-12;
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .align-items-center;
+    @extend .bg-fourth;
+    @extend .bg-opacity-100;
+    @extend .bg-md-transparent;
+    @extend .rounded-12;
+    @include md {
+        height: 17rem;
+    }
+}
+
+.section3-card {
+    @extend .col-12;
+    @extend .w-sm-48;
+    @extend .w-xl-24;
+    
+    >div {
+        @extend .border;
+        @extend .position-relative;
+        @extend .py-12;
+        @extend .px-9;
+        @extend .rounded-12;
+    }
+
+    h4 {
+        @extend .fw-bold;
+        @extend .fs-4;
+        @extend .mb-4;
+    }
+
+    p:last-child {
+        @extend .text-primary;
+        @extend .fw-bold;
+        @extend .fs-10;
+        @extend .position-absolute;
+        @extend .bg-fourth;
+        @extend .px-2;
+        top: -12.5%;
+        left: 1.75rem;
+    }
+}
+
+.section4-link {
+    a, button {
+        @extend .px-6;
+        @extend .py-4;
+        @extend .me-4;
+        @extend .border;
+        @extend .text-white;
+        @extend .border-white;
+        @extend .d-block;
+        @extend .hover-bg-third;
+        &:hover {
+            border-color: $third !important;
+        }
+    }
+}
+
+.section5-card {
+    @include md {
+        height: 26rem;
+    }
+    @include lg {
+        height: 27.6rem;
+    }
+}
+
+.section6-card {
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .flex-lg-row;
+    @extend .position-relative;
+    aspect-ratio: 2;
+
+    >img {
+        @extend .img-fluid;
+        @extend .object-fit-cover;
+        @extend .w-lg-60;
+        @extend .h-100;
+        @extend .h-lg-90;
+        @extend .rounded-24;
+        @extend .mb-11;
+        @extend .mb-lg-0;
+    }
+
+    >div {
+        @extend .bg-white;
+        @extend .text-fourth;
+        @extend .h-fit-content;
+        @extend .p-8;
+        @extend .align-self-end;
+        @extend .position-relative;
+        border-radius: 24px 24px 24px 0;
+        @include lg {
+            width: 45%;
+            margin-left: -5%;
+        }
+
+        >img {
+            @extend .position-absolute;
+            @extend .top-0;
+            @extend .end-0;
+            @extend .end-sm-10;
+            @extend .border;
+            @extend .profile_img;
+            transform: translateY(-30%) scale(0.8) !important;
+            @include lg {
+                transform: translateY(-50%) scale(1);
+            }
+        }
+    }
+
+    h4 {
+        @extend .fw-bold;
+        @extend .mb-4;
+        @extend .fs-2;
+    }
+}
+
+.carousel-indicators {
+    bottom: -12.5%;
+    @include lg {
+        bottom: -1.6rem;
+    }
+}
