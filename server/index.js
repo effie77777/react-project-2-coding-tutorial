@@ -64,8 +64,8 @@ app.get("/api/course/payment/:ItemName/:TotalAmount", (req, res) => {
         TotalAmount,
         TradeDesc: ItemName,
         ItemName,
-        ReturnURL: `${HOST}/finished`,
-        ClientBackURL: `${HOST}/finished`,
+        ReturnURL: `${BACKEND_HOST}/return`,
+        ClientBackURL: `${FRONTEND_HOST}/#/finished`,
     };
     const create = new ecpay_payment(options);
     const html = create.payment_client.aio_check_out_all(base_param);
@@ -93,6 +93,10 @@ app.post("/return", async(req, res) => {
 })
 app.use("/api/course", passport.authenticate("jwt", { session: false }), courseRoute);
 app.use("/api/google/course", courseRoute);
+
+app.get("/", (req, res) => {
+    return res.send("welcome");
+})
 
 app.listen(8000, () => {
     console.log("server listening on port 8000");
