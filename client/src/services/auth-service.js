@@ -1,5 +1,5 @@
 import axios from "axios";
-const basic_api = "http://localhost:8000/api/auth";
+const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/auth";
 
 class authService {
     register(username, email, password) {

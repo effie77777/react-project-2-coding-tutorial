@@ -1,5 +1,5 @@
 import axios from "axios";
-const basic_api = "http://localhost:8000/api/course";
+const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/course";
 
 class courseService {
     searchAllCourses() {

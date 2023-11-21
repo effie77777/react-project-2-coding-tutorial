@@ -45,6 +45,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/api/auth", authRoute);
+app.use("/api/google/course", courseRoute);
+
 app.get("/api/course/payment/:ItemName/:TotalAmount", (req, res) => {
     let { ItemName, TotalAmount } = req.params;
     const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
@@ -73,6 +75,8 @@ app.get("/api/course/payment/:ItemName/:TotalAmount", (req, res) => {
     return res.send(html);
 })
 
+app.use("/api/course", passport.authenticate("jwt", { session: false }), courseRoute);
+
 //尚未解決
 app.post("/return", async(req, res) => {
     console.log("return");
@@ -91,8 +95,6 @@ app.post("/return", async(req, res) => {
     );
     return res.send("1|OK");
 })
-app.use("/api/course", passport.authenticate("jwt", { session: false }), courseRoute);
-app.use("/api/google/course", courseRoute);
 
 app.get("/", (req, res) => {
     return res.send("welcome");
