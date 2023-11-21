@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/react-project-2-coding-tutorial/static/css/main.5c49fb96.css",
-    "main.js": "/react-project-2-coding-tutorial/static/js/main.d6199cdf.js",
+    "main.js": "/react-project-2-coding-tutorial/static/js/main.bfd6af7c.js",
     "static/js/984.71eb5734.chunk.js": "/react-project-2-coding-tutorial/static/js/984.71eb5734.chunk.js",
-    "static/js/824.86b1108a.chunk.js": "/react-project-2-coding-tutorial/static/js/824.86b1108a.chunk.js",
-    "static/js/892.c74226e5.chunk.js": "/react-project-2-coding-tutorial/static/js/892.c74226e5.chunk.js",
+    "static/js/824.a4cbc8c4.chunk.js": "/react-project-2-coding-tutorial/static/js/824.a4cbc8c4.chunk.js",
+    "static/js/892.2384328f.chunk.js": "/react-project-2-coding-tutorial/static/js/892.2384328f.chunk.js",
     "static/js/486.a0837e67.chunk.js": "/react-project-2-coding-tutorial/static/js/486.a0837e67.chunk.js",
     "static/js/756.2cdd8ec7.chunk.js": "/react-project-2-coding-tutorial/static/js/756.2cdd8ec7.chunk.js",
-    "static/js/876.1b9ab24f.chunk.js": "/react-project-2-coding-tutorial/static/js/876.1b9ab24f.chunk.js",
-    "static/js/619.2eae84cb.chunk.js": "/react-project-2-coding-tutorial/static/js/619.2eae84cb.chunk.js",
-    "static/js/183.cc727d89.chunk.js": "/react-project-2-coding-tutorial/static/js/183.cc727d89.chunk.js",
+    "static/js/876.93d79984.chunk.js": "/react-project-2-coding-tutorial/static/js/876.93d79984.chunk.js",
+    "static/js/619.400bbbc4.chunk.js": "/react-project-2-coding-tutorial/static/js/619.400bbbc4.chunk.js",
+    "static/js/183.ef23f758.chunk.js": "/react-project-2-coding-tutorial/static/js/183.ef23f758.chunk.js",
     "static/js/598.344321d9.chunk.js": "/react-project-2-coding-tutorial/static/js/598.344321d9.chunk.js",
     "static/media/homepage_section6-2.png": "/react-project-2-coding-tutorial/static/media/homepage_section6-2.b450a106a65fead648e5.png",
     "static/media/homepage_section6-3.png": "/react-project-2-coding-tutorial/static/media/homepage_section6-3.b3baa9dc8f1130f3f570.png",
@@ -24,19 +24,19 @@
     "index.html": "/react-project-2-coding-tutorial/index.html",
     "static/media/icon_fb.svg": "/react-project-2-coding-tutorial/static/media/icon_fb.2e02184f0e9670d6a01f25ca0d4b4d3b.svg",
     "main.5c49fb96.css.map": "/react-project-2-coding-tutorial/static/css/main.5c49fb96.css.map",
-    "main.d6199cdf.js.map": "/react-project-2-coding-tutorial/static/js/main.d6199cdf.js.map",
+    "main.bfd6af7c.js.map": "/react-project-2-coding-tutorial/static/js/main.bfd6af7c.js.map",
     "984.71eb5734.chunk.js.map": "/react-project-2-coding-tutorial/static/js/984.71eb5734.chunk.js.map",
-    "824.86b1108a.chunk.js.map": "/react-project-2-coding-tutorial/static/js/824.86b1108a.chunk.js.map",
-    "892.c74226e5.chunk.js.map": "/react-project-2-coding-tutorial/static/js/892.c74226e5.chunk.js.map",
+    "824.a4cbc8c4.chunk.js.map": "/react-project-2-coding-tutorial/static/js/824.a4cbc8c4.chunk.js.map",
+    "892.2384328f.chunk.js.map": "/react-project-2-coding-tutorial/static/js/892.2384328f.chunk.js.map",
     "486.a0837e67.chunk.js.map": "/react-project-2-coding-tutorial/static/js/486.a0837e67.chunk.js.map",
     "756.2cdd8ec7.chunk.js.map": "/react-project-2-coding-tutorial/static/js/756.2cdd8ec7.chunk.js.map",
-    "876.1b9ab24f.chunk.js.map": "/react-project-2-coding-tutorial/static/js/876.1b9ab24f.chunk.js.map",
-    "619.2eae84cb.chunk.js.map": "/react-project-2-coding-tutorial/static/js/619.2eae84cb.chunk.js.map",
-    "183.cc727d89.chunk.js.map": "/react-project-2-coding-tutorial/static/js/183.cc727d89.chunk.js.map",
+    "876.93d79984.chunk.js.map": "/react-project-2-coding-tutorial/static/js/876.93d79984.chunk.js.map",
+    "619.400bbbc4.chunk.js.map": "/react-project-2-coding-tutorial/static/js/619.400bbbc4.chunk.js.map",
+    "183.ef23f758.chunk.js.map": "/react-project-2-coding-tutorial/static/js/183.ef23f758.chunk.js.map",
     "598.344321d9.chunk.js.map": "/react-project-2-coding-tutorial/static/js/598.344321d9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5c49fb96.css",
-    "static/js/main.d6199cdf.js"
+    "static/js/main.bfd6af7c.js"
   ]
 }
