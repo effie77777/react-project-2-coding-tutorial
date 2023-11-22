@@ -19,7 +19,7 @@ const Finished = () => {
                                 <div className="bg-linear border-0">
                                     <small className="text-dark">2</small>
                                 </div>
-                                <p>確認付款資訊</p>
+                                <p>確認訂單資訊</p>
                             </div>
                             <div>
                                 <div className="bg-linear border-0">

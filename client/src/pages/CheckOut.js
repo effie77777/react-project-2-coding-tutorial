@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-const CheckOut = ({ order, setOrder }) => {
-    console.log(order);
+const CheckOut = ({ currentSearch, setCurrentSearch, purchase, setPurchase, orderFromCustomer, setOrderFromCustomer, orderFromECPAY, setOrderFromECPAY }) => {
     const Navigate = useNavigate();
     const handleCheckOut = () => {
         newCourseService.checkOut()
@@ -18,24 +17,61 @@ const CheckOut = ({ order, setOrder }) => {
     }
     // const newlyCreated = document.createElement("div");
     // newlyCreated.innerHTML = order;
-    const parentElement = document.getElementById("parentElement");
-    if (parentElement) {
-        console.log(parentElement);
-        parentElement.innerHTML = order;
-        let copy = [...order];
-        setOrder(copy);
+    
+    // const parentElement = document.getElementById("parentElement");
+    // if (parentElement) {
+    //     console.log(parentElement);
+    //     parentElement.innerHTML = order;
+    //     let copy = [...order];
+    //     setOrder(copy);
+
         // parentElement.appendChild(newlyCreated);
         // console.log(parentElement);
         // parentElement.innerHTML = order;
-    }
-    
-    useEffect(() => {
-        const form = document.getElementById("_form_aiochk");
-        if (form) {
-            console.log(form);
-               form.submit();
+    // }
+
+    const handleGoPay = () => {
+        const parentElement = document.getElementById("parentElement");
+        if (parentElement) {
+            console.log(parentElement);
+            parentElement.innerHTML = orderFromECPAY;
         }    
-    }, [order]);
+        let form = document.getElementById("_form_aiochk");
+        console.log(form);
+        if (form) {
+            window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n另，如欲使用網路 ATM 付款，建議選擇「土地銀行」或「台新銀行」，無須安裝軟體即可觀看模擬的交易結果。")
+            form.submit();
+        }
+    }
+
+    useEffect(() => {
+        setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+        setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer"))]);
+        let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
+        let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
+        if (pricePerClass !== "洽談報價") {
+            pricePerClass = Number(pricePerClass);
+            amounts = Number(amounts);
+        }
+        setPurchase([pricePerClass, amounts]);
+    }, []);
+    
+    // useEffect(() => {
+    //     let form = document.getElementById("_form_aiochk");
+
+    //     if (!form) {
+    //         let copy = [...order];
+    //         setOrder(copy);
+    //         form = document.getElementById("_form_aiochk");
+    //         console.log(form);
+    //     } else if (form) {
+    //         form = document.getElementById("_form_aiochk");
+    //         console.log(form);
+    //         window.alert("將為您導向");
+    //         form.submit();
+    //     }    
+    // }, [order]);
+
     // let htmlString = order;
     // let doc = new DOMParser().parseFromString(htmlString, "text/html");
     // console.log(doc);
@@ -61,7 +97,7 @@ const CheckOut = ({ order, setOrder }) => {
                                 <div className="bg-linear border-0">
                                     <small className="text-dark">2</small>
                                 </div>
-                                <p>確認付款資訊</p>
+                                <p>確認訂單資訊</p>
                             </div>
                             <div>
                                 <div className="border border-1 border-third bg-fourth">
@@ -76,35 +112,64 @@ const CheckOut = ({ order, setOrder }) => {
 
             <section className="mt-12">
                 <div className="row align-items-center">
-                    <div className="col-12 d-flex justify-content-center" id="parentElement">
-                        <p>將為您導向綠界金流頁面</p>
-                        {/* <form className="col-12 col-sm-8 col-lg-6">
-                            <div className="mb-6">
-                                <label htmlFor="cardNumber" className="form-label">信用卡卡號</label>
-                                <input type="text" className="form-control p-3" id="cardNumber" name="cardNumber" placeholder="xxxx-xxxx-xxxx" required />
+                    <div className="col-12 d-flex flex-wrap justify-content-center">
+                        <h3 className="fs-4 text-white fw-bold text-center w-100">訂單資訊</h3>
+                        
+                        {orderFromCustomer.length > 0 && currentSearch.length > 0 && (
+                        <form className="col-12 col-sm-10 col-md-8 d-flex flex-wrap justify-content-between text-white">
+                            <div className="w-100 w-sm-48 mt-6 bg-third bg-opacity-25 px-4 py-2">
+                                <label htmlFor="name" className="me-3">姓名</label>
+                                <input type="text" name="name" id="name" value={orderFromCustomer[0].name} className="bg-transparent border-0 text-white px-0" disabled />
                             </div>
-                            <div className="mb-6">
-                                <label htmlFor="cardSecurityCode" className="form-label">安全碼</label>
-                                <input type="text" className="form-control p-3" id="cardSecurityCode" name="cardSecurityCode" placeholder="(共三碼)" required />
+                            <div className="w-100 w-sm-48 mt-6 bg-third bg-opacity-25 px-4 py-2">
+                                <label htmlFor="tel" className="me-3">手機號碼</label>
+                                <input type="tel" name="tel" id="tel" value={orderFromCustomer[0].tel} className="bg-transparent border-0 text-white px-0" disabled />
                             </div>
-                            <div>
-                                <label htmlFor="cardExpirationDate" className="form-label">到期日</label>
-                                <input type="text" className="form-control p-3" id="cardExpirationDate" name="cardExpirationDate" placeholder="MM/YYYY" required />
+                            <div className="mt-6 w-100 w-sm-48 bg-third bg-opacity-25 px-4 py-2">
+                                <label htmlFor="email" className="me-3">Email</label>
+                                <input type="email" name="email" id="email" value={orderFromCustomer[0].email} className="bg-transparent border-0 text-white px-0" disabled />
                             </div>
-                            <div className="mt-9 mt-sm-12 d-flex flex-wrap justify-content-between align-items-end w-100">
-                                <p className="text-white fs-3">NT$1600</p>
-                                <div className="mt-3 mt-sm-0 w-100 w-sm-70 d-flex justify-content-between">
-                                    <Link className="btn py-2 border" to="/placeOrder" style={{width: "48%"}}>上一步</Link>
-                                    <button type="button" className="btn bg-linear py-2 text-white" style={{width: "48%"}} onClick={handleCheckOut}>下一步</button>
+                            <div className="mt-6 w-100 w-sm-48 bg-third bg-opacity-25 px-4 py-2">
+                                <label htmlFor="date" className="me-3">上課日期</label>
+                                <input type="date" name="date" id="date" value={orderFromCustomer[0].date} className="bg-transparent border-0 text-white px-0" disabled />
+                            </div>
+                            <div className="w-100 mt-6 bg-third bg-opacity-25 px-4 py-2">
+                                <label htmlFor="address" className="me-3">上課地點</label>
+                                <input type="text" name="address" id="address" value={orderFromCustomer[0].address} className="bg-transparent border-0 text-white px-0 overflow-auto d-inline-block w-100 w-sm-fit-content" disabled />
+                            </div>
+                            <div className="w-100 mt-6 bg-third bg-opacity-25 px-4 py-2 d-flex flex-wrap">
+                                <label htmlFor="address" className="me-3">課程名稱</label>
+                                <p>{currentSearch[0].title} ({currentSearch[0].instructor.name} 老師)</p>
+                            </div>
+                            <div className="mt-9 mt-sm-12 d-flex flex-column justify-content-between w-100">
+                                
+                                {purchase && purchase[0] !== "洽談報價" && (
+                                <div className="text-white d-flex align-items-sm-center">
+                                    <p className="me-5">{`NT$${purchase[0]}x${purchase[1]}堂`}</p>
+                                    <p className="text-warning">{`合計NT$${purchase[0] * purchase[1]}`}</p>
+                                </div>
+                                )}
+
+                                {purchase && purchase[0] === "洽談報價" && (
+                                <div className="text-white d-flex fw-bold">
+                                    <p className="me-2">方案:</p>
+                                    <p className="me-1">客製化課程</p>
+                                    <p className="text-warning">(洽談報價)</p>
+                                </div>
+                                )}
+
+                                <div className="mt-3 d-flex flex-column flex-sm-row justify-content-sm-between">
+                                    <Link className="btn border px-12 py-2 text-white w-sm-48" to="/placeOrder">修改訂單</Link>
+                                    <button type="button" className="btn bg-linear px-12 py-2 text-white w-sm-48 mt-3 mt-sm-0" onClick={handleGoPay}>前往付款</button>
                                 </div>
                             </div>
-                        </form> */}
-                        {/* {order && (
-                            order
-                        )} */}
+                        </form>
+                        )}
+
                     </div>
                 </div>
             </section>
+            <section id="parentElement"></section>
         </div>
     )
 }

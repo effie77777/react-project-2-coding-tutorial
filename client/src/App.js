@@ -23,7 +23,8 @@ const App = () => {
     const [ currentSearch, setCurrentSearch ] = useState([]);
     const [ profile, setProfile ] = useState([]);
     const [ purchase, setPurchase ] = useState(null);
-    const [ order, setOrder ] = useState(null);
+    const [ orderFromCustomer, setOrderFromCustomer ] = useState([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
+    const [ orderFromECPAY, setOrderFromECPAY ] = useState(null);
 
     return (
         <div>
@@ -36,8 +37,8 @@ const App = () => {
                     <Route exact path="/login" element={<Login currentUser={currentUser} setCurrentUser={setCurrentUser} profile={profile} setProfile={setProfile} />}></Route>
                     <Route exact path="/register" element={<Register />}></Route>
                     <Route exact path="/profile" element={<Profile currentUser={currentUser} setAllCourses={setAllCourses} profile={profile} />}></Route>
-                    <Route exact path="/placeOrder" element={<PlaceOrder order={order} setOrder={setOrder} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} purchase={purchase} setPurchase={setPurchase} />}></Route>
-                    <Route exact path="/checkOut" element={<CheckOut order={order} setOrder={setOrder} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} />}></Route>
+                    <Route exact path="/placeOrder" element={<PlaceOrder currentUser={currentUser} setCurrentUser={setCurrentUser} orderFromECPAY={orderFromECPAY} setOrderFromECPAY={setOrderFromECPAY} orderFromCustomer={orderFromCustomer} setOrderFromCustomer={setOrderFromCustomer} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} purchase={purchase} setPurchase={setPurchase} />}></Route>
+                    <Route exact path="/checkOut" element={<CheckOut purchase={purchase} setPurchase={setPurchase} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} orderFromCustomer={orderFromCustomer} setOrderFromCustomer={setOrderFromCustomer} orderFromECPAY={orderFromECPAY} setOrderFromECPAY={setOrderFromECPAY} />}></Route>
                     <Route exact path="/finished" element={<Finished />}></Route>
                 </Routes>
             </Suspense>

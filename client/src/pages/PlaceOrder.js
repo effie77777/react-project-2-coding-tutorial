@@ -3,43 +3,78 @@ import { Link, useNavigate } from "react-router-dom";
 import instructor from "../assets/images/instructor.jpg";
 import newCourseService from "../services/course-service";
 
-const PlaceOrder = ({ order, setOrder, currentSearch, setCurrentSearch, purchase, setPurchase }) => {
-    const [ inputs, setInputs ] = useState([]);
+const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromECPAY, orderFromCustomer, setOrderFromCustomer, currentSearch, setCurrentSearch, purchase, setPurchase }) => {
+    const [ errorMsg, setErrorMsg ] = useState(null);
     const Navigate = useNavigate();
 
-    const handleCheckOut = (e) => {
-        e.preventDefault();
-        const inputTags = document.querySelectorAll("input");
-        console.log(inputTags);
-        // let name;
-        // let value;
-        // let arr = [];
-        // for (let i = 0; i < inputTags.length; i ++) {
-        //     name = inputTags[i].name;
-        //     value = inputTags[i].value;
-        //     console.log(name, value);
-        //     arr.push({ name: value });
-        //     console.log(arr);
-        // }
-        // console.log(purchase[0] * purchase[1]);
-        // console.log(typeof purchase[0]);
-        // console.log(typeof purchase[1]);
-        // let pricePerClass = Number(purchase[0]);
-        // let amounts = Number(purchase[1]);
-        let result = purchase[0] * purchase[1];
-        // console.log(pricePerClass * amounts);
-        // console.log(result);
-        // console.log(typeof pricePerClass * amounts);
-        // console.log(typeof result);
-        newCourseService.checkOut(currentSearch[0].title, result)
-        .then((d) => {
-            console.log("inside checkout component. d is: ", d);
-            setOrder(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
-            Navigate("/checkOut");
-        })
-        .catch((e) => {
-            console.log(e);
-        })
+    //檢查各 input 是否為空白
+    function checkIfItsEmpty() {
+        for (let prop in orderFromCustomer[0]) {
+            if (orderFromCustomer[0][prop].length === 0) {
+                switch(prop) {
+                    case "name":
+                        return "姓名";
+                    case "tel":
+                        return "手機號碼";
+                    case "email":
+                        return "Email";
+                    case "date":
+                        return "想預約的日期";
+                    case "address":
+                        return "上課地點";                                        
+                }
+            }
+        }
+        return "true";
+    }
+
+    const handleCheckOut = () => {
+        let isNotEmpty = checkIfItsEmpty();
+        let telRegexp = /^09\d{8}$/;
+        let emailExp = /^\w{2,}@\w{2,}\.\w{2,}$/;
+        let appointmentDate = Number(orderFromCustomer[0].date.replaceAll("-", ""));
+        let localeDate = new Date().toLocaleDateString();
+        localeDate = Number(localeDate.replaceAll("/", ""));
+        
+        if( isNotEmpty !== "true") {
+            setErrorMsg(`請填寫「${isNotEmpty}」欄位`);
+        } else if (!telRegexp.test(orderFromCustomer[0].tel)) {
+            setErrorMsg("手機號碼格式為 09xxxxxxxx，共 10 位數字");
+        } else if (!emailExp.test(orderFromCustomer[0].email)) {
+            setErrorMsg("請確認 Email 是否正確。格式範例為 example@gmail.com")
+        } else if (appointmentDate <= localeDate) {
+            setErrorMsg("預約日期不可小於或等於今日日期");
+        } else if (orderFromCustomer[0].address.length < 8) {
+            setErrorMsg("請填寫詳細的上課地點");
+        } else {
+            localStorage.setItem("order_from_customer", JSON.stringify(orderFromCustomer[0]));
+            setErrorMsg(null);   
+            let result = purchase[0] * purchase[1];
+            newCourseService.checkOut(currentSearch[0].title, result)
+            .then((d) => {
+                console.log("inside checkout component. d is: ", d);
+                setOrderFromECPAY(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
+                Navigate("/checkOut");
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+        }
+    }
+
+    const handleChangeInputs = (e) => {
+        let inputName = e.target.name;
+        let inputValue = e.target.value;
+        let copy = [...orderFromCustomer];
+        copy.forEach((i) => {
+            for (let prop in i) {
+                if (inputName === prop) {
+                    i[prop] = inputValue;
+                    setOrderFromCustomer(copy);
+                    break;
+                }
+            }
+        })        
     }
 
     useEffect(() => {
@@ -70,7 +105,7 @@ const PlaceOrder = ({ order, setOrder, currentSearch, setCurrentSearch, purchase
                                 <div className="border border-1 border-third bg-fourth">
                                     <small className="text-third">2</small>
                                 </div>
-                                <p>確認付款資訊</p>
+                                <p>確認訂單資訊</p>
                             </div>
                             <div>
                                 <div className="border border-1 border-third bg-fourth">
@@ -99,25 +134,28 @@ const PlaceOrder = ({ order, setOrder, currentSearch, setCurrentSearch, purchase
                     <div className="col-12 col-md-8">
                         <form action="" className="py-12 px-8 ps-md-18 d-flex flex-row flex-wrap bg-opacity-10 bg-third rounded-0 justify-content-between ms-md-n6 me-md-6">
                             <h3 className="fs-4 mb-12 text-white fw-bold text-center w-100">課程報名</h3>
-                            <div className="w-100 w-sm-48">
+                            {errorMsg && (
+                                <div className="error_msg w-100 mt-n3">{errorMsg}</div>
+                            )}
+                            <div className="w-100 w-sm-48 mt-3">
                                 <label htmlFor="name" className="mb-1">姓名</label>
-                                <input type="text" name="name" id="name" className="form-control" required />
+                                <input type="text" name="name" id="name" className="form-control" value={orderFromCustomer[0].name} onChange={handleChangeInputs} />
                             </div>
-                            <div className="w-100 w-sm-48 mt-6 mt-sm-0">
+                            <div className="w-100 w-sm-48 mt-3">
                                 <label htmlFor="tel" className="mb-1">手機號碼</label>
-                                <input type="tel" name="tel" id="tel" className="form-control" placeholder="格式: 09xx-xxx-xxx" required pattern="^09\d{2}-\d{3}-\d{3}$" title="09xx-xxx-xxx。範例為 0912-345-678" />
+                                <input type="tel" name="tel" id="tel" className="form-control" value={orderFromCustomer[0].tel} placeholder="格式: 09xxxxxxxx" onChange={handleChangeInputs} />
                             </div>
                             <div className="mt-6 w-100 w-sm-48">
                                 <label htmlFor="email" className="mb-1">Email</label>
-                                <input type="email" name="email" id="email" className="form-control" required pattern="^\w{2,}@\w{2,}\.\w{2,}$" />
+                                <input type="email" name="email" id="email" className="form-control" value={orderFromCustomer[0].email} onChange={handleChangeInputs} />
                             </div>
                             <div className="mt-6 w-100 w-sm-48">
-                                <label htmlFor="date" className="mb-1">想預約的日期</label>
-                                <input type="date" name="date" id="date" className="form-control" required />
+                                <label htmlFor="date" className="mb-1">想預約的日期(當地時間)</label>
+                                <input type="date" name="date" id="date" className="form-control" value={orderFromCustomer[0].date} onChange={handleChangeInputs} />
                             </div>
                             <div className="w-100 mt-6">
                                 <label htmlFor="address" className="mb-1">上課地點(詳細地址)</label>
-                                <input type="text" name="address" id="address" className="form-control" required />
+                                <input type="text" name="address" id="address" className="form-control" value={orderFromCustomer[0].address} onChange={handleChangeInputs} />
                             </div>
                             <div className="mt-9 mt-sm-15 d-flex flex-column justify-content-between w-100">
                                 
@@ -138,7 +176,7 @@ const PlaceOrder = ({ order, setOrder, currentSearch, setCurrentSearch, purchase
 
                                 <div className="mt-3 d-flex flex-column flex-sm-row justify-content-sm-between">
                                     <Link className="btn border px-12 py-2 text-white w-sm-48" to="/detail">重選方案</Link>
-                                    <button className="btn bg-linear px-12 py-2 text-white w-sm-48 mt-3 mt-sm-0" onClick={handleCheckOut}>前往結帳</button>
+                                    <button type="button" className="btn bg-linear px-12 py-2 text-white w-sm-48 mt-3 mt-sm-0" onClick={handleCheckOut}>確認訂單</button>
                                 </div>
                             </div>
 
