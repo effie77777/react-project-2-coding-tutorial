@@ -21,15 +21,17 @@ const PlaceOrder = ({ order, setOrder, currentSearch, setCurrentSearch, purchase
         //     arr.push({ name: value });
         //     console.log(arr);
         // }
-        newCourseService.checkOut(currentSearch[0].title, currentSearch[1] * currentSearch[2])
-        .then((d) => {
-            console.log("inside checkout component. d is: ", d);
-            setOrder(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
-            Navigate("/checkOut");
-        })
-        .catch((e) => {
-            console.log(e);
-        })
+        console.log(currentSearch[1] * currentSearch[2]);
+        console.log(typeof currentSearch[1] * currentSearch[2]);
+        // newCourseService.checkOut(currentSearch[0].title, currentSearch[1] * currentSearch[2])
+        // .then((d) => {
+        //     console.log("inside checkout component. d is: ", d);
+        //     setOrder(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
+        //     Navigate("/checkOut");
+        // })
+        // .catch((e) => {
+        //     console.log(e);
+        // })
     }
 
     useEffect(() => {
