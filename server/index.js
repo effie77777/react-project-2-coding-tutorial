@@ -11,7 +11,7 @@ const Instructor = require("./models/index").Instructor;
 require("./config/passport");
 const ecpay_payment = require('ecpay_aio_nodejs');
 const { totalmem } = require("os");
-const { MERCHANTID, HASHKEY, HASHIV, HOST } = process.env;
+const { MERCHANTID, HASHKEY, HASHIV, FRONTEND_HOST, BACKEND_HOST } = process.env;
 const options = {
     OperationMode: 'Test', //Test or Production
     MercProfile: {
@@ -101,6 +101,6 @@ app.get("/", (req, res) => {
     return res.send("welcome");
 })
 
-app.listen(8000, () => {
-    console.log("server listening on port 8000");
+app.listen(8080, () => {
+    console.log("server listening on port 8080");
 })

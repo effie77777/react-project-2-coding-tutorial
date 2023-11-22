@@ -21,8 +21,17 @@ const PlaceOrder = ({ order, setOrder, currentSearch, setCurrentSearch, purchase
         //     arr.push({ name: value });
         //     console.log(arr);
         // }
-        console.log(purchase[0] * purchase[1]);
-        newCourseService.checkOut(currentSearch[0].title, purchase[0] * purchase[1])
+        // console.log(purchase[0] * purchase[1]);
+        // console.log(typeof purchase[0]);
+        // console.log(typeof purchase[1]);
+        // let pricePerClass = Number(purchase[0]);
+        // let amounts = Number(purchase[1]);
+        let result = purchase[0] * purchase[1];
+        // console.log(pricePerClass * amounts);
+        // console.log(result);
+        // console.log(typeof pricePerClass * amounts);
+        // console.log(typeof result);
+        newCourseService.checkOut(currentSearch[0].title, result)
         .then((d) => {
             console.log("inside checkout component. d is: ", d);
             setOrder(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
