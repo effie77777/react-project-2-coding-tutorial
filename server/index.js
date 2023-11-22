@@ -48,6 +48,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/google/course", courseRoute);
 
 app.get("/api/course/payment/:ItemName/:TotalAmount", (req, res) => {
+    console.log("inside route");
     let { ItemName, TotalAmount } = req.params;
     const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
         year: 'numeric',
@@ -71,7 +72,7 @@ app.get("/api/course/payment/:ItemName/:TotalAmount", (req, res) => {
     };
     const create = new ecpay_payment(options);
     const html = create.payment_client.aio_check_out_all(base_param);
-    // console.log("html: ", html);
+    console.log("html: ", html);
     return res.send(html);
 })
 
