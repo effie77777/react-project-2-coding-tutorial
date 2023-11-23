@@ -59,6 +59,17 @@ const Login = ({ currentUser, setCurrentUser }) => {
         })
     }
 
+    const handleLoginWithGoogle = useGoogleLogin({
+        //這邊只是讓使用者成功登入，還沒向 Google 拿使用者的資料。要到 useEffect(() => {}, [currentUser]) 那邊才會跟 Google 要資料
+        onSuccess: (codeResponse) => {
+            setCurrentUser(codeResponse);
+            console.log("codeResponse: ", codeResponse);
+            // localStorage.setItem("user_data", {"token": JSON.stringify(codeResponse.access_token) });
+            // Navigate("/profile");
+        },
+        onError: (error) => console.log("Login Failed: ", error)
+    });
+
     useEffect(() => {
         if (currentUser) {
             setErrorMsg("您已經登入過囉 ! 將為您導向個人頁面");
@@ -68,6 +79,23 @@ const Login = ({ currentUser, setCurrentUser }) => {
             }, 2000);
         }
     }, []);
+
+    useEffect(() => {
+        if (currentUser.access_token) { //向 Google 拿使用者的資料
+            axios.get(
+                `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${currentUser.access_token}`,
+                { headers: { Authorization: `Bearer ${currentUser.access_token}`, Accept: "application/json" } }
+            )
+            .then((res) => {
+                console.log("res: ", res);
+                // localStorage.setItem("user_data", JSON.stringify(res.data));
+                // setProfile(res.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+        }
+    }, [currentUser]);
 
     return (
         <div className="container-fluid">
@@ -103,13 +131,23 @@ const Login = ({ currentUser, setCurrentUser }) => {
                         <button type="submit" className="btn bg-linear text-white px-6 w-100 w-sm-40 w-md-30 w-lg-25 border-0" style={{ paddingTop: "0.625rem", paddingBottom: "0.625rem" }} onClick={handleLogin}>登入</button>
                     </form>
                 </section>
-                {/* <section>
+                <section>
                     <div className="border-top position-relative d-flex justify-content-center">
                         <p className="position-absolute px-5 bg-fourth" style={{transform: "translateY(-50%)"}}>其它登入方式</p>
                     </div>
                     <div className="d-flex mt-12 flex-wrap">
+                        <div className="d-flex mt-12 flex-wrap">
+                            {/* <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25 me-sm-5 mb-4 mb-sm-0" onClick={handleLoginWithFacebook}>
+                                <img src={icon_fb} alt="Facebook icon" className="w-6 h-6 me-4" style={{marginTop: "-0.25rem"}} />
+                                Facebook 登入
+                            </button> */}
+                            <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25" onClick={handleLoginWithGoogle}>
+                                <img src={icon_google} alt="Google icon" className="w-5 h-5 me-4" style={{marginTop: "-0.125rem"}} />
+                                Google 登入
+                            </button>
+                        </div>
                     </div>
-                </section> */}
+                </section>
             </div>
             )}
         </div>

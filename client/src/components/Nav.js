@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
 import newAuthService from "../services/auth-service";
+import { Offcanvas } from "bootstrap";
 import logo from "../assets/images/logo2.svg";
 
 const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) => {
@@ -41,6 +42,18 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                             <Link className="nav-link" to="/class">課程介紹</Link>
                         </li>
                         )}
+                        
+                        {currentUser && (
+                        <li>
+                            <Link className="nav-link" to="/profile">個人頁面</Link>
+                        </li>
+                        )}
+
+                        {currentUser && (
+                        <li>
+                            <button type="button" className="nav-link btn" onClick={handleLogout}>登出</button>
+                        </li>
+                        )}
 
                         {!currentUser && (
                         <li>
@@ -51,18 +64,6 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                         {!currentUser && (
                         <li>
                             <Link className="nav-link" to="/register">註冊</Link>
-                        </li>
-                        )}
-
-                        {currentUser && (
-                        <li>
-                            <Link className="nav-link" to="/profile">個人頁面</Link>
-                        </li>
-                        )}
-
-                        {currentUser && (
-                        <li>
-                            <button type="button" className="nav-link btn" onClick={handleLogout}>登出</button>
                         </li>
                         )}
 
@@ -102,18 +103,37 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                             <li>
                                 <Link to="/">首頁</Link>
                             </li>
+
+                            {currentUser && (
                             <li>
                                 <Link to="/class">課程介紹</Link>
                             </li>
+                            )}
+
+                            {currentUser && (
+                            <li>
+                                <Link to="/profile">個人頁面</Link>
+                            </li>
+                            )}
+
+                            {currentUser && (
+                            <li>
+                                <button type="button" className="btn text-start" onClick={handleLogout}>登出</button>
+                            </li>
+                            )}
+
+                            {!currentUser && (
                             <li>
                                 <Link to="/login">登入</Link>
                             </li>
+                            )}
+
+                            {!currentUser && (
                             <li>
                                 <Link to="/register">註冊</Link>
                             </li>
-                            <li>
-                                <button onClick={handleLogout}>登出</button>
-                            </li>
+                            )}
+
                         </ul>
                     </div>
                 </div>

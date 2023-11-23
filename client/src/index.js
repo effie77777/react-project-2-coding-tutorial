@@ -8,11 +8,11 @@ import "./assets/scss/all.scss";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-  // <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID}>
+  <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID}>
     <StrictMode>
       <HashRouter>
         <App />
       </HashRouter>
     </StrictMode>
-  // </GoogleOAuthProvider>
+  </GoogleOAuthProvider>
 );

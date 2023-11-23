@@ -23,7 +23,8 @@ const App = () => {
     const [ filterCategory, setFilterCategory ] = useState([]);
     const [ currentSearch, setCurrentSearch ] = useState([]);
     const [ purchase, setPurchase ] = useState(null);
-    const [ orderFromCustomer, setOrderFromCustomer ] = useState([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
+    // const [ orderFromCustomer, setOrderFromCustomer ] = useState([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
+    const [ orderFromCustomer, setOrderFromCustomer ] = useState([{"name": "", "tel": "", "email": "", "date": "", "address": "" }]);
     const [ orderFromECPAY, setOrderFromECPAY ] = useState(null);
 
     return (
