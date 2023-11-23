@@ -8,27 +8,11 @@ const CheckOut = ({ currentSearch, setCurrentSearch, purchase, setPurchase, orde
         newCourseService.checkOut()
         .then((d) => {
             console.log("inside checkout component. d is: ", d);
-            // Navigate("/finished");
-            // setOrder(d.data);
         })
         .catch((e) => {
             console.log(e);
         })
     }
-    // const newlyCreated = document.createElement("div");
-    // newlyCreated.innerHTML = order;
-    
-    // const parentElement = document.getElementById("parentElement");
-    // if (parentElement) {
-    //     console.log(parentElement);
-    //     parentElement.innerHTML = order;
-    //     let copy = [...order];
-    //     setOrder(copy);
-
-        // parentElement.appendChild(newlyCreated);
-        // console.log(parentElement);
-        // parentElement.innerHTML = order;
-    // }
 
     const handleGoPay = () => {
         const parentElement = document.getElementById("parentElement");
@@ -39,7 +23,7 @@ const CheckOut = ({ currentSearch, setCurrentSearch, purchase, setPurchase, orde
         let form = document.getElementById("_form_aiochk");
         console.log(form);
         if (form) {
-            window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n另，如欲使用網路 ATM 付款，建議選擇「土地銀行」或「台新銀行」，無須安裝軟體即可觀看模擬的交易結果。")
+            window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n如您使用「網路 ATM 」付款，建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可觀看模擬的交易結果。")
             form.submit();
         }
     }
@@ -56,30 +40,6 @@ const CheckOut = ({ currentSearch, setCurrentSearch, purchase, setPurchase, orde
         setPurchase([pricePerClass, amounts]);
     }, []);
     
-    // useEffect(() => {
-    //     let form = document.getElementById("_form_aiochk");
-
-    //     if (!form) {
-    //         let copy = [...order];
-    //         setOrder(copy);
-    //         form = document.getElementById("_form_aiochk");
-    //         console.log(form);
-    //     } else if (form) {
-    //         form = document.getElementById("_form_aiochk");
-    //         console.log(form);
-    //         window.alert("將為您導向");
-    //         form.submit();
-    //     }    
-    // }, [order]);
-
-    // let htmlString = order;
-    // let doc = new DOMParser().parseFromString(htmlString, "text/html");
-    // console.log(doc);
-    // let parentElement = document.getElementById("parentElement");
-    // if (parentElement) {
-    //     parentElement.appendChild(doc);
-    // }
-
     return (
         <div className="container-fluid">
             <section className="py-11">

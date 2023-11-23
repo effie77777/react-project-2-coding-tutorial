@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import newCourseService from "../services/course-service";
 
-const Finished = () => {
+const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
+    const handleEnroll = (e) => {
+        console.log(e.target);
+        newCourseService.enroll(currentUser.id, currentSearch.id)
+        .then((d) => {
+            console.log("successfully enrolled", d);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }
+
+    useEffect(() => {
+        setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+    }, []);
+
     return (
         <div className="container-fluid">
             <section className="py-11">
@@ -35,38 +51,19 @@ const Finished = () => {
             <section className="mt-12">
                 <div className="row align-items-center">
                     <div className="col-12 d-flex justify-content-center">
-                        <div className="col-sm-8 col-lg-4 px-8 py-12 bg-third bg-opacity-10 d-flex flex-column align-items-center">
+                        <div className="col-sm-8 col-lg-4 px-8 py-12 bg-third bg-opacity-10 d-flex flex-column align-items-center" style={{ maxWidth: "450px" }}>
                             <div className="d-flex align-items-center mb-8">
                                 <span class="material-symbols-outlined text-primary me-3" style={{fontSize: "2.75rem", transform: "translateY(-10%)"}}>
                                     new_releases
                                 </span>
                                 <h3 className="text-white fw-bold fs-4">完成訂購</h3>
                             </div>
-                            <p className="mb-10 text-white">恭喜您已完成<span className="fw-bold">「2023 Python 全攻略｜從入門到實務」</span>課程報名，請注意郵件訊息，家教老師將與您聯繫！</p>
-                            <Link className="btn bg-linear text-white px-12 py-2" to="/class">看看其它課程</Link>
+                            <p className="mb-10 text-white">恭喜您已成功購買課程，請注意郵件訊息，家教老師將與您聯繫！</p>
+                            <div className="d-flex flex-column align-items-center">
+                                <button type="button" className="btn bg-linear text-dark px-12 py-2 mb-3" onClick={handleEnroll}>探索更多課程</button>
+                                <button type="button" className="btn text-white border px-12 py-2" onClick={handleEnroll}>回到個人頁面</button>
+                            </div>
                         </div>
-
-                        {/* <form action="/return" method="post">
-                            <input type="hidden" name="CustomField1" value="" />
-                            <input type="hidden" name="CustomField2" value="" />
-                            <input type="hidden" name="CustomField3" value="" />
-                            <input type="hidden" name="CustomField4" value="" />
-                            <input type="hidden" name="MerchantID" value="2000132" />
-                            <input type="hidden" name="MerchantTradeNo" value="test1684501999793" />
-                            <input type="hidden" name="PaymentDate" value="2023/05/19 21:13:40" />
-                            <input type="hidden" name="PaymentType" value="WebATM_TAISHIN" />
-                            <input type="hidden" name="PaymentTypeChargeFee" value="10" />
-                            <input type="hidden" name="RtnCode" value="1" />
-                            <input type="hidden" name="RtnMsg" value="交易成功" />
-                            <input type="hidden" name="SimulatePaid" value="0" />
-                            <input type="hidden" name="StoreID" value="" />
-                            <input type="hidden" name="TradeAmt" value="100" />
-                            <input type="hidden" name="TradeDate" value="2023/05/19 21:13:20" />
-                            <input type="hidden" name="TradeNo" value="2305192113200629" />
-                            <input type="hidden" name="CheckMacValue" value="46300C00739FCBBAEF33EE1CF7EF26212ED94C6DE82E8B6769E163AA2571D2D8" />
-                            <button type="submit" >Submit</button>
-                        </form> */}
-
                     </div>
                 </div>
             </section>

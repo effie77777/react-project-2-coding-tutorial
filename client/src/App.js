@@ -39,7 +39,7 @@ const App = () => {
                     <Route exact path="/profile" element={<Profile currentUser={currentUser} setAllCourses={setAllCourses} profile={profile} />}></Route>
                     <Route exact path="/placeOrder" element={<PlaceOrder currentUser={currentUser} setCurrentUser={setCurrentUser} orderFromECPAY={orderFromECPAY} setOrderFromECPAY={setOrderFromECPAY} orderFromCustomer={orderFromCustomer} setOrderFromCustomer={setOrderFromCustomer} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} purchase={purchase} setPurchase={setPurchase} />}></Route>
                     <Route exact path="/checkOut" element={<CheckOut purchase={purchase} setPurchase={setPurchase} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} orderFromCustomer={orderFromCustomer} setOrderFromCustomer={setOrderFromCustomer} orderFromECPAY={orderFromECPAY} setOrderFromECPAY={setOrderFromECPAY} />}></Route>
-                    <Route exact path="/finished" element={<Finished />}></Route>
+                    <Route exact path="/finished" element={<Finished currentUser={currentUser} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} />}></Route>
                 </Routes>
             </Suspense>
             {/* <Footer /> */}

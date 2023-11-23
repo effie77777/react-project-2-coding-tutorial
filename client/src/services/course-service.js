@@ -32,13 +32,18 @@ class courseService {
             `${basic_api}/payment/${ItemName}/${TotalAmount}`,
             { headers: { Authorization: token } }
         )
-        // .then((d) => {
-        //     console.log("inside checkOut service. d is: ", d);
-        //     return d;
-        // })
-        // .catch((e) => {
-        //     console.log(e);
-        // });
+    }
+
+    enroll(studentId, courseId) {
+        let token;
+        localStorage.getItem("user_data")
+        ? token = JSON.parse(localStorage.getItem("user_data")).token
+        : token = "";
+        return axios.post(
+            `${basic_api}/enroll`,
+            { studentId, courseId },
+            { headers: { Authorization: token } }
+        );
     }
 }
 
