@@ -20,23 +20,23 @@ const App = () => {
     const [ currentUser, setCurrentUser ] = useState(newAuthService.getCurrentUser());
     //如果 allCourses 也寫成向上面這樣呢?
     const [ allCourses, setAllCourses ] = useState([]);
+    const [ filterCategory, setFilterCategory ] = useState([]);
     const [ currentSearch, setCurrentSearch ] = useState([]);
-    const [ profile, setProfile ] = useState([]);
     const [ purchase, setPurchase ] = useState(null);
     const [ orderFromCustomer, setOrderFromCustomer ] = useState([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
     const [ orderFromECPAY, setOrderFromECPAY ] = useState(null);
 
     return (
         <div>
-            <Nav currentUser={currentUser} setCurrentUser={setCurrentUser} setCurrentSearch={setCurrentSearch} setAllCourses={setAllCourses} setProfile={setProfile} />
+            <Nav currentUser={currentUser} setCurrentUser={setCurrentUser} setCurrentSearch={setCurrentSearch} setAllCourses={setAllCourses} />
             <Suspense fallback={<Loading/>}>
                 <Routes>
                     <Route exact path="/" element={<Homepage />}></Route>
-                    <Route exact path="/class" element={<Class allCourses={allCourses} setAllCourses={setAllCourses} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} />}></Route>
+                    <Route exact path="/class" element={<Class allCourses={allCourses} setAllCourses={setAllCourses} filterCategory={filterCategory} setFilterCategory={setFilterCategory} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} />}></Route>
                     <Route exact path="/detail" element={<Detail currentUser={currentUser} allCourses={allCourses} setAllCourses={setAllCourses} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} purchase={purchase} setPurchase={setPurchase} />}></Route>
-                    <Route exact path="/login" element={<Login currentUser={currentUser} setCurrentUser={setCurrentUser} profile={profile} setProfile={setProfile} />}></Route>
+                    <Route exact path="/login" element={<Login currentUser={currentUser} setCurrentUser={setCurrentUser} />}></Route>
                     <Route exact path="/register" element={<Register />}></Route>
-                    <Route exact path="/profile" element={<Profile currentUser={currentUser} setAllCourses={setAllCourses} profile={profile} />}></Route>
+                    <Route exact path="/profile" element={<Profile currentUser={currentUser} allCourses={allCourses} setAllCourses={setAllCourses} filterCategory={filterCategory} setFilterCategory={setFilterCategory} setCurrentSearch={setCurrentSearch} />}></Route>
                     <Route exact path="/placeOrder" element={<PlaceOrder currentUser={currentUser} setCurrentUser={setCurrentUser} orderFromECPAY={orderFromECPAY} setOrderFromECPAY={setOrderFromECPAY} orderFromCustomer={orderFromCustomer} setOrderFromCustomer={setOrderFromCustomer} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} purchase={purchase} setPurchase={setPurchase} />}></Route>
                     <Route exact path="/checkOut" element={<CheckOut purchase={purchase} setPurchase={setPurchase} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} orderFromCustomer={orderFromCustomer} setOrderFromCustomer={setOrderFromCustomer} orderFromECPAY={orderFromECPAY} setOrderFromECPAY={setOrderFromECPAY} />}></Route>
                     <Route exact path="/finished" element={<Finished currentUser={currentUser} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} />}></Route>

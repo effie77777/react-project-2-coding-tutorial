@@ -1,22 +1,32 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
 const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
+    const Navigate = useNavigate();
     const handleEnroll = (e) => {
-        console.log(e.target);
-        newCourseService.enroll(currentUser.id, currentSearch.id)
+        console.log(e.target.textContent);
+        newCourseService.enroll(currentUser.data._id, currentSearch[0]._id)
         .then((d) => {
             console.log("successfully enrolled", d);
         })
         .catch((e) => {
             console.log(e);
         });
+        if (e.target.textContent === "探索更多課程") {
+            Navigate("/class");
+        } else if (e.target.textContent === "回到個人頁面") {
+            Navigate("/profile");
+        }
     }
 
     useEffect(() => {
         setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
     }, []);
+
+    useEffect(() => {
+        console.log(currentSearch);
+    }, [currentSearch]);
 
     return (
         <div className="container-fluid">

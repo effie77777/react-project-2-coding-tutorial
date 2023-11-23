@@ -4,7 +4,7 @@ import { googleLogout } from "@react-oauth/google";
 import newAuthService from "../services/auth-service";
 import logo from "../assets/images/logo2.svg";
 
-const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses, setProfile }) => {
+const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) => {
     const Navigate = useNavigate();
     const handleLogout = (e) => {
         newAuthService.logout();

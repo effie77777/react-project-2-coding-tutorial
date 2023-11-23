@@ -1,8 +1,15 @@
-.class-category {
-    @extend .section4-link;
-    button {
-        @extend .btn;
-        @extend .bg-fourth;
+.class-category button {
+    @extend .px-6;
+    @extend .py-4;
+    @extend .me-4;
+    @extend .text-white;
+    @extend .border-white;
+    @extend .btn;
+    @extend .bg-fourth;
+    @extend .d-block;
+    @extend .hover-bg-third;
+    &:hover {
+        border-color: $third !important;
     }
 }
 

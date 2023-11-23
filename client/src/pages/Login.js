@@ -6,7 +6,7 @@ import newAuthService from "../services/auth-service";
 import icon_fb from "../assets/images/icon_fb.svg";
 import icon_google from "../assets/images/icon_google.svg";
 
-const Login = ({ currentUser, setCurrentUser, profile, setProfile }) => {
+const Login = ({ currentUser, setCurrentUser }) => {
     const Navigate = useNavigate();
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");

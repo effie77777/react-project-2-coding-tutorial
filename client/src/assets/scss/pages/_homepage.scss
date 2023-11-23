@@ -67,32 +67,23 @@
     }
 }
 
-.section4-link {
-    a, button {
+.section4-ul {
+    li {
         @extend .px-6;
         @extend .py-4;
         @extend .me-4;
-        @extend .border;
         @extend .text-white;
+        @extend .border;
         @extend .border-white;
-        @extend .d-block;
-        @extend .hover-bg-third;
         &:hover {
-            border-color: $third !important;
+            background: linear-gradient(90deg, rgb(96, 205, 255), #8cf980);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     }
 }
 
 .section5-card {
-    @include md {
-        height: 26rem;
-    }
-    @include lg {
-        height: 27.6rem;
-    }
-}
-
-.section6-card {
     @extend .d-flex;
     @extend .flex-column;
     @extend .flex-lg-row;

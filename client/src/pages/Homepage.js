@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import banner from "../assets/images/homepage_banner.jpg";
-import share_1 from "../assets/images/homepage_section6-1.jpg";
-import share_2 from "../assets/images/homepage_section6-2.png";
-import share_3 from "../assets/images/homepage_section6-3.png";
-import student_1 from "../assets/images/homepage_section6-1-student.jpg";
-import student_2 from "../assets/images/homepage_section6-2-student.jpg";
-import student_3 from "../assets/images/homepage_section6-3-student.jpg";
+import share_1 from "../assets/images/homepage_section5-1.jpg";
+import share_2 from "../assets/images/homepage_section5-2.png";
+import share_3 from "../assets/images/homepage_section5-3.png";
+import student_1 from "../assets/images/homepage_section5-1-student.jpg";
+import student_2 from "../assets/images/homepage_section5-2-student.jpg";
+import student_3 from "../assets/images/homepage_section5-3-student.jpg";
 import instructor from "../assets/images/instructor.jpg";
 
 const Homepage = () => {
@@ -127,47 +127,24 @@ const Homepage = () => {
             <section className="section px-6 bg-third bg-opacity-10">
                 <h3 className="title text-center">您想學習的程式，都在這裡</h3>
                 <div className="title-vr mb-6 mb-md-18 mx-auto"></div>
-                <ul className="d-flex overflow-auto section4-link">
-                    <li><Link>JavaScript</Link></li>
-                    <li><Link>HTML</Link></li>
-                    <li><Link>CSS/SCSS</Link></li>
-                    <li><Link>React</Link></li>
-                    <li><Link>Vue</Link></li>
-                    <li><Link>Angular</Link></li>
-                    <li><Link>Node.js</Link></li>
-                    <li><Link>SQL</Link></li>
-                    <li><Link>Python</Link></li>
-                    <li><Link>Java</Link></li>
-                    <li><Link>C++</Link></li>
-                    <li><Link>PHP</Link></li>
+                <ul className="d-flex overflow-auto section4-ul">
+                    <li>JavaScript</li>
+                    <li>HTML</li>
+                    <li>CSS/SCSS</li>
+                    <li>React</li>
+                    <li>Vue</li>
+                    <li>Angular</li>
+                    <li>Node.js</li>
+                    <li>SQL</li>
+                    <li>Python</li>
+                    <li>Java</li>
+                    <li>C++</li>
+                    <li>PHP</li>
+                    <li className="word-break-keep-all">UI設計</li>
                 </ul>
             </section>
 
             <div className="container-fluid bg-fourth">
-                <section className="section">
-                    <h3 className="title text-center">熱門推薦課程</h3>
-                    <div className="title-vr mb-6 mb-md-18 mx-auto"></div>
-                    <div className="row">
-                        <div className="col-12 d-flex justify-content-md-between overflow-auto">
-                            <div className="section5-card p-6 bg-opacity-10 bg-third d-flex flex-column justify-content-between align-items-center rounded-24 w-md-48 w-lg-32 mb-4 mb-md-0">
-                                <div className="d-flex flex-column align-items-center">
-                                    <img src={instructor} alt="the instructor" className="profile_img mb-2" />
-                                    <p>Belinda</p>
-                                </div>
-                                <div className="mt-6 d-flex flex-column">
-                                    <Link class="fw-bold fs-3 text-white h-25" style={{marginBottom: "2.5%"}} to="/detail">基礎前端 - HTML</Link>
-                                    <Link className="text-primary" style={{height: "5%", marginBottom: "2.5%"}}>前端語言</Link>
-                                    <p className="h-70" style={{textOverflow: "ellipsis", overflow: "hidden"}}>帶領無基礎的平民老百姓，從最基礎的 HTML 語法出發，使用最淺顯易懂的語言與生活隨處可見的例子，輕鬆進入網頁架設的世界，完成一個基礎的網頁架設。</p>
-                                </div>
-                                <div className="d-flex border-top justify-content-between pt-4 w-100">
-                                    <p className="align-self-end mb-1">50分鐘</p>
-                                    <p className="fs-4 text-white">NT$1600</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
                 <section className="pt-10 pb-20 pb-md-30 py-lg-20" style={{background: `url(${banner}) center/100%`}}>
                     <h3 className="title text-center">專屬你的學習課程</h3>
                     <h3 className="fw-bold text-white fs-4 text-center">超過3000位學員得到了程式超能力</h3>
@@ -183,7 +160,7 @@ const Homepage = () => {
                                     </div>
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
-                                            <div className="section6-card">
+                                            <div className="section5-card">
                                                 <img src={share_1} alt="student's learning process"/>
                                                 <div>
                                                     <h4>老師很有耐心</h4>
@@ -193,7 +170,7 @@ const Homepage = () => {
                                             </div>
                                         </div>
                                         <div class="carousel-item">
-                                            <div className="section6-card">
+                                            <div className="section5-card">
                                                 <img src={share_2} alt="student's learning process" />
                                                 <div>
                                                     <h4>老師很有耐心</h4>
@@ -203,7 +180,7 @@ const Homepage = () => {
                                             </div>
                                         </div>
                                         <div class="carousel-item">
-                                            <div className="section6-card">
+                                            <div className="section5-card">
                                                 <img src={share_3} alt="student's learning process" />
                                                 <div>
                                                     <h4>老師很有耐心</h4>

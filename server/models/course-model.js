@@ -8,7 +8,7 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ["前端語言", "後端語言", "UI設計", "JavaScript", "HTML", "CSS/SCSS", "React", "Vue", "Angular", "Node.js", "SQL", "Python", "Java", "C++", "PHP"]
+        // enum: ["前端語言", "後端語言", "UI設計", "JavaScript", "HTML", "CSS/SCSS", "React", "Vue", "Angular", "Node.js", "SQL", "Python", "Java", "C++", "PHP"]
     },
     description: {
         type: String,
@@ -30,6 +30,10 @@ const courseSchema = new mongoose.Schema({
     instructor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Instructor",
+        required: true,
+    },
+    students: {
+        type: [String],
         required: true,
     }
 })

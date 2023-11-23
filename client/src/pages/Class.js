@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-const Class = ({ allCourses, setAllCourses, currentSearch, setCurrentSearch }) => {
+const Class = ({ allCourses, setAllCourses, filterCategory, setFilterCategory, currentSearch, setCurrentSearch }) => {
     const [ errorMsg, setErrorMsg ] = useState(null);
-    const [ filterCategory, setFilterCategory ] = useState(null);
+    // const [ filterCategory, setFilterCategory ] = useState(null);
     const Navigate = useNavigate();
 
     const handleSearch = (e) => {
@@ -75,7 +75,7 @@ const Class = ({ allCourses, setAllCourses, currentSearch, setCurrentSearch }) =
                         <div className="col-12">
                             <div className="col-10 offset-1 d-flex flex-wrap flex-md-nowrap overflow-md-auto">
 
-                                {filterCategory && filterCategory.length > 0 && filterCategory.map((i) =>
+                                {filterCategory.length > 0 && filterCategory.map((i) =>
                                 <button type="button" className="class-card btn" id={i._id} onClick={handleSearch} key={i._id}>
                                     <div className="class-card-header">                                
                                         <img src={i.instructorPhoto} alt="the instructor" className="profile_img mb-2" />

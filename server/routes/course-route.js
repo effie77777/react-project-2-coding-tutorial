@@ -32,13 +32,16 @@ router.get("/search", async(req, res) => {
 
 router.post("/enroll", async(req, res) => {
     let { studentId, courseId } = req.body;
-    await Course.findOne({ id: courseId })
+    await Course.findOne({ _id: courseId })
     .then((foundCourse) => {
         if (!foundCourse) {
             return res.status(400).send("查無此課程");
-        } else if (foundCourse) {
-            let hasEnrolled = foundCourse.students.filter((i) => i === studentId);
-            if (hasEnrolled.length === 0) {
+        } else if (foundCourse && studentId) {
+            let hasEnrolled = []; //只有當該課程學生人數 > 0 的時候才會跑下面的 if 區塊，若該課程學生人數 === 0 則會維持 empty array
+            if (foundCourse.students.length > 0) {
+                hasEnrolled = foundCourse.students.filter((i) => i === studentId);
+            }
+            if (hasEnrolled.length === 0) { // (1)該課程學生人數 === 0 或 (2)該課程學生人數 > 0 但這個學生之前還沒註冊過該課程
                 foundCourse.students.push(studentId);
                 foundCourse.save()
                 .then((d) => {
