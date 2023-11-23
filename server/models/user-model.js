@@ -12,12 +12,15 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        // required: true,
         maxLength: 1024,
     },
     date: {
         type: Date,
         default: Date.now,
+    },
+    googleID: {
+        type: Number,
     }
 }) 
 

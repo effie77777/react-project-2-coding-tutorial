@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import newAuthService from "../services/auth-service";
 import icon_fb from "../assets/images/icon_fb.svg";
@@ -70,7 +70,25 @@ const Login = ({ currentUser, setCurrentUser }) => {
         onError: (error) => console.log("Login Failed: ", error)
     });
 
-    useEffect(() => {
+    // const handleLoginWithGoogle = GoogleLogin({
+    //     onSuccess: (credentialResponse) => {
+    //         newAuthService.loginWithGoogle(credentialResponse.credential)
+    //         .then((d) => {
+    //             localStorage.setItem("user_data", JSON.stringify(d.data));
+    //             setCurrentUser(newAuthService.getCurrentUser());
+    //             setErrorMsg(null);
+    //             Navigate("/profile");
+    //         })
+    //         .catch((e) => {
+    //             console.log(e);
+    //         })
+    //     },
+    //     onError: () => {
+    //         console.log('Login Failed');
+    //     }
+    // });
+
+    useEffect(() => {    
         if (currentUser) {
             setErrorMsg("您已經登入過囉 ! 將為您導向個人頁面");
             setTimeout(() => {
@@ -81,7 +99,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
     }, []);
 
     useEffect(() => {
-        if (currentUser.access_token) { //向 Google 拿使用者的資料
+        if (currentUser && currentUser.access_token) { //向 Google 拿使用者的資料
             axios.get(
                 `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${currentUser.access_token}`,
                 { headers: { Authorization: `Bearer ${currentUser.access_token}`, Accept: "application/json" } }
@@ -136,16 +154,33 @@ const Login = ({ currentUser, setCurrentUser }) => {
                         <p className="position-absolute px-5 bg-fourth" style={{transform: "translateY(-50%)"}}>其它登入方式</p>
                     </div>
                     <div className="d-flex mt-12 flex-wrap">
-                        <div className="d-flex mt-12 flex-wrap">
-                            {/* <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25 me-sm-5 mb-4 mb-sm-0" onClick={handleLoginWithFacebook}>
-                                <img src={icon_fb} alt="Facebook icon" className="w-6 h-6 me-4" style={{marginTop: "-0.25rem"}} />
-                                Facebook 登入
-                            </button> */}
-                            <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25" onClick={handleLoginWithGoogle}>
-                                <img src={icon_google} alt="Google icon" className="w-5 h-5 me-4" style={{marginTop: "-0.125rem"}} />
-                                Google 登入
-                            </button>
-                        </div>
+                        <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25 me-sm-5 mb-4 mb-sm-0">
+                            <img src={icon_fb} alt="Facebook icon" className="w-6 h-6 me-4" style={{marginTop: "-0.25rem"}} />
+                            Facebook 登入
+                        </button>
+                        <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25" onClick={() => handleLoginWithGoogle()}>
+                            <img src={icon_google} alt="Google icon" className="w-5 h-5 me-4" style={{marginTop: "-0.125rem"}} />
+                            Google 登入
+                        </button>
+                        <GoogleLogin
+                            onSuccess={credentialResponse => {
+                                console.log(credentialResponse);
+                                newAuthService.loginWithGoogle(credentialResponse.credential)
+                                .then((d) => {
+                                    console.log(d);
+                                    localStorage.setItem("user_data", JSON.stringify(d.data));
+                                    setCurrentUser(newAuthService.getCurrentUser());
+                                    setErrorMsg(null);
+                                    Navigate("/profile");
+                                })
+                                .catch((e) => {
+                                    console.log(e);
+                                })
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                        ></GoogleLogin>
                     </div>
                 </section>
             </div>

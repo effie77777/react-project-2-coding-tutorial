@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const { jwtDecode } = require("jwt-decode")
 const User = require("../models/user-model");
 const registrationVal = require("../validation").registrationVal;
 const loginVal = require("../validation").loginVal;
@@ -16,8 +17,10 @@ router.post("/register", async(req, res) => {
     console.log(email, email.length);
     await User.findOne({ email })
     .then((d) => {
-        if (d) {
+        if (d && d.password) {
             return res.status(400).send("這個 email 已經註冊過囉");
+        } else if (d && !password) {
+            return res.status(400).send("這個 email 已經存在，請改使用 google 登入");
         } else if (!d) {
             let result = registrationVal(req.body);
             if (result.error) {
@@ -82,6 +85,45 @@ router.post("/login", async(req, res) => {
         console.log(e);
         return res.status(400).send("對不起，出了一點問題...");
     })
+})
+
+router.post("/login/google", async(req, res) => {
+    let { credential } = req.body;
+    let decodedResult = jwtDecode(credential);
+    if (decodedResult.iss && decodedResult.iss === "https://accounts.google.com" && decodedResult.email_verified && decodedResult.email_verified === true) {
+        await User.findOne({ email: decodedResult.email })
+        .then((foundUser) => {
+            if (!foundUser) {
+                let newUser = new User({
+                    username: decodedResult.name,
+                    email: decodedResult.email,
+                    googleID: decodedResult.sub,
+                })
+                newUser.save()
+                .then((d) => {
+                    console.log(d);
+                    const tokenObj = { id: d._id, email: d.email };
+                    const sentTokenObj = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
+                    return res.send({ msg: "成功登入 !", token: `JWT ${sentTokenObj}`, data: d });
+                })
+                .catch((e) => {
+                    console.log(e);
+                    return res.status(400).send("發生一些錯誤...");
+                })
+            } else { // db 當中已經有該名使用者，代表他之前有用 google 登入過了
+                const tokenObj = { id: foundUser._id, email: foundUser.email };
+                const sentTokenObj = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
+                return res.send({ msg: "成功登入 !", token: `JWT ${sentTokenObj}`, data: foundUser });
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+            return res.status(400).send("發生一些錯誤...");
+        })
+
+    } else {
+        return res.status(401).send("google 登入驗證失敗");
+    }
 })
 
 // router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
