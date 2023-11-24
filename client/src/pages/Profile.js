@@ -42,7 +42,6 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
-                setErrorMsg(null);
                 Navigate("/login");
             }, 1500);
         } else {
@@ -63,45 +62,45 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
     return (
         <div className="container-fluid">
 
-        {errorMsg && (
-            <div className="error_msg">{errorMsg}</div>
-        )}
+            {errorMsg}
+            ? <div className="error_msg">{errorMsg}</div>
+            : <div>
+                {/* {currentUser && ( */}
+                <section className="py-11">
+                    <div className="row">
+                        <div className="col-12">
+                            <h2 className="col-10 offset-1 fw-bold text-white fs-5 mb-10">我的課程</h2>
+                            <div className="col-10 offset-1 d-flex flex-wrap flex-md-nowrap overflow-md-auto">
 
-        {currentUser && (
-        <section className="py-11">
-            <div className="row">
-                <div className="col-12">
-                    <h2 className="col-10 offset-1 fw-bold text-white fs-5 mb-10">我的課程</h2>
-                    <div className="col-10 offset-1 d-flex flex-wrap flex-md-nowrap overflow-md-auto">
+                                {myCourses.length > 0 && myCourses.map((i) =>
+                                <button type="button" className="class-card btn" id={i._id} onClick={handleSearch} key={i._id}>
+                                    <div className="class-card-header">                                
+                                        <img src={i.instructorPhoto} alt="the instructor" className="profile_img mb-2" />
+                                        <p>{i.instructor.name}</p>
+                                    </div>
+                                    <div className="class-card-body text-start">
+                                        <h3 className="fw-bold fs-3 text-white">{i.title}</h3>                       
+                                        <div className="">
+                                            {i.category.split("、").map((i) =>
+                                            <p className="text-primary border border-primary d-inline-block p-1 rounded-0 me-1" style={{fontSize: "0.9rem"}}>{i}</p>
+                                            )}
+                                        </div>
+                                        <p className="h-60 h-sm-50 h-md-60 mb-2">{i.description}</p>
+                                    </div>
+                                    <div className="class-card-footer">
+                                        <p className="align-self-end mb-1">{i.plan.slice(i.plan.indexOf("堂") + 1, i.plan.indexOf("/"))}</p>
+                                        <p className="fs-4 text-white">{i.plan.slice(0, i.plan.indexOf(" "))}</p>
+                                    </div>
+                                </button>
+                                )}
 
-                        {myCourses.length > 0 && myCourses.map((i) =>
-                        <button type="button" className="class-card btn" id={i._id} onClick={handleSearch} key={i._id}>
-                            <div className="class-card-header">                                
-                                <img src={i.instructorPhoto} alt="the instructor" className="profile_img mb-2" />
-                                <p>{i.instructor.name}</p>
                             </div>
-                            <div className="class-card-body text-start">
-                                <h3 className="fw-bold fs-3 text-white">{i.title}</h3>                       
-                                <div className="">
-                                    {i.category.split("、").map((i) =>
-                                    <p className="text-primary border border-primary d-inline-block p-1 rounded-0 me-1" style={{fontSize: "0.9rem"}}>{i}</p>
-                                    )}
-                                </div>
-                                <p className="h-60 h-sm-50 h-md-60 mb-2">{i.description}</p>
-                            </div>
-                            <div className="class-card-footer">
-                                <p className="align-self-end mb-1">{i.plan.slice(i.plan.indexOf("堂") + 1, i.plan.indexOf("/"))}</p>
-                                <p className="fs-4 text-white">{i.plan.slice(0, i.plan.indexOf(" "))}</p>
-                            </div>
-                        </button>
-                        )}
-
+                        </div>
                     </div>
-                </div>
+                </section>
+                {/* )} */}    
             </div>
-        </section>
-        )}
-
+        
         </div>
     )
 }

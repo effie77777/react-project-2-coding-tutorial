@@ -51,12 +51,12 @@ const Register = () => {
     return (
         <div className="container-fluid">
           
-          {errorMsg && (
-                <div className="error_msg">{errorMsg}</div>
+            {errorMsg && (
+            <div className="error_msg">{errorMsg}</div>
             )}
 
             {successMsg && (
-                <div className="success_msg">{successMsg}</div>
+            <div className="success_msg">{successMsg}</div>
             )}
 
             <section className="my-11">

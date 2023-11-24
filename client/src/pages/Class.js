@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-const Class = ({ allCourses, setAllCourses, filterCategory, setFilterCategory, currentSearch, setCurrentSearch }) => {
+const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilterCategory, currentSearch, setCurrentSearch }) => {
     const [ errorMsg, setErrorMsg ] = useState(null);
     // const [ filterCategory, setFilterCategory ] = useState(null);
     const Navigate = useNavigate();

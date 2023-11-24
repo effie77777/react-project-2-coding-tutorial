@@ -117,7 +117,6 @@ const Login = ({ currentUser, setCurrentUser }) => {
         );
     }
 
-
     useEffect(() => {    
         if (currentUser) {
             setErrorMsg("您已經登入過囉 ! 將為您導向個人頁面");
