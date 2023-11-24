@@ -97,18 +97,15 @@ const Login = ({ currentUser, setCurrentUser }) => {
     const handleLoginWithFacebook = () => {
         window.FB.login(
             function(response) {
-                console.log(response);
-                // let accessToken = response.authResponse.accessToken;
-                // localStorage.setItem("access_token", JSON.stringify(response.authResponse.accessToken));
-                setCurrentUser(response.authResponse.userID);
-                console.log(response.authResponse.accessToken);
+                let accessToken = response.authResponse.accessToken;
                 if (response.status === "connected") {
-                    // getFbUser();       
                     window.FB.api("/me", "GET", { fields: "name,email" }, (userData) => {
-                        console.log(userData);
-                        newAuthService.loginWithFacebook(response.authResponse.accessToken, userData)
+                        newAuthService.loginWithFacebook(accessToken, userData)
                         .then((d) => {
                             console.log(d);
+                            setCurrentUser(d.data);
+                            localStorage.setItem("user_data", JSON.stringify(d.data));
+                            Navigate("/profile");
                         })
                         .catch((e) => {
                             console.log(e);
@@ -116,18 +113,8 @@ const Login = ({ currentUser, setCurrentUser }) => {
                     })              
                 }
             },
-            { scope: "public_profile,email,openid" }
+            { scope: "public_profile,email" }
         );
-        // let accessToken = JSON.parse(localStorage.getItem("access_token"));
-        // console.log(accessToken);
-    
-        // newAuthService.loginWithFacebook(accessToken)
-        // .then((d) => {
-        //     console.log(d);
-        // })
-        // .catch((e) => {
-        //     console.log(e);
-        // })
     }
 
 

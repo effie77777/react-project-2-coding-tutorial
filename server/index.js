@@ -80,11 +80,9 @@ app.use("/api/course", passport.authenticate("jwt", { session: false }), courseR
 
 //尚未解決
 app.post("/return", async(req, res) => {
-    console.log("return");
     console.log("req.body: ", req.body);
     const { CheckMacValue } = req.body;
-    const data = { ...req.body };
-    console.log("data: ", data);
+    const data = req.body;
     delete data.CheckMacValue;
     const create = new ecpay_payment(options);
     const checkValue = create.payment_client.helper.gen_chk_mac_value(data);
@@ -94,7 +92,9 @@ app.post("/return", async(req, res) => {
         "CheckMacValue: " + CheckMacValue,
         "checkValue: " + checkValue
     );
-    return res.send("1|OK");
+    if (CheckMacValue === checkValue) {
+        return res.send("1|OK");
+    }
 })
 
 app.get("/", (req, res) => {

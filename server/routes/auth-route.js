@@ -2,28 +2,22 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
-const { jwtDecode } = require("jwt-decode");
-const FacebookStrategy = require("passport-facebook");
-const axios = require("axios");
+const { jwtDecode } = require("jwt-decode"); //驗證 Google 登入的使用者
+const axios = require("axios"); //驗證 FB 登入的使用者
 const User = require("../models/user-model");
 const registrationVal = require("../validation").registrationVal;
 const loginVal = require("../validation").loginVal;
-// let accessToken = "";
-
-// router.get("/register") {
-
-// }
 
 router.post("/register", async(req, res) => {
     let { username, email, password } = req.body;
-    console.log(email, email.length);
     await User.findOne({ email })
     .then((d) => {
         if (d && d.password) {
             return res.status(400).send("這個 email 已經註冊過囉");
-        } else if (d && !password) {
-            return res.status(400).send("這個 email 已經存在，請改使用 google 登入");
+        } else if (d && !password && googleID) {
+            return res.status(400).send("這個 email 已經存在，請改使用 Google 登入");
+        } else if (d && !password && facebookID) {
+            return res.status(400).send("這個 email 已經存在，請改使用 Facebook 登入");
         } else if (!d) {
             let result = registrationVal(req.body);
             if (result.error) {
@@ -39,7 +33,6 @@ router.post("/register", async(req, res) => {
                         let newUser = new User({ username, email, password: hashed});
                         newUser.save()
                         .then((d) => {
-                            // console.log("successful!");
                             return res.send("註冊成功 !");
                         })
                         .catch((e) => {
@@ -63,7 +56,7 @@ router.post("/login", async(req, res) => {
     .then((d) => {
         if (!d) {
             return res.status(400).send("這個 email 還沒有被註冊過哦");
-        } else if (d) {
+        } else if (d && d.password) {
             let result = loginVal(req.body);
             if (result.error) {
                 return res.status(400).send(result.error.details[0].message);
@@ -82,6 +75,10 @@ router.post("/login", async(req, res) => {
                     }
                 }
             })
+        } else if (d && !d.password && d.googleID) {
+            return res.status(400).send("這個 email 已經存在，請改使用 Google 登入")
+        } else if (d && !d.password && d.facebookID) {
+            return res.status(400).send("這個 email 已經存在，請改使用 Facebook 登入")
         }
     })
     .catch((e) => {
@@ -132,10 +129,11 @@ router.post("/login/google", async(req, res) => {
 
 router.post("/login/facebook", (req, res) => {
     let { accessToken, userData } = req.body;
+    //把拿到的 accessToken 傳給 Facebook 來驗證使用者的身分
     axios.get(`https://graph.facebook.com/me?fields=id&access_token=${accessToken}`)
     .then((d) => {
-        console.log("with get method. data from fb: ", d.data.id);
-        if (d.data.id === userData.id) {
+        let result = d.data.id; // Facebook 依據 accessToken 回傳該使用者的 id
+        if (result === userData.id) {
             console.log("verified");
             User.findOne({ email: userData.email })
             .then((foundUser) => {
@@ -151,7 +149,6 @@ router.post("/login/facebook", (req, res) => {
                     });
                     newUser.save()
                     .then((d) => {
-                        console.log("saved successfully");
                         const tokenObj = { id: d._id, email: d.email };
                         const sentTokenObj = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
                         return res.send({ msg: "成功登入 !", token: `JWT ${sentTokenObj}`, data: d });
@@ -168,16 +165,4 @@ router.post("/login/facebook", (req, res) => {
     })
 });
 
-router.get("/login/facebook/redirect", (req, res) => {
-    console.log(req);
-    return res.send("finished");
-})
-
-// router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-// router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-//     return res.send("login successfully");
-// })
-
-// module.exports = { router, accessToken };
 module.exports = router;
