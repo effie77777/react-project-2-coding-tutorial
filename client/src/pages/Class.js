@@ -50,7 +50,7 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
     return (
         <div className="container-fluid">
 
-            {!currentUser}
+            {!currentUser
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="section">
@@ -108,8 +108,8 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
                         </div>
                     </div>
                 </section>
-            </div>
-            
+            </div>}
+
         </div>
     )
 }

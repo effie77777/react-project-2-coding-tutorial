@@ -110,7 +110,7 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
         <div className="bg-fourth">
             <div className="container-fluid">
         
-                {!currentUser}
+                {!currentUser
                 ? <div className="error_msg">{errorMsg}</div>
                 : <div>
 
@@ -255,7 +255,8 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
                         </section>
                     {/* </div> */}
                 {/* </div> */}
-                </div>
+                </div>}
+                
             </div>
         </div>
     )

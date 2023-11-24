@@ -62,7 +62,7 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
     return (
         <div className="container-fluid">
 
-            {!currentUser}
+            {!currentUser
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">
@@ -97,7 +97,7 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
                         </div>
                     </div>
                 </section>
-            </div>
+            </div>}
         
         </div>
     )

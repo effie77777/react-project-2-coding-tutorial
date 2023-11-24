@@ -40,7 +40,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
     return (
         <div className="container-fluid">
             
-            {!currentUser}
+            {!currentUser
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">
@@ -131,7 +131,8 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                     </div>
                 </section>
                 <section id="parentElement"></section>
-            </div>
+            </div>}
+        
         </div>
     )
 }
