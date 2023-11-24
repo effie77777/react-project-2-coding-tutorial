@@ -21,7 +21,6 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
-                setErrorMsg(null);
                 Navigate("/login");
             }, 1500);
         } else {
@@ -40,7 +39,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
     return (
         <div className="container-fluid">
             
-            {errorMsg}
+            {!currentUser}
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">

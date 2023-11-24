@@ -81,7 +81,6 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
-                setErrorMsg(null);
                 Navigate("/login");
             }, 1500);
         } else {

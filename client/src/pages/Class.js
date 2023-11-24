@@ -29,7 +29,6 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
-                setErrorMsg(null);
                 Navigate("/login");
             }, 1500);
         } else {
@@ -51,7 +50,7 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
     return (
         <div className="container-fluid">
 
-            {errorMsg
+            {!currentUser}
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="section">
@@ -109,7 +108,8 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
                         </div>
                     </div>
                 </section>
-            </div>}
+            </div>
+            
         </div>
     )
 }

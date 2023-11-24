@@ -42,7 +42,6 @@ const Register = () => {
             }, 2000);
         })
         .catch((e) => {
-            console.log("error");
             console.log(e);
             setErrorMsg(e.response.data);
         })
