@@ -132,11 +132,18 @@ router.post("/login/google", async(req, res) => {
 
 router.post("/login/facebook", (req, res) => {
     let facebookAccessToken = req.body.accessToken;
-    console.log(req.body);
-    console.log(facebookAccessToken);
+    console.log("req.body: ", req.body);
+    console.log("facebookAccessToken: ", facebookAccessToken);
     axios.post(`https://graph.facebook.com/me?fields=id&access_token=${facebookAccessToken}`)
     .then((d) => {
-        console.log(d);
+        console.log("with post method. data from fb: ", d);
+    })
+    .catch((e) => {
+        console.log(e);
+    })
+    axios.get(`https://graph.facebook.com/me?fields=id&access_token=${facebookAccessToken}`)
+    .then((d) => {
+        console.log("with get method. data from fb: ", d);
     })
     .catch((e) => {
         console.log(e);
