@@ -7,6 +7,7 @@ const { jwtDecode } = require("jwt-decode")
 const User = require("../models/user-model");
 const registrationVal = require("../validation").registrationVal;
 const loginVal = require("../validation").loginVal;
+let accessToken = "";
 
 // router.get("/register") {
 
@@ -124,6 +125,11 @@ router.post("/login/google", async(req, res) => {
     } else {
         return res.status(401).send("google 登入驗證失敗");
     }
+});
+
+router.post("/login/facebook", (req, res) => {
+    accessToken = req.body.accessToken;
+    passport.authenticate("facebook");
 })
 
 // router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
@@ -132,4 +138,4 @@ router.post("/login/google", async(req, res) => {
 //     return res.send("login successfully");
 // })
 
-module.exports = router;
+module.exports = { router, accessToken };

@@ -2,7 +2,21 @@ const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("../models/index").User;
+const facebookAccessToken = require("../routes/auth-route").accessToken;
+
+// Login with Facebook 驗證 access token
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    callbackURL: ""
+},
+function(accessToken, refreshToken, profile, cb) {
+    accessToken = facebookAccessToken;
+    console.log(`accessToken: ${accessToken}`);
+    console.log(`profile: ${profile}`);
+}))
 
 // JWT 部分
 let opts = {};
