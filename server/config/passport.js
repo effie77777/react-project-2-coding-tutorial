@@ -8,8 +8,8 @@ const facebookAccessToken = require("../routes/auth-route").accessToken;
 
 // Login with Facebook 驗證 access token
 passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_CLIENT_ID,
-    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: "https://effie77777.github.io/react-project-2-coding-tutorial/#/profile"
 },
 function(accessToken, refreshToken, profile, cb) {
