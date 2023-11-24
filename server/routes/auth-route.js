@@ -3,11 +3,12 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const { jwtDecode } = require("jwt-decode")
+const { jwtDecode } = require("jwt-decode");
+const FacebookStrategy = require("passport-facebook");
 const User = require("../models/user-model");
 const registrationVal = require("../validation").registrationVal;
 const loginVal = require("../validation").loginVal;
-let accessToken = "";
+// let accessToken = "";
 
 // router.get("/register") {
 
@@ -127,14 +128,30 @@ router.post("/login/google", async(req, res) => {
     }
 });
 
+
 router.post("/login/facebook", (req, res) => {
-    accessToken = req.body.accessToken;
-    passport.authenticate("facebook");
+    let facebookAccessToken = req.body.accessToken;
+    console.log(req.body);
+    console.log(facebookAccessToken);
+    passport.use(new FacebookStrategy(
+        {
+            clientID: process.env.FACEBOOK_APP_ID,
+            clientSecret: process.env.FACEBOOK_APP_SECRET,
+            callbackURL: "/auth/login/facebook/redirect"
+        },
+        function(accessToken, refreshToken, profile, cb) {
+            accessToken = facebookAccessToken;
+            console.log(`accessToken: ${accessToken}`);
+            console.log(`profile: ${profile}`);
+            return cb(null, profile);
+        }
+    ))    
 });
 
-// router.get("/login/facebook/redirect", passport.authenticate("facebook"), (req, res) => {
-//     return res.send()
-// })
+router.get("/login/facebook/redirect", (req, res) => {
+    console.log(req);
+    return res.send("finished");
+})
 
 // router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
@@ -142,4 +159,5 @@ router.post("/login/facebook", (req, res) => {
 //     return res.send("login successfully");
 // })
 
-module.exports = { router, accessToken };
+// module.exports = { router, accessToken };
+module.exports = router;
