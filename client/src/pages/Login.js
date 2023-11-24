@@ -109,7 +109,8 @@ const Login = ({ currentUser, setCurrentUser }) => {
             },
             { scope: "public_profile,email,openid" }
         );
-        newAuthService.loginWithFacebook(JSON.parse(localStorage.getItem("access_token")))
+        let accessToken = JSON.parse(localStorage.getItem("access_token"));
+        newAuthService.loginWithFacebook(accessToken)
         .then((d) => {
             console.log(d);
         })
