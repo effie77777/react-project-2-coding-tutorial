@@ -88,6 +88,26 @@ const Login = ({ currentUser, setCurrentUser }) => {
     //     }
     // });
 
+    function getFbUser() {
+        window.FB.api("/me", "GET", { fields: "name,email" }, (userInfo) => {
+            console.log(userInfo);
+        })   
+    }
+
+    const handleLoginWithFacebook = () => {
+        window.FB.login(
+            function(response) {
+                console.log(response);
+                setCurrentUser(response.authResponse.userID);
+                if (response.status === "connected") {
+                    getFbUser();         
+                }
+            },
+            { scope: "public_profile,email" }
+        );
+    }
+
+
     useEffect(() => {    
         if (currentUser) {
             setErrorMsg("您已經登入過囉 ! 將為您導向個人頁面");
@@ -95,6 +115,28 @@ const Login = ({ currentUser, setCurrentUser }) => {
                 setErrorMsg(null);
                 Navigate("/profile");
             }, 2000);
+        } else {
+            window.fbAsyncInit = function() {
+                window.FB.init({
+                    appId: process.env.REACT_APP_FACEBOOK_LOGIN_APPID,
+                    cookie: true,
+                    xfbml: true,
+                    version: "v18.0",
+                });
+                console.log("after init");
+                window.FB.AppEvents.logPageView();
+            };
+            (function(d, s, id) {
+                let js;
+                let fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, "script", "facebook-jssdk"));
         }
     }, []);
 
@@ -154,7 +196,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
                         <p className="position-absolute px-5 bg-fourth" style={{transform: "translateY(-50%)"}}>其它登入方式</p>
                     </div>
                     <div className="d-flex mt-12 flex-wrap">
-                        <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25 me-sm-5 mb-4 mb-sm-0">
+                        <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25 me-sm-5 mb-4 mb-sm-0" onClick={handleLoginWithFacebook}>
                             <img src={icon_fb} alt="Facebook icon" className="w-6 h-6 me-4" style={{marginTop: "-0.25rem"}} />
                             Facebook 登入
                         </button>
