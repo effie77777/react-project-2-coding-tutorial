@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkcode_tutorial=self.webpackChunkcode_tutorial||[]).push([[922],{8922:function(e,t,u){u.r(t);u(2791);var c=u(184);t.default=function(){return(0,c.jsx)("div",{children:"404!"})}}}]);
+//# sourceMappingURL=922.fdf98a00.chunk.js.map
