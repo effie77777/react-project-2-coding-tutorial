@@ -32,11 +32,11 @@ class authService {
         );
     }
 
-    loginWithFacebook(accessToken) {
+    loginWithFacebook(accessToken, userData) {
         console.log("inside service. access token is " + accessToken);
         return axios.post(
             `${basic_api}/login/facebook`,
-            { accessToken }
+            { accessToken, userData }
         );
     }
 }

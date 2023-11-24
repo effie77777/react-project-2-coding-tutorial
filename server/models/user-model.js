@@ -21,7 +21,10 @@ const userSchema = new mongoose.Schema({
     },
     googleID: {
         type: Number,
-    }
+    },
+    facebookID: {
+        type: Number,
+    },
 }) 
 
 const User = mongoose.model("User", userSchema);

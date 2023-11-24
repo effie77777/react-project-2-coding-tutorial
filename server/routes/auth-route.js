@@ -131,37 +131,41 @@ router.post("/login/google", async(req, res) => {
 
 
 router.post("/login/facebook", (req, res) => {
-    let facebookAccessToken = req.body.accessToken;
-    console.log("req.body: ", req.body);
-    console.log("facebookAccessToken: ", facebookAccessToken);
-    axios.post(`https://graph.facebook.com/me?fields=id&access_token=${facebookAccessToken}`)
+    let { accessToken, userData } = req.body;
+    axios.get(`https://graph.facebook.com/me?fields=id&access_token=${accessToken}`)
     .then((d) => {
-        console.log("with post method. data from fb: ", d);
+        console.log("with get method. data from fb: ", d.data.id);
+        if (d.data.id === userData.id) {
+            console.log("verified");
+            User.findOne({ email: userData.email })
+            .then((foundUser) => {
+                if (foundUser) { //過去曾經使用 facebook 登入過
+                    const tokenObj = { id: foundUser._id, email: foundUser.email };
+                    const sentTokenObj = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
+                    return res.send({ msg: "成功登入 !", token: `JWT ${sentTokenObj}`, data: foundUser });    
+                } else { //第一次使用 facebook 登入
+                    let newUser = new User({
+                        username: userData.name,
+                        email: userData.email,
+                        facebookID: userData.id
+                    });
+                    newUser.save()
+                    .then((d) => {
+                        console.log("saved successfully");
+                        const tokenObj = { id: d._id, email: d.email };
+                        const sentTokenObj = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
+                        return res.send({ msg: "成功登入 !", token: `JWT ${sentTokenObj}`, data: d });
+                    })
+                }
+            })
+            .catch((e) => {
+                return res.status(400).send("驗證失敗");
+            })
+        }
     })
     .catch((e) => {
         console.log(e);
     })
-    axios.get(`https://graph.facebook.com/me?fields=id&access_token=${facebookAccessToken}`)
-    .then((d) => {
-        console.log("with get method. data from fb: ", d);
-    })
-    .catch((e) => {
-        console.log(e);
-    })
-    return facebookAccessToken;
-    // passport.use(new FacebookStrategy(
-    //     {
-    //         clientID: process.env.FACEBOOK_APP_ID,
-    //         clientSecret: process.env.FACEBOOK_APP_SECRET,
-    //         callbackURL: "/auth/login/facebook/redirect"
-    //     },
-    //     function(accessToken, refreshToken, profile, cb) {
-    //         accessToken = facebookAccessToken;
-    //         console.log(`accessToken: ${accessToken}`);
-    //         console.log(`profile: ${profile}`);
-    //         return cb(null, profile);
-    //     }
-    // ))    
 });
 
 router.get("/login/facebook/redirect", (req, res) => {

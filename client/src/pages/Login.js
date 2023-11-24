@@ -102,18 +102,17 @@ const Login = ({ currentUser, setCurrentUser }) => {
                 // localStorage.setItem("access_token", JSON.stringify(response.authResponse.accessToken));
                 setCurrentUser(response.authResponse.userID);
                 console.log(response.authResponse.accessToken);
-                newAuthService.loginWithFacebook(response.authResponse.accessToken)
-                .then((d) => {
-                    console.log(d);
-                })
-                .catch((e) => {
-                    console.log(e);
-                })
-
                 if (response.status === "connected") {
                     // getFbUser();       
-                    window.FB.api("/me", "GET", { fields: "name,email" }, (userInfo) => {
-                        console.log(userInfo);
+                    window.FB.api("/me", "GET", { fields: "name,email" }, (userData) => {
+                        console.log(userData);
+                        newAuthService.loginWithFacebook(response.authResponse.accessToken, userData)
+                        .then((d) => {
+                            console.log(d);
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })        
                     })              
                 }
             },
