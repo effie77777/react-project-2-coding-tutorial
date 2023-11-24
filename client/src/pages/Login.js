@@ -88,23 +88,34 @@ const Login = ({ currentUser, setCurrentUser }) => {
     //     }
     // });
 
-    function getFbUser() {
-        window.FB.api("/me", "GET", { fields: "name,email" }, (userInfo) => {
-            console.log(userInfo);
-        })   
-    }
+    // function getFbUser() {
+    //     window.FB.api("/me", "GET", { fields: "name,email" }, (userInfo) => {
+    //         console.log(userInfo);
+    //     })   
+    // }
 
     const handleLoginWithFacebook = () => {
         window.FB.login(
             function(response) {
                 console.log(response);
+                localStorage.setItem("access_token", JSON.stringify(response.authResponse.accessToken));
                 setCurrentUser(response.authResponse.userID);
                 if (response.status === "connected") {
-                    getFbUser();         
+                    // getFbUser();       
+                    window.FB.api("/me", "GET", { fields: "name,email" }, (userInfo) => {
+                        console.log(userInfo);
+                    })              
                 }
             },
             { scope: "public_profile,email,openid" }
         );
+        newAuthService.loginWithFacebook(JSON.parse(localStorage.getItem("access_token")))
+        .then((d) => {
+            console.log(d);
+        })
+        .catch((e) => {
+            console.log(e);
+        })
     }
 
 

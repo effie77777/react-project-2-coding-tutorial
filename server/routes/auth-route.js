@@ -130,7 +130,11 @@ router.post("/login/google", async(req, res) => {
 router.post("/login/facebook", (req, res) => {
     accessToken = req.body.accessToken;
     passport.authenticate("facebook");
-})
+});
+
+// router.get("/login/facebook/redirect", passport.authenticate("facebook"), (req, res) => {
+//     return res.send()
+// })
 
 // router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 

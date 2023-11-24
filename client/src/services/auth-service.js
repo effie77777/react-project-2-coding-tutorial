@@ -1,6 +1,6 @@
 import axios from "axios";
-const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/auth";
-// const basic_api = "http://localhost:8080/api/auth";
+// const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/auth";
+const basic_api = "http://localhost:8080/api/auth";
 
 class authService {
     register(username, email, password) {
@@ -29,6 +29,14 @@ class authService {
         return axios.post(
             `${basic_api}/login/google`,
             { credential }
+        );
+    }
+
+    loginWithFacebook(accessToken) {
+        console.log("inside service. access token is " + accessToken);
+        return axios.post(
+            `${basic_api}/login/facebook`,
+            { accessToken }
         );
     }
 }
