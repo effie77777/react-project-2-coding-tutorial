@@ -133,19 +133,20 @@ router.post("/login/facebook", (req, res) => {
     let facebookAccessToken = req.body.accessToken;
     console.log(req.body);
     console.log(facebookAccessToken);
-    passport.use(new FacebookStrategy(
-        {
-            clientID: process.env.FACEBOOK_APP_ID,
-            clientSecret: process.env.FACEBOOK_APP_SECRET,
-            callbackURL: "/auth/login/facebook/redirect"
-        },
-        function(accessToken, refreshToken, profile, cb) {
-            accessToken = facebookAccessToken;
-            console.log(`accessToken: ${accessToken}`);
-            console.log(`profile: ${profile}`);
-            return cb(null, profile);
-        }
-    ))    
+    return facebookAccessToken;
+    // passport.use(new FacebookStrategy(
+    //     {
+    //         clientID: process.env.FACEBOOK_APP_ID,
+    //         clientSecret: process.env.FACEBOOK_APP_SECRET,
+    //         callbackURL: "/auth/login/facebook/redirect"
+    //     },
+    //     function(accessToken, refreshToken, profile, cb) {
+    //         accessToken = facebookAccessToken;
+    //         console.log(`accessToken: ${accessToken}`);
+    //         console.log(`profile: ${profile}`);
+    //         return cb(null, profile);
+    //     }
+    // ))    
 });
 
 router.get("/login/facebook/redirect", (req, res) => {
