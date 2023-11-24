@@ -25,7 +25,6 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
     }
 
     const handleSelectPlan = (e) => {
-        console.log(e.target);
         let targetId = e.target.id;
         if (!targetId) {
             targetId = e.target.closest("button").id;
@@ -40,8 +39,11 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
     useEffect(() => {
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
+            setTimeout(() => {
+                setErrorMsg(null);
+                Navigate("/login");
+            }, 1500);
         } else {
-            setErrorMsg(null);
             newCourseService.searchAllCourses()
             .then((d) => {
                 let { newData, profile } = d.data;

@@ -17,7 +17,6 @@ class courseService {
     }
 
     checkOut(ItemName, TotalAmount) {
-        console.log("inside service");
         let token;
         if (localStorage.getItem("user_data")) {
             token = JSON.parse(localStorage.getItem("user_data")).token;
@@ -31,7 +30,6 @@ class courseService {
     }
 
     enroll(studentId, courseId) {
-        console.log(studentId, courseId);
         let token;
         localStorage.getItem("user_data")
         ? token = JSON.parse(localStorage.getItem("user_data")).token

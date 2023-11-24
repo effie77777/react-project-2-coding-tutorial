@@ -78,14 +78,23 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
     }
 
     useEffect(() => {
-        setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
-        let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
-        let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
-        if (pricePerClass !== "洽談報價") {
-            pricePerClass = Number(pricePerClass);
-            amounts = Number(amounts);
+        if (!currentUser) {
+            setErrorMsg("請先登入或註冊");
+            setTimeout(() => {
+                setErrorMsg(null);
+                Navigate("/login");
+            }, 1500);
+        } else {
+            setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+            let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
+            let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
+            if (pricePerClass !== "洽談報價") {
+                pricePerClass = Number(pricePerClass);
+                amounts = Number(amounts);
+            }
+            setPurchase([pricePerClass, amounts]);
+            setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
         }
-        setPurchase([pricePerClass, amounts]);
     }, []);
 
     return (

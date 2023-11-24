@@ -40,9 +40,12 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
 
     useEffect(() => {
         if (!currentUser) {
-            setErrorMsg("請先進行登入或註冊")
-        } else { // Google 登入的使用者才有 access_token，也就是本地登入的使用者需要跑 newAuthService
-            setErrorMsg(null);
+            setErrorMsg("請先登入或註冊");
+            setTimeout(() => {
+                setErrorMsg(null);
+                Navigate("/login");
+            }, 1500);
+        } else {
             newCourseService.searchAllCourses()
             .then((d) => {
                 let { newData, profile } = d.data;

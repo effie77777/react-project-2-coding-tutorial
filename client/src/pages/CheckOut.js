@@ -2,26 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-const CheckOut = ({ currentSearch, setCurrentSearch, purchase, setPurchase, orderFromCustomer, setOrderFromCustomer, orderFromECPAY, setOrderFromECPAY }) => {
+const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setPurchase, orderFromCustomer, setOrderFromCustomer, orderFromECPAY, setOrderFromECPAY }) => {
     const Navigate = useNavigate();
-    const handleCheckOut = () => {
-        newCourseService.checkOut()
-        .then((d) => {
-            console.log("inside checkout component. d is: ", d);
-        })
-        .catch((e) => {
-            console.log(e);
-        })
-    }
 
     const handleGoPay = () => {
         const parentElement = document.getElementById("parentElement");
         if (parentElement) {
-            console.log(parentElement);
             parentElement.innerHTML = orderFromECPAY;
         }    
         let form = document.getElementById("_form_aiochk");
-        console.log(form);
         if (form) {
             window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n如您使用「網路 ATM 」付款，建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可觀看模擬的交易結果。")
             form.submit();
@@ -29,15 +18,23 @@ const CheckOut = ({ currentSearch, setCurrentSearch, purchase, setPurchase, orde
     }
 
     useEffect(() => {
-        setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
-        setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer"))]);
-        let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
-        let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
-        if (pricePerClass !== "洽談報價") {
-            pricePerClass = Number(pricePerClass);
-            amounts = Number(amounts);
+        if (!currentUser) {
+            setErrorMsg("請先登入或註冊");
+            setTimeout(() => {
+                setErrorMsg(null);
+                Navigate("/login");
+            }, 1500);
+        } else {
+            setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+            setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer"))]);
+            let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
+            let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
+            if (pricePerClass !== "洽談報價") {
+                pricePerClass = Number(pricePerClass);
+                amounts = Number(amounts);
+            }
+            setPurchase([pricePerClass, amounts]);
         }
-        setPurchase([pricePerClass, amounts]);
     }, []);
     
     return (

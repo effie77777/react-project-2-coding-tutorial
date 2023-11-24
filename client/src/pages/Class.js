@@ -26,18 +26,26 @@ const Class = ({ allCourses, setAllCourses, filterCategory, setFilterCategory, c
     }
 
     useEffect(() => {
-        newCourseService.searchAllCourses()
-        .then((d) => {
-            let { newData, profile } = d.data;
-            for (let i = 0; i < newData.length; i ++) {
-                newData[i].instructorPhoto = profile[i];
-            }
-            setAllCourses(newData); // newData 是一整個 array，裡面包含很多個 object，每一個 object 都代表一個課程
-            setFilterCategory(newData); //雖然使用者一開始還沒選擇課程類別，但還是先設定這個 state 的預設值，之後再依照類別篩選
-        })
-        .catch((e) => {
-            console.log(e);
-        })
+        if (!currentUser) {
+            setErrorMsg("請先登入或註冊");
+            setTimeout(() => {
+                setErrorMsg(null);
+                Navigate("/login");
+            }, 1500);
+        } else {
+            newCourseService.searchAllCourses()
+            .then((d) => {
+                let { newData, profile } = d.data;
+                for (let i = 0; i < newData.length; i ++) {
+                    newData[i].instructorPhoto = profile[i];
+                }
+                setAllCourses(newData); // newData 是一整個 array，裡面包含很多個 object，每一個 object 都代表一個課程
+                setFilterCategory(newData); //雖然使用者一開始還沒選擇課程類別，但還是先設定這個 state 的預設值，之後再依照類別篩選
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+        }
     }, []);
 
     return (

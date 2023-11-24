@@ -21,7 +21,15 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
     }
 
     useEffect(() => {
-        setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+        if (!currentUser) {
+            setErrorMsg("請先登入或註冊");
+            setTimeout(() => {
+                setErrorMsg(null);
+                Navigate("/login");
+            }, 1500);
+        } else {
+            setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+        }
     }, []);
 
     useEffect(() => {
@@ -68,7 +76,11 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
                                 </span>
                                 <h3 className="text-white fw-bold fs-4">完成訂購</h3>
                             </div>
-                            <p className="mb-10 text-white">恭喜您已成功購買課程，請注意郵件訊息，家教老師將與您聯繫！</p>
+
+                            {currentSearch.length > 0 && (
+                            <p className="mb-10 text-white">恭喜您已成功購買<span className="fw-bold">「{currentSearch[0].title}」</span>課程，請注意郵件訊息，家教老師將與您聯繫！</p>
+                            )}
+
                             <div className="d-flex flex-column align-items-center">
                                 <button type="button" className="btn bg-linear text-dark px-12 py-2 mb-3" onClick={handleEnroll}>探索更多課程</button>
                                 <button type="button" className="btn text-white border px-12 py-2" onClick={handleEnroll}>回到個人頁面</button>
