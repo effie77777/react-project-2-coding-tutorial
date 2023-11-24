@@ -4,6 +4,7 @@ import newCourseService from "../services/course-service";
 
 const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setPurchase, orderFromCustomer, setOrderFromCustomer, orderFromECPAY, setOrderFromECPAY }) => {
     const Navigate = useNavigate();
+    const [ errorMsg, setErrorMsg ] = useState(null);
 
     const handleGoPay = () => {
         const parentElement = document.getElementById("parentElement");
