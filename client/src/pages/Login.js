@@ -103,7 +103,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
                     getFbUser();         
                 }
             },
-            { scope: "public_profile,email" }
+            { scope: "public_profile,email,openid" }
         );
     }
 
