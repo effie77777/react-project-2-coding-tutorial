@@ -88,12 +88,6 @@ const Login = ({ currentUser, setCurrentUser }) => {
     //     }
     // });
 
-    // function getFbUser() {
-    //     window.FB.api("/me", "GET", { fields: "name,email" }, (userInfo) => {
-    //         console.log(userInfo);
-    //     })   
-    // }
-
     const handleLoginWithFacebook = () => {
         window.FB.login(
             function(response) {

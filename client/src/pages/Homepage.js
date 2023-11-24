@@ -127,21 +127,23 @@ const Homepage = () => {
             <section className="section px-6 bg-third bg-opacity-10">
                 <h3 className="title text-center">您想學習的程式，都在這裡</h3>
                 <div className="title-vr mb-6 mb-md-18 mx-auto"></div>
-                <ul className="d-flex overflow-auto section4-ul">
-                    <li>JavaScript</li>
-                    <li>HTML</li>
-                    <li>CSS/SCSS</li>
-                    <li>React</li>
-                    <li>Vue</li>
-                    <li>Angular</li>
-                    <li>Node.js</li>
-                    <li>SQL</li>
-                    <li>Python</li>
-                    <li>Java</li>
-                    <li>C++</li>
-                    <li>PHP</li>
-                    <li className="word-break-keep-all">UI設計</li>
-                </ul>
+                <div className="container-fluid">
+                    <ul className="d-flex overflow-auto section4-ul">
+                        <li>JavaScript</li>
+                        <li>HTML</li>
+                        <li>CSS/SCSS</li>
+                        <li>React</li>
+                        <li>Vue</li>
+                        <li>Angular</li>
+                        <li>Node.js</li>
+                        <li>SQL</li>
+                        <li>Python</li>
+                        <li>Java</li>
+                        <li>C++</li>
+                        <li>PHP</li>
+                        <li className="word-break-keep-all">UI設計</li>
+                    </ul>
+                </div>
             </section>
 
             <div className="container-fluid bg-fourth">

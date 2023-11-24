@@ -90,8 +90,7 @@ router.post("/login", async(req, res) => {
 router.post("/login/google", async(req, res) => {
     let { credential } = req.body;
     let decodedResult = jwtDecode(credential);
-    console.log(decodedResult.aud);
-    if (decodedResult.iss && decodedResult.iss === "https://accounts.google.com" && decodedResult.email_verified && decodedResult.email_verified === true) {
+    if (decodedResult.iss && decodedResult.iss === "https://accounts.google.com" && decodedResult.aud && decodedResult.aud === process.env.GOOGLE_CLIENT_ID && decodedResult.email_verified && decodedResult.email_verified === true) {
         await User.findOne({ email: decodedResult.email })
         .then((foundUser) => {
             if (!foundUser) {

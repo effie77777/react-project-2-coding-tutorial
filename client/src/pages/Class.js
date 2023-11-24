@@ -30,7 +30,7 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
                 Navigate("/login");
-            }, 1500);
+            }, 2000);
         } else {
             newCourseService.searchAllCourses()
             .then((d) => {

@@ -14,6 +14,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const PlaceOrder = lazy(() => import("./pages/PlaceOrder.js"));
 const CheckOut = lazy(() => import("./pages/CheckOut.js"));
 const Finished = lazy(() => import("./pages/Finished.js"));
+const NotFound = lazy(() => import("./pages/NotFound.js"));
 
 const App = () => {
     //不可以寫成 useState(null)，因為子 components 有變動時，App 就又會再把 currentUser 設成 null
@@ -39,6 +40,7 @@ const App = () => {
                     <Route exact path="/placeOrder" element={<PlaceOrder currentUser={currentUser} setCurrentUser={setCurrentUser} orderFromECPAY={orderFromECPAY} setOrderFromECPAY={setOrderFromECPAY} orderFromCustomer={orderFromCustomer} setOrderFromCustomer={setOrderFromCustomer} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} purchase={purchase} setPurchase={setPurchase} />}></Route>
                     <Route exact path="/checkOut" element={<CheckOut currentUser={currentUser} purchase={purchase} setPurchase={setPurchase} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} orderFromCustomer={orderFromCustomer} setOrderFromCustomer={setOrderFromCustomer} orderFromECPAY={orderFromECPAY} setOrderFromECPAY={setOrderFromECPAY} />}></Route>
                     <Route exact path="/finished" element={<Finished currentUser={currentUser} currentSearch={currentSearch} setCurrentSearch={setCurrentSearch} />}></Route>
+                    <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </Suspense>
             {/* <Footer /> */}

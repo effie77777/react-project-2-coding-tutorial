@@ -41,7 +41,7 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
                 Navigate("/login");
-            }, 1500);
+            }, 2000);
         } else {
             newCourseService.searchAllCourses()
             .then((d) => {
@@ -256,7 +256,7 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
                     {/* </div> */}
                 {/* </div> */}
                 </div>}
-                
+
             </div>
         </div>
     )

@@ -23,7 +23,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
                 Navigate("/login");
-            }, 1500);
+            }, 2000);
         } else {
             setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
             setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer"))]);

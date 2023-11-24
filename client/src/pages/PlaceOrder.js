@@ -82,7 +82,7 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
                 Navigate("/login");
-            }, 1500);
+            }, 2000);
         } else {
             setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
             let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
@@ -199,7 +199,7 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
                     </div>
                 </section>
                 )}
-                
+
             </div>}
 
         </div>

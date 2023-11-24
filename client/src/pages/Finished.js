@@ -27,7 +27,7 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
                 Navigate("/login");
-            }, 1500);
+            }, 2000);
         } else {
             setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
         }
@@ -95,7 +95,7 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
                     </div>
                 </section>
             </div>}
-            
+
         </div>
     )
 }
