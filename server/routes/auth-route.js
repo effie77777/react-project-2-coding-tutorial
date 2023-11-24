@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const { jwtDecode } = require("jwt-decode");
 const FacebookStrategy = require("passport-facebook");
+const axios = require("axios");
 const User = require("../models/user-model");
 const registrationVal = require("../validation").registrationVal;
 const loginVal = require("../validation").loginVal;
@@ -133,6 +134,13 @@ router.post("/login/facebook", (req, res) => {
     let facebookAccessToken = req.body.accessToken;
     console.log(req.body);
     console.log(facebookAccessToken);
+    axios.post(`https://graph.facebook.com/me?fields=id&access_token=${facebookAccessToken}`)
+    .then((d) => {
+        console.log(d);
+    })
+    .catch((e) => {
+        console.log(e);
+    })
     return facebookAccessToken;
     // passport.use(new FacebookStrategy(
     //     {
