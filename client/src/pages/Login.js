@@ -59,35 +59,6 @@ const Login = ({ currentUser, setCurrentUser }) => {
         })
     }
 
-    const handleLoginWithGoogle = useGoogleLogin({
-        //這邊只是讓使用者成功登入，還沒向 Google 拿使用者的資料。要到 useEffect(() => {}, [currentUser]) 那邊才會跟 Google 要資料
-        onSuccess: (codeResponse) => {
-            setCurrentUser(codeResponse);
-            console.log("codeResponse: ", codeResponse);
-            // localStorage.setItem("user_data", {"token": JSON.stringify(codeResponse.access_token) });
-            // Navigate("/profile");
-        },
-        onError: (error) => console.log("Login Failed: ", error)
-    });
-
-    // const handleLoginWithGoogle = GoogleLogin({
-    //     onSuccess: (credentialResponse) => {
-    //         newAuthService.loginWithGoogle(credentialResponse.credential)
-    //         .then((d) => {
-    //             localStorage.setItem("user_data", JSON.stringify(d.data));
-    //             setCurrentUser(newAuthService.getCurrentUser());
-    //             setErrorMsg(null);
-    //             Navigate("/profile");
-    //         })
-    //         .catch((e) => {
-    //             console.log(e);
-    //         })
-    //     },
-    //     onError: () => {
-    //         console.log('Login Failed');
-    //     }
-    // });
-
     const handleLoginWithFacebook = () => {
         window.FB.login(
             function(response) {
@@ -177,12 +148,12 @@ const Login = ({ currentUser, setCurrentUser }) => {
                     <form>
                         <div className="mb-6">
                             <label htmlFor="email" className="form-label">信箱</label>
-                            <input type="email" className="form-control p-3" id="email" name="email" placeholder="example@gmail.com" required max="60" pattern=".+@.+\.+.{2,}" onChange={changeEmail} />
+                            <input type="email" className="form-control px-3 py-2" id="email" name="email" placeholder="example@gmail.com" required max="60" pattern=".+@.+\.+.{2,}" onChange={changeEmail} />
                         </div>
                         <div className="mb-11">
                             <div className="position-relative">
                                 <label htmlFor="password" className="form-label">密碼</label>
-                                <input type="password" className="form-control py-3 ps-3" id="password" name="password" required min="8" onChange={changePassword} />
+                                <input type="password" className="form-control py-2 ps-3" id="password" name="password" required min="8" onChange={changePassword} />
                                 <button type="button" className="btn p-0 position-absolute end-0 ms-2 me-2 me-sm-4" style={{top: "46%"}} >
                                     <span class="material-symbols-outlined font-fill-1 p-2" onClick={changePswVisibility} >
                                         visibility
@@ -191,7 +162,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
                             </div>
                             <p className="mt-3">8位數以上，至少一個大寫英文字母、一個數字、一個特殊符號(僅限<span className="text-warning">!@#%&=_?</span>)且<span className="text-warning">不可有空格</span></p>
                         </div>
-                        <button type="submit" className="btn bg-linear text-white px-6 w-100 w-sm-40 w-md-30 w-lg-25 border-0" style={{ paddingTop: "0.625rem", paddingBottom: "0.625rem" }} onClick={handleLogin}>登入</button>
+                        <button type="submit" className="btn bg-linear text-white border-0 local-login-btn" style={{paddingTop: "0.625rem", paddingBottom: "0.625rem", height: "40px"}} onClick={handleLogin}>登入</button>
                     </form>
                 </section>
                 <section>
@@ -199,20 +170,14 @@ const Login = ({ currentUser, setCurrentUser }) => {
                         <p className="position-absolute px-5 bg-fourth" style={{transform: "translateY(-50%)"}}>其它登入方式</p>
                     </div>
                     <div className="d-flex mt-12 flex-wrap">
-                        <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25 me-sm-5 mb-4 mb-sm-0" onClick={handleLoginWithFacebook}>
-                            <img src={icon_fb} alt="Facebook icon" className="w-6 h-6 me-4" style={{marginTop: "-0.25rem"}} />
-                            Facebook 登入
-                        </button>
-                        <button type="button" className="btn border text-white py-3 w-100 w-sm-40 w-md-30 w-lg-25" onClick={() => handleLoginWithGoogle()}>
-                            <img src={icon_google} alt="Google icon" className="w-5 h-5 me-4" style={{marginTop: "-0.125rem"}} />
-                            Google 登入
+                        <button type="button" className="btn border bg-white text-dark me-5 mb-4 mb-sm-0 rounded-1" style={{fontSize: "14px", width: "194px", height: "40px", fontFamily: "sans-serif", paddingRight: "6px", paddingLeft: "6px"}} onClick={handleLoginWithFacebook}>
+                            <img src={icon_fb} alt="Facebook icon" style={{marginRight: "6px", height: "18px"}} />
+                            使用 Facebook 帳戶登入
                         </button>
                         <GoogleLogin
                             onSuccess={credentialResponse => {
-                                console.log(credentialResponse);
                                 newAuthService.loginWithGoogle(credentialResponse.credential)
                                 .then((d) => {
-                                    console.log(d);
                                     localStorage.setItem("user_data", JSON.stringify(d.data));
                                     setCurrentUser(newAuthService.getCurrentUser());
                                     setErrorMsg(null);

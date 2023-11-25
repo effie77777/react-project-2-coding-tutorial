@@ -1,7 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
-import Footer from "./components/Footer";
 import Loading from "./pages/Loading";
 import newAuthService from "./services/auth-service";
 import "bootstrap/dist/js/bootstrap";
@@ -43,7 +42,6 @@ const App = () => {
                     <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </Suspense>
-            {/* <Footer /> */}
         </div>
     )
 }
