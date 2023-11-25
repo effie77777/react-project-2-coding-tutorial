@@ -3,7 +3,8 @@ import axios from "axios";
 const basic_api = "http://localhost:8080/api/course";
 
 class courseService {
-    searchAllCourses(limit) {
+    searchAllCourses(limit = 0) {
+        console.log(limit);
         let token;
         if (localStorage.getItem("user_data")) {
             token = JSON.parse(localStorage.getItem("user_data")).token;
@@ -23,6 +24,7 @@ class courseService {
         } else {
             token = "";
         }
+        console.log("ask for html from the server");
         return axios.get(
             `${basic_api}/payment/${ItemName}/${TotalAmount}`,
             { headers: { Authorization: token } }

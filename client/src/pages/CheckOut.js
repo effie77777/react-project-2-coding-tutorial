@@ -7,14 +7,49 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
     const [ errorMsg, setErrorMsg ] = useState(null);
 
     const handleGoPay = () => {
-        const parentElement = document.getElementById("parentElement");
-        if (parentElement) {
-            parentElement.innerHTML = orderFromECPAY;
-        }    
         let form = document.getElementById("_form_aiochk");
+        console.log(form);
         if (form) {
-            window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n如您使用「網路 ATM 」付款，建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可觀看模擬的交易結果。")
+            window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n如您使用「網路 ATM 」付款，建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可觀看模擬的交易結果。");
             form.submit();
+        }
+    }
+
+    function checkIfCurrentSearchExists() {
+        if (localStorage.getItem("current_search")) {
+            setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+            // checkIfOrderExists();
+            return true;
+        } else {
+            setErrorMsg("您還沒有選擇要購買的課程哦，將為您導向課程頁面");
+            setTimeout(() => {
+                Navigate("/class");
+            }, 2000);
+        }
+    }
+
+    function checkIfOrderExists() {
+        if (localStorage.getItem("purchase")) {
+            let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
+            let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
+            if (pricePerClass !== "洽談報價") {
+                pricePerClass = Number(pricePerClass);
+                amounts = Number(amounts);
+            }
+            setPurchase([pricePerClass, amounts]);
+            // if (orderFromCustomer.length === 0) {
+            //     setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
+            // } else {
+            //     //代表使用者已經到第二步驟 checkOut 了，但是又按修改訂單，回到第一步驟 placeOrder，這種情況就將使用者上一次輸入的內容帶入表單
+            //     let previousInfo = JSON.parse(localStorage.getItem("order_from_customer"));
+            //     setOrderFromCustomer([previousInfo]);
+            // }
+            return true;
+        } else {
+            setErrorMsg("您還沒有選擇購買方案哦，將為您導向課程頁面");
+            setTimeout(() => {
+                Navigate("/detail");
+            }, 2000);
         }
     }
 
@@ -25,22 +60,47 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                 Navigate("/login");
             }, 2000);
         } else {
-            setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
-            setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer"))]);
-            let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
-            let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
-            if (pricePerClass !== "洽談報價") {
-                pricePerClass = Number(pricePerClass);
-                amounts = Number(amounts);
+            // setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+            // setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer"))]);
+            // let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
+            // let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
+            // if (pricePerClass !== "洽談報價") {
+            //     pricePerClass = Number(pricePerClass);
+            //     amounts = Number(amounts);
+            // }
+            // setPurchase([pricePerClass, amounts]);
+            if (checkIfCurrentSearchExists()) {
+                checkIfOrderExists();
             }
-            setPurchase([pricePerClass, amounts]);
+            if (!localStorage.getItem("order_from_customer") || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
+                setErrorMsg("目前還沒有有效訂單哦，將為您導向訂單頁面");
+                setTimeout(() => {
+                    Navigate("/placeOrder");
+                }, 2000);
+            } else {
+                setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer")).data]);
+                let parentElement = document.getElementById("parentElement");
+                console.log(parentElement);
+                if (parentElement) {
+                    let purchase = JSON.parse(localStorage.getItem("purchase"));
+                    let result = purchase[0] * purchase[1];
+                    newCourseService.checkOut(JSON.parse(localStorage.getItem("current_search"))[0].title, result)
+                    .then((d) => {
+                        console.log(d.data);
+                        parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    })    
+                }        
+            }
         }
     }, []);
     
     return (
         <div className="container-fluid">
             
-            {!currentUser
+            {errorMsg
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">
@@ -76,7 +136,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                         <div className="col-12 d-flex flex-wrap justify-content-center">
                             <h3 className="fs-4 text-white fw-bold text-center w-100">訂單資訊</h3>
                             
-                            {orderFromCustomer.length > 0 && currentSearch.length > 0 && (
+                            {orderFromCustomer && orderFromCustomer.length > 0 && (
                             <form className="col-12 col-sm-10 col-md-8 d-flex flex-wrap justify-content-between text-white">
                                 <div className="w-100 w-sm-48 mt-6 bg-third bg-opacity-25 px-4 py-2">
                                     <label htmlFor="name" className="me-3">姓名</label>

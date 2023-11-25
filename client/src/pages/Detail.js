@@ -22,6 +22,10 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
             top: "0",
             behavior: "smooth",
         });
+        const scrollToLeft = document.querySelector("#scroll-to-left-control");
+        scrollToLeft.scrollTo({
+            left: 0
+        });
     }
 
     const handleSelectPlan = (e) => {
@@ -29,8 +33,15 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
         if (!targetId) {
             targetId = e.target.closest("button").id;
         }
-        let amounts = targetId.substring(targetId.indexOf(" ") + 1, targetId.indexOf("堂"));
-        let pricePerClass = targetId.substring(targetId.indexOf("$") + 1, targetId.indexOf(" "));
+        let amounts;
+        let pricePerClass;
+        if (targetId === "洽談報價 客製化課程") {
+            amounts = "客製化課程";
+            pricePerClass = "洽談報價"
+        } else {
+            amounts = targetId.substring(targetId.indexOf(" ") + 1, targetId.indexOf("堂"));
+            pricePerClass = targetId.substring(targetId.indexOf("$") + 1, targetId.indexOf(" "));
+        }
         localStorage.setItem("purchase", JSON.stringify([pricePerClass, amounts]));
         setPurchase([pricePerClass, amounts]);
         Navigate("/placeOrder");
@@ -54,6 +65,7 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
                 if (foundData) {
                     setCurrentSearch(foundData); 
                 } else {
+                    setErrorMsg("請選擇想查詢的課程，將為您導向課程頁面");
                     setTimeout(() => {
                         Navigate("/class");
                     }, 2000);
@@ -105,17 +117,14 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
     return (
         <div className="bg-fourth">
         
-            {!currentUser
+            {errorMsg
             ? <div className="container-fluid">
                 <div className="error_msg">{errorMsg}</div>
               </div>
             : <div>
 
-                {!currentSearch || currentSearch.length === 0
-                ? <div className="container-fluid">
-                    <div className="error_msg">請選擇想查詢的課程，將為您導向課程頁面</div>
-                  </div>
-                : <div>
+                {currentSearch && currentSearch.length > 0 && (
+                <div>
                     <div className="container-fluid">
                         <section className="section">
                             <div className="row">
@@ -228,7 +237,7 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
                                 <h3 className="title text-center">其他人也看了這些課程</h3>
                                 <div className="title-vr mb-6 mb-md-18"></div>
                                 <div className="row w-100">
-                                    <div className="col-12 d-flex flex-wrap flex-md-nowrap overflow-md-auto">
+                                    <div className="col-12 d-flex flex-wrap flex-md-nowrap overflow-md-auto" id="scroll-to-left-control">
                                         
                                         {similarCourses.length > 0 && similarCourses.map((i) =>
                                         <button type="button" className="class-card btn" id={i._id} onClick={handleSearch} key={i._id}>
@@ -257,7 +266,8 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
                             </section>
                         </div>
                     </div>
-                </div>}
+                </div>
+                )}
 
             </div>}
 

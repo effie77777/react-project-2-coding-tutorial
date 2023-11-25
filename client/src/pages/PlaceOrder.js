@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import instructor from "../assets/images/instructor.jpg";
 import newCourseService from "../services/course-service";
 
 const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromECPAY, orderFromCustomer, setOrderFromCustomer, currentSearch, setCurrentSearch, purchase, setPurchase }) => {
     const [ errorMsg, setErrorMsg ] = useState(null);
+    const [ invalidInputMsg, setInvalidInputMsg ] = useState(null);
     const Navigate = useNavigate();
 
     //檢查各 input 是否為空白
@@ -37,32 +37,37 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
         localeDate = Number(localeDate.replaceAll("/", ""));
         
         if( isNotEmpty !== "true") {
-            setErrorMsg(`請填寫「${isNotEmpty}」欄位`);
+            setInvalidInputMsg(`請填寫「${isNotEmpty}」欄位`);
         } else if (!telRegexp.test(orderFromCustomer[0].tel)) {
-            setErrorMsg("手機號碼格式為 09xxxxxxxx，共 10 位數字");
+            setInvalidInputMsg("手機號碼格式為 09xxxxxxxx，共 10 位數字");
         } else if (!emailExp.test(orderFromCustomer[0].email)) {
-            setErrorMsg("請確認 Email 是否正確。格式範例為 example@gmail.com")
+            setInvalidInputMsg("請確認 Email 是否正確。格式範例為 example@gmail.com")
         } else if (appointmentDate <= localeDate) {
-            setErrorMsg("預約日期不可小於或等於今日日期");
+            setInvalidInputMsg("預約日期不可小於或等於今日日期");
         } else if (orderFromCustomer[0].address.length < 8) {
-            setErrorMsg("請填寫詳細的上課地點");
+            setInvalidInputMsg("請填寫詳細的上課地點");
         } else {
-            localStorage.setItem("order_from_customer", JSON.stringify(orderFromCustomer[0]));
-            setErrorMsg(null);   
-            let result = purchase[0] * purchase[1];
-            newCourseService.checkOut(currentSearch[0].title, result)
-            .then((d) => {
-                console.log("inside checkout component. d is: ", d);
-                setOrderFromECPAY(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
+            localStorage.setItem("order_from_customer", JSON.stringify({ data: orderFromCustomer[0], isValid: true }));
+            setInvalidInputMsg(null);   
+            // let result = purchase[0] * purchase[1];
+            // newCourseService.checkOut(currentSearch[0].title, result)
+            // .then((d) => {
+                // setOrderFromECPAY(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
+                // localStorage.setItem("order_from_ecpay", JSON.stringify(d.data.substring(0, d.data.indexOf("<script")) + "</form>"));
                 Navigate("/checkOut");
-            })
-            .catch((e) => {
-                console.log(e);
-            })
+            // })
+            // .catch((e) => {
+            //     console.log(e);
+            // })
         }
     }
 
     const handleChangeInputs = (e) => {
+        // if 區塊為 true 代表使用者曾經進入到第二步驟 checkOut，但又返回到第一步驟 placeOrder，這種情況下當偵測到 input 欄位的值有改變，就將 isValid 設為 false，然後在 handleCheckOut 會再檢驗一次新輸入的內容是否符合規定，若符合規定就將 isValid 設為 true
+        if (localStorage.getItem("order_from_customer")) {
+            let { data, isValid } = JSON.parse(localStorage.getItem("order_from_customer"));
+            localStorage.setItem("order_from_customer", JSON.stringify({ data, isValid: false }));
+        }
         let inputName = e.target.name;
         let inputValue = e.target.value;
         let copy = [...orderFromCustomer];
@@ -77,14 +82,20 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
         })        
     }
 
-    useEffect(() => {
-        if (!currentUser) {
-            setErrorMsg("請先登入或註冊");
-            setTimeout(() => {
-                Navigate("/login");
-            }, 2000);
-        } else {
+    function checkIfCurrentSearchExists() {
+        if (localStorage.getItem("current_search")) {
             setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+            checkIfOrderExists();
+        } else {
+            setErrorMsg("您還沒有選擇要購買的課程哦，將為您導向課程頁面");
+            setTimeout(() => {
+                Navigate("/class");
+            }, 2000);
+        }
+    }
+
+    function checkIfOrderExists() {
+        if (localStorage.getItem("purchase")) {
             let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
             let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
             if (pricePerClass !== "洽談報價") {
@@ -92,14 +103,42 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
                 amounts = Number(amounts);
             }
             setPurchase([pricePerClass, amounts]);
-            setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
+            if (orderFromCustomer.length === 0) {
+                setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
+            } else {
+                //代表使用者已經到第二步驟 checkOut 了，但是又按修改訂單，回到第一步驟 placeOrder，這種情況就將使用者上一次輸入的內容帶入表單
+                let previousInfo = JSON.parse(localStorage.getItem("order_from_customer")).data;
+                setOrderFromCustomer([previousInfo]);
+            }
+        } else {
+            setErrorMsg("您還沒有選擇購買方案哦，將為您導向課程頁面");
+            setTimeout(() => {
+                Navigate("/detail");
+            }, 2000);
+        }
+    }
+
+    // useEffect(() => {
+    //     if (orderFromCustomer.length > 0) {
+    //         localStorage.setItem("order_from_customer", JSON.stringify({ data:orderFromCustomer[0] }))
+    //     }
+    // }, [orderFromCustomer]);
+
+    useEffect(() => {
+        if (!currentUser) {
+            setErrorMsg("請先登入或註冊");
+            setTimeout(() => {
+                Navigate("/login");
+            }, 2000);
+        } else {
+            checkIfCurrentSearchExists();
         }
     }, []);
 
     return (
         <div className="container-fluid">
 
-            {!currentUser
+            {errorMsg
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">
@@ -130,7 +169,7 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
                     </div>
                 </section>
 
-                {currentSearch.length > 0 && (
+                {currentSearch.length > 0 && orderFromCustomer.length > 0 && (
                 <section className="mt-12">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-12 col-sm-8 col-md-4 mb-11 mb-md-0">
@@ -147,8 +186,8 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
                             <form action="" className="py-12 px-8 ps-md-18 d-flex flex-row flex-wrap bg-opacity-10 bg-third rounded-0 justify-content-between ms-md-n6 me-md-6">
                                 <h3 className="fs-4 mb-12 text-white fw-bold text-center w-100">課程報名</h3>
                                 
-                                {errorMsg && (
-                                    <div className="error_msg w-100 mt-n3">{errorMsg}</div>
+                                {invalidInputMsg && (
+                                    <div className="error_msg w-100 mt-n3">{invalidInputMsg}</div>
                                 )}
                                 
                                 <div className="w-100 w-sm-48 mt-3">
@@ -173,18 +212,18 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
                                 </div>
                                 <div className="mt-9 mt-sm-15 d-flex flex-column justify-content-between w-100">
                                     
-                                    {purchase && purchase[0] !== "洽談報價" && (
+                                    {purchase[0] !== "洽談報價" && (
                                     <div className="text-white d-flex align-items-sm-center">
                                         <p className="me-5">{`NT$${purchase[0]}x${purchase[1]}堂`}</p>
                                         <p className="text-warning fs-sm-3">{`合計NT$${purchase[0] * purchase[1]}`}</p>
                                     </div>
                                     )}
 
-                                    {purchase && purchase[0] === "洽談報價" && (
+                                    {purchase[0] === "洽談報價" && (
                                     <div className="text-white d-flex fw-bold">
                                         <p className="me-2">方案:</p>
-                                        <p className="me-1">客製化課程</p>
-                                        <p className="text-warning">(洽談報價)</p>
+                                        <p className="me-1">{purchase[1]}</p>
+                                        <p className="text-warning">({purchase[0]})</p>
                                     </div>
                                     )}
 

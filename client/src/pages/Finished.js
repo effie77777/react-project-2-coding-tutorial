@@ -40,7 +40,7 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
     return (
         <div className="container-fluid">
             
-            {!currentUser
+            {errorMsg
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">
@@ -83,7 +83,7 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
                                 </div>
 
                                 {currentSearch.length > 0 && (
-                                <p className="mb-10 text-white">恭喜您已成功購買<span className="fw-bold">「{currentSearch[0].title}」</span>課程，請注意郵件訊息，家教老師將與您聯繫！</p>
+                                <p className="mb-10 text-white">恭喜您已成功購買課程，請注意郵件訊息，家教老師將與您聯繫！您可至個人頁面查看已購買的課程。</p>
                                 )}
 
                                 <div className="d-flex flex-column align-items-center">
