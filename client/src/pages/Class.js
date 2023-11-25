@@ -25,6 +25,25 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
         setFilterCategory(result);
     }
 
+    function getCourses(limit) {
+        newCourseService.searchAllCourses(limit)
+        .then((d) => {
+            let { newData, profile } = d.data;
+            for (let i = 0; i < newData.length; i ++) {
+                newData[i].instructorPhoto = profile[i];
+            }
+            setAllCourses(newData); // newData 是一整個 array，裡面包含很多個 object，每一個 object 都代表一個課程
+            setFilterCategory(newData); //雖然使用者一開始還沒選擇課程類別，但還是先設定這個 state 的預設值，之後再依照類別篩選
+        })
+        .catch((e) => {
+            console.log(e);
+        })
+    }
+
+    useEffect(() => {
+        console.log(allCourses);
+    }, [allCourses]);
+
     useEffect(() => {
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
@@ -32,18 +51,20 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
                 Navigate("/login");
             }, 2000);
         } else {
-            newCourseService.searchAllCourses()
-            .then((d) => {
-                let { newData, profile } = d.data;
-                for (let i = 0; i < newData.length; i ++) {
-                    newData[i].instructorPhoto = profile[i];
-                }
-                setAllCourses(newData); // newData 是一整個 array，裡面包含很多個 object，每一個 object 都代表一個課程
-                setFilterCategory(newData); //雖然使用者一開始還沒選擇課程類別，但還是先設定這個 state 的預設值，之後再依照類別篩選
-            })
-            .catch((e) => {
-                console.log(e);
-            })
+            getCourses(5);
+            getCourses(0);
+            // newCourseService.searchAllCourses(5)
+            // .then((d) => {
+            //     let { newData, profile } = d.data;
+            //     for (let i = 0; i < newData.length; i ++) {
+            //         newData[i].instructorPhoto = profile[i];
+            //     }
+            //     setAllCourses(newData); // newData 是一整個 array，裡面包含很多個 object，每一個 object 都代表一個課程
+            //     setFilterCategory(newData); //雖然使用者一開始還沒選擇課程類別，但還是先設定這個 state 的預設值，之後再依照類別篩選
+            // })
+            // .catch((e) => {
+            //     console.log(e);
+            // })
         }
     }, []);
 

@@ -1,9 +1,9 @@
 import axios from "axios";
-const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/course";
-// const basic_api = "http://localhost:8080/api/course";
+// const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/course";
+const basic_api = "http://localhost:8080/api/course";
 
 class courseService {
-    searchAllCourses() {
+    searchAllCourses(limit) {
         let token;
         if (localStorage.getItem("user_data")) {
             token = JSON.parse(localStorage.getItem("user_data")).token;
@@ -11,7 +11,7 @@ class courseService {
             token = "";
         }
         return axios.get(
-            `${basic_api}/search`,
+            `${basic_api}/search/${limit}`,
             { headers: { Authorization: token } }
         );
     }

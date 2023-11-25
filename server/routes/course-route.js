@@ -3,9 +3,10 @@ const router = express.Router();
 const Instructor = require("../models/index").Instructor;
 const Course = require("../models/index").Course;
 
-
-router.get("/search", async(req, res) => {
-    await Course.find({}).populate("instructor")
+router.get("/search/:limit", async(req, res) => {
+    let { limit } = req.params;
+    console.log(limit);
+    await Course.find({}).limit(limit).populate("instructor")
     .then((data) => {
         let newData = [...data]; //專門傳 instructor profile 以外的所有資料
         let profile = []; //專門傳 instructor profile
