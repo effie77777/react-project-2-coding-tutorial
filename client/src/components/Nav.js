@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
 import newAuthService from "../services/auth-service";
-import { Offcanvas } from "bootstrap";
 import logo from "../assets/images/logo2.svg";
 
 const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) => {
@@ -14,15 +13,34 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
         setCurrentSearch([]);
         setAllCourses([]);
         window.alert("成功登出 ! 將為您導回首頁 : )");
-        Navigate("/");
+        handleGoToOtherPages(e);
     }
 
-    // const handleFacebookLogout = () => {
-    //     window.FB.logout((response) => {
-    //         console.log(response);
-    //         setCurrentUser(null);
-    //     })
-    // }
+    const handleGoToOtherPages = (e) => {
+        let btn = document.querySelector(".btn-close");
+        console.log(btn);
+        switch (e.target.innerText) {
+            case "首頁":
+                Navigate("/");
+                break;
+            case "課程介紹":
+                Navigate("/class");
+                break;
+            case "個人頁面":
+                Navigate("/profile");
+                break;
+            case "登出":
+                Navigate("/");
+                break;
+            case "登入":
+                Navigate("/login");
+                break;
+            case "註冊":
+                Navigate("/register");
+                break;
+        }
+        btn.click();
+    }
 
     return (
         <section className="position-sticky top-0 z-3 bg-fourth">
@@ -101,18 +119,19 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                     <div className="offcanvas-body">
                         <ul>
                             <li>
-                                <Link to="/">首頁</Link>
+                            <button type="button" className="btn text-start" onClick={handleGoToOtherPages}>首頁</button>
                             </li>
 
                             {currentUser && (
                             <li>
-                                <Link to="/class">課程介紹</Link>
+                                {/* <Link to="/class">課程介紹</Link> */}
+                                <button type="button" className="btn text-start" onClick={handleGoToOtherPages}>課程介紹</button>
                             </li>
                             )}
 
                             {currentUser && (
                             <li>
-                                <Link to="/profile">個人頁面</Link>
+                                <button type="button" className="btn text-start" onClick={handleGoToOtherPages}>個人頁面</button>
                             </li>
                             )}
 
@@ -124,13 +143,13 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
 
                             {!currentUser && (
                             <li>
-                                <Link to="/login">登入</Link>
+                                <button type="button" className="btn text-start" onClick={handleGoToOtherPages}>登入</button>
                             </li>
                             )}
 
                             {!currentUser && (
                             <li>
-                                <Link to="/register">註冊</Link>
+                                <button type="button" className="btn text-start" onClick={handleGoToOtherPages}>註冊</button>
                             </li>
                             )}
 

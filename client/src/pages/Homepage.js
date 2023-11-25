@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import banner from "../assets/images/homepage_banner.jpg";
 import share_1 from "../assets/images/homepage_section5-1.jpg";
 import share_2 from "../assets/images/homepage_section5-2.png";
@@ -7,7 +6,6 @@ import share_3 from "../assets/images/homepage_section5-3.png";
 import student_1 from "../assets/images/homepage_section5-1-student.jpg";
 import student_2 from "../assets/images/homepage_section5-2-student.jpg";
 import student_3 from "../assets/images/homepage_section5-3-student.jpg";
-import instructor from "../assets/images/instructor.jpg";
 
 const Homepage = () => {
     setTimeout(() => {
