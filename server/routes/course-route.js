@@ -33,15 +33,15 @@ router.get("/search/:limit", async(req, res) => {
 
 
 router.post("/enroll", async(req, res) => {
-    let { studentId, courseId, orderDetail, orderPrice } = req.body;
+    let { studentId, course, orderDetail, classAmounts } = req.body;
     await User.findOne({ _id: studentId })
     .then((foundUser) => {
         if (!foundUser) {
             return res.status(400).send("查無這個使用者");
         } else {
-            Course.findOne({ _id: courseId })
+            Course.findOne({ _id: course._id }).populate("instructor", ["name"])
             .then((foundCourse) => {
-                foundUser.orders.push({ courseId, courseTitle: foundCourse.title, instructor: foundCourse.instructor.name, date: orderDetail.data.date, address: orderDetail.data.address, plan: orderPrice });
+                foundUser.orders.push({ courseId: course._id, courseTitle: course.title, instructor: foundCourse.instructor.name, date: orderDetail.data.date, address: orderDetail.data.address, plan: classAmounts });
                 foundUser.save()
                 .then((d) => {
                     console.log(d);

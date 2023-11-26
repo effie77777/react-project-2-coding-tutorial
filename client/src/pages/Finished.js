@@ -31,10 +31,10 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
             }, 2000);
         } else if (localStorage.getItem("submitted_ecpay_form")) {
             let studentId = currentUser.data._id;
-            let courseId = JSON.parse(localStorage.getItem("current_search"))[0]._id;
+            let course = JSON.parse(localStorage.getItem("current_search"))[0];
             let orderDetail = JSON.parse(localStorage.getItem("order_from_customer"));
-            let orderPrice = JSON.parse(localStorage.getItem("purchase"));
-            newCourseService.enroll(studentId, courseId, orderDetail, orderPrice)
+            let classAmounts = JSON.parse(localStorage.getItem("purchase"))[1];
+            newCourseService.enroll(studentId, course, orderDetail, classAmounts)
             .then((d) => {
                 console.log("successfully enrolled", d);
             })
