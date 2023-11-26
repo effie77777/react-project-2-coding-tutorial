@@ -33,8 +33,29 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
 
     useEffect(() => {
         if (allCourses.length > 0) {
-            setMyCourses(allCourses.filter((i) => i.students.includes(currentUser.data._id)));
+            let newArr=[];
             setFilterCategory(allCourses);
+            currentUser.data.orders.map((i) => {
+                let foundCourse = allCourses.filter((j) => i.courseId === j._id);
+                let newObj;
+                if (newArr.length === 0) {
+                    newObj = { course: foundCourse, order: [] };
+                } else {
+                    let courseHasExisted = false;
+                    for (let m = 0; m < newArr.length; m ++) {
+                        if (newArr[m].course === foundCourse) {
+                            newArr[m].order.push(i);
+                            courseHasExisted = true;
+                            break;
+                        }
+                    }
+                    if (!courseHasExisted) {
+                        newObj = { course: foundCourse, order: [] };
+                    }
+                }
+                newArr.push(newObj);
+            });
+            setMyCourses(newArr);
         }
     }, [allCourses]);
 
@@ -69,31 +90,39 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
                     <div className="row">
                         <div className="col-12">
                             <h2 className="col-10 offset-1 fw-bold text-white fs-5 mb-10">我的課程</h2>
-                            <div className="col-10 offset-1 d-flex flex-wrap flex-md-nowrap overflow-md-auto">
-
-                                {myCourses.length > 0 && myCourses.map((i) =>
-                                <button type="button" className="class-card btn" id={i._id} onClick={handleSearch} key={i._id}>
-                                    <div className="class-card-header">                                
-                                        <img src={i.instructorPhoto} alt="the instructor" className="profile_img mb-2" />
-                                        <p>{i.instructor.name}</p>
-                                    </div>
-                                    <div className="class-card-body text-start">
-                                        <h3 className="fw-bold fs-3 text-white">{i.title}</h3>                       
-                                        <div className="">
-                                            {i.category.split("、").map((i) =>
-                                            <p className="text-primary border border-primary d-inline-block p-1 rounded-0 me-1" style={{fontSize: "0.9rem"}}>{i}</p>
-                                            )}
+                            
+                            {myCourses.length > 0 && myCourses.map((i) =>                            
+                            <div className="col-10 offset-1 d-flex flex-wrap">
+                                <div className="col-12 col-md-4">
+                                    <button type="button" className="class-card btn" id={i.course._id} onClick={handleSearch} key={i.course._id}>
+                                        <div className="class-card-header">                                
+                                            <img src={i.course.instructorPhoto} alt="the instructor" className="profile_img mb-2" />
+                                            <p>{i.course.instructor.name}</p>
                                         </div>
-                                        <p className="h-60 h-sm-50 h-md-60 mb-2">{i.description}</p>
-                                    </div>
-                                    <div className="class-card-footer">
-                                        <p className="align-self-end mb-1">{i.plan.slice(i.plan.indexOf("堂") + 1, i.plan.indexOf("/"))}</p>
-                                        <p className="fs-4 text-white">{i.plan.slice(0, i.plan.indexOf(" "))}</p>
-                                    </div>
-                                </button>
-                                )}
+                                        <div className="class-card-body text-start">
+                                            <h3 className="fw-bold fs-3 text-white">{i.course.title}</h3>                       
+                                            <div className="">
+                                                {i.course.category.split("、").map((j) =>
+                                                <p className="text-primary border border-primary d-inline-block p-1 rounded-0 me-1" style={{fontSize: "0.9rem"}}>{j}</p>
+                                                )}
+                                            </div>
+                                            <p className="h-60 h-sm-50 h-md-60 mb-2">{i.course.description}</p>
+                                        </div>
+                                        <div className="class-card-footer">
+                                            <p className="align-self-end mb-1">{i.course.plan.slice(i.course.plan.indexOf("堂") + 1, i.course.plan.indexOf("/"))}</p>
+                                            <p className="fs-4 text-white">{i.course.plan.slice(0, i.course.plan.indexOf(" "))}</p>
+                                        </div>
+                                    </button>
+                                </div>
 
+                                <div className="col-12 offset-md-1 col-md-7">
+                                    <p>上課日期: {i.order.date}</p>
+                                    <p>上課地址: {i.order.address}</p>
+                                    <p>課程方案: {i.order.date}</p>
+                                </div>
                             </div>
+                            )}
+                            
                         </div>
                     </div>
                 </section>

@@ -8,10 +8,8 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
 
     const handleGoPay = () => {
         let form = document.getElementById("_form_aiochk");
-        console.log(form);
         if (form) {
             localStorage.setItem("submitted_ecpay_form", "true");
-            console.log("set item");
             window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n為方便觀看模擬的交易結果，付款方式請您選擇「網路 ATM 」，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
             form.submit();
         }

@@ -71,7 +71,18 @@ router.post("/enroll", async(req, res) => {
         console.log(e);
         return res.status(400).send("出了一些問題...");
     })
-
 })
+
+// router.get("/getMyOrders/:studentId", async(req, res) => {
+//     let { studentId } = req.params;
+//     await User.findOne({ _id: studentId })
+//     .then((foundUser) => {
+//         if (!foundUser) {
+//             return res.status(400).send("查無這個使用者");
+//         } else {
+//             return res.send(foundUser)
+//         }
+//     })
+// })
 
 module.exports = router;
