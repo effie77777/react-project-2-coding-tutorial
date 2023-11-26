@@ -6,15 +6,6 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
     const Navigate = useNavigate();
     const [ errorMsg, setErrorMsg ] = useState(null);
 
-    const handleEnroll = (e) => {
-        console.log(e.target.textContent);
-        if (e.target.textContent === "探索更多課程") {
-            Navigate("/class");
-        } else if (e.target.textContent === "回到個人頁面") {
-            Navigate("/profile");
-        }
-    }
-
     function checkUnfinishedOrder() {
         if (localStorage.getItem("order_from_customer") && JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
             Navigate("/checkOut");
@@ -101,8 +92,8 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
                                 </div>
                                 <p className="mb-10 text-white">恭喜您已成功購買課程，請注意郵件訊息，家教老師將與您聯繫！您可至個人頁面查看已購買的課程。</p>
                                 <div className="d-flex flex-column align-items-center">
-                                    <button type="button" className="btn bg-linear text-dark px-12 py-2 mb-3" onClick={handleEnroll}>探索更多課程</button>
-                                    <button type="button" className="btn text-white border px-12 py-2" onClick={handleEnroll}>回到個人頁面</button>
+                                    <Link className="btn bg-linear text-dark px-12 py-2 mb-3" to="/class">探索更多課程</Link>
+                                    <Link className="btn text-white border px-12 py-2" to="/profile">回到個人頁面</Link>
                                 </div>
                             </div>
                         </div>
