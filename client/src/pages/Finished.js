@@ -23,16 +23,10 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
     }
 
     function checkUnfinishedOrder() {
-        if (localStorage.getItem("order_from_customer")) {
-            if (JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
-                Navigate("/checkOut");
-            } else {
-                Navigate("/placeOrder");
-            }
-        } else if (!localStorage.getItem("purchase") && localStorage.getItem("current_search")) {
-            Navigate("/detail");
+        if (localStorage.getItem("order_from_customer") && JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
+            Navigate("/checkOut");
         } else {
-            Navigate("/class");
+            Navigate("/placeOrder");
         }
     }
 
@@ -47,11 +41,13 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
             localStorage.removeItem("form_from_ecpay");
             localStorage.removeItem("order_from_customer");
             localStorage.removeItem("purchase");
-        } else {
-            setErrorMsg("如欲查看已完成的訂單，請至個人頁面查詢");
+        } else if (localStorage.getItem("purchase")) {
+            setErrorMsg("訂單尚未完成，將為您重新導向");
             setTimeout(() => {
                 checkUnfinishedOrder();                
-            }, 1500);
+            }, 2000);    
+        } else {
+            setErrorMsg("目前沒有進行中的訂單哦，如欲查詢已完成的訂單請至個人頁面");
         }
     }, []);
 
