@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-project-2-coding-tutorial/static/css/main.b36365d8.css",
-    "main.js": "/react-project-2-coding-tutorial/static/js/main.92482d0d.js",
-    "static/js/600.05f14a92.chunk.js": "/react-project-2-coding-tutorial/static/js/600.05f14a92.chunk.js",
+    "main.js": "/react-project-2-coding-tutorial/static/js/main.f4c43049.js",
+    "static/js/600.b92e50ae.chunk.js": "/react-project-2-coding-tutorial/static/js/600.b92e50ae.chunk.js",
     "static/js/824.b29cbba2.chunk.js": "/react-project-2-coding-tutorial/static/js/824.b29cbba2.chunk.js",
     "static/js/864.26857b45.chunk.js": "/react-project-2-coding-tutorial/static/js/864.26857b45.chunk.js",
     "static/js/486.e7c146bf.chunk.js": "/react-project-2-coding-tutorial/static/js/486.e7c146bf.chunk.js",
@@ -25,8 +25,8 @@
     "index.html": "/react-project-2-coding-tutorial/index.html",
     "static/media/icon_fb.svg": "/react-project-2-coding-tutorial/static/media/icon_fb.2e02184f0e9670d6a01f25ca0d4b4d3b.svg",
     "main.b36365d8.css.map": "/react-project-2-coding-tutorial/static/css/main.b36365d8.css.map",
-    "main.92482d0d.js.map": "/react-project-2-coding-tutorial/static/js/main.92482d0d.js.map",
-    "600.05f14a92.chunk.js.map": "/react-project-2-coding-tutorial/static/js/600.05f14a92.chunk.js.map",
+    "main.f4c43049.js.map": "/react-project-2-coding-tutorial/static/js/main.f4c43049.js.map",
+    "600.b92e50ae.chunk.js.map": "/react-project-2-coding-tutorial/static/js/600.b92e50ae.chunk.js.map",
     "824.b29cbba2.chunk.js.map": "/react-project-2-coding-tutorial/static/js/824.b29cbba2.chunk.js.map",
     "864.26857b45.chunk.js.map": "/react-project-2-coding-tutorial/static/js/864.26857b45.chunk.js.map",
     "486.e7c146bf.chunk.js.map": "/react-project-2-coding-tutorial/static/js/486.e7c146bf.chunk.js.map",
@@ -39,6 +39,6 @@
   },
   "entrypoints": [
     "static/css/main.b36365d8.css",
-    "static/js/main.92482d0d.js"
+    "static/js/main.f4c43049.js"
   ]
 }
