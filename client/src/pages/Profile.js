@@ -63,7 +63,7 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
                 <section className="py-11">
                     <div className="row">
                         <div className="col-12">
-                            <h2 className="col-10 offset-1 fw-bold text-white fs-5 mb-10">我的課程</h2>
+                            <h3 className="col-10 offset-1 fw-bold text-white fs-5 mb-10">我的課程</h3>
                             <div className="col-10 offset-1">
                             
                                 {myCourses.length > 0 && myCourses.map((i) =>                            
