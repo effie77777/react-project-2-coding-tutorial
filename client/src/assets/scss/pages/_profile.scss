@@ -1,0 +1,25 @@
+.profile-card-btn {
+    padding: 0;
+    @include md {
+        width: 6rem;
+        padding: 0.5rem;
+    }
+    &:hover {
+        background: linear-gradient(90deg, #67cfff, #9bff90);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;    
+    }
+}
+
+.profile-card-p {
+    border-bottom: 1px solid $third;
+    @include md {
+        border-bottom: none;
+    }
+}
+
+.profile-card-div {
+    @include md {
+        border-right: 1px solid $third;
+    }
+}

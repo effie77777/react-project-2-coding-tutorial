@@ -8,12 +8,7 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
     const [ myCourses, setMyCourses ] = useState([]);
 
     const handleSearch = (e) => {
-        let result;
-        if (e.target.id) { //使用者點到的剛好是 button 那個標籤
-            result = filterCategory.filter((i) => i._id === e.target.id);
-        } else { //使用者點到 button 標籤底下的任何一個子標籤
-            result = filterCategory.filter((i) => i._id === e.target.closest("button").id);
-        }
+        let result = filterCategory.filter((i) => i._id === e.target.id);
         setCurrentSearch(result);
         localStorage.setItem("current_search", JSON.stringify(result));
         let targetCategories = result[0].category.split("、");
@@ -69,19 +64,21 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
                     <div className="row">
                         <div className="col-12">
                             <h2 className="col-10 offset-1 fw-bold text-white fs-5 mb-10">我的課程</h2>
-                            <div className="col-10 offset-1 d-flex flex-wrap flex-md-nowrap overflow-md-auto">
+                            <div className="col-10 offset-1">
                             
                                 {myCourses.length > 0 && myCourses.map((i) =>                            
-                                <div className="class-card" key={i.courseId}>
-                                    <div className="class-card-header">                                
-                                        <p>{i.courseTitle} ({i.instructor})</p>
-                                    </div>
-                                    <div className="class-card-body text-start">
-                                        <p>上課日期: {i.date}</p>                       
-                                        <p>上課地點: {i.address}</p>                       
-                                        <p>課程堂數: 共 {i.plan[1]} 堂</p>                       
-                                    </div>
-                                    <button type="button" className="class-card-footer btn text-start" id={i.courseId} onClick={handleSearch}>
+                                <div className="d-flex flex-column flex-md-row py-4 px-6 border" key={i.courseId}>
+                                    <div className="d-flex flex-column flex-lg-row flex-grow-1 profile-card-div">
+                                        <div className="flex-grow-1">
+                                            <p className="mb-3">{i.courseTitle} ({i.instructor})</p>
+                                            <p className="mb-3 mb-lg-0">課程方案: 共 {i.plan} 堂</p>
+                                        </div>
+                                        <div className="flex-grow-1">                 
+                                            <p className="mb-3">上課日期: {i.date}</p>                       
+                                            <p className="pb-4 pb-md-0 profile-card-p">上課地點: {i.address}</p>
+                                        </div>
+                                    </div>                 
+                                    <button type="button" className="btn rounded-0 text-start text-md-center mt-4 mt-md-0 flex-shrink-0 profile-card-btn" id={i.courseId} onClick={handleSearch}>
                                         查看課程詳細資訊
                                     </button>
                                 </div>
