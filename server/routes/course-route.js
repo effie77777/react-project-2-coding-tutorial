@@ -39,7 +39,14 @@ router.post("/enroll", async(req, res) => {
         if (!foundUser) {
             return res.status(400).send("查無這個使用者");
         } else {
-            console.log(req.body);
+            foundUser.order.push({ courseId, date: orderDetail.data.date, address: orderDetail.data.address, plan: orderPrice });
+            foundUser.save()
+            .then((d) => {
+                console.log(d);
+            })
+            .catch((e) => {
+                console.log(e);
+            })
         }
         // } else if (foundCourse && studentId) {
         //     let hasEnrolled = []; //只有當該課程學生人數 > 0 的時候才會跑下面的 if 區塊，若該課程學生人數 === 0 則會維持 empty array

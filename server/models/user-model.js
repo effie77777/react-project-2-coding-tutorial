@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     facebookID: {
         type: Number,
     },
-    order: {
+    orders: {
         type: Array,
     }
 }) 

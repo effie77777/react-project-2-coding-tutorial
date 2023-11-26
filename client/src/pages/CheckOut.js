@@ -12,7 +12,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         if (form) {
             localStorage.setItem("submitted_ecpay_form", "true");
             console.log("set item");
-            window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n如您使用「網路 ATM 」付款，建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可觀看模擬的交易結果。");
+            window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n為方便觀看模擬的交易結果，付款方式請您選擇「網路 ATM 」，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
             form.submit();
         }
     }
@@ -31,12 +31,8 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
 
     function checkIfOrderExists() {
         if (localStorage.getItem("purchase")) {
-            let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
-            let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
-            if (pricePerClass !== "洽談報價") {
-                pricePerClass = Number(pricePerClass);
-                amounts = Number(amounts);
-            }
+            let pricePerClass = Number(JSON.parse(localStorage.getItem("purchase"))[0]);
+            let amounts = Number(JSON.parse(localStorage.getItem("purchase"))[1]);
             setPurchase([pricePerClass, amounts]);
             console.log("inside checkIfOrderExists. result: true");
         } else {
@@ -170,22 +166,6 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                                     <p>{currentSearch[0].title} ({currentSearch[0].instructor.name} 老師)</p>
                                 </div>
                                 <div className="mt-9 mt-sm-12 d-flex flex-column justify-content-between w-100">
-                                    
-                                    {purchase && purchase[0] !== "洽談報價" && (
-                                    <div className="text-white d-flex align-items-sm-center">
-                                        <p className="me-5">{`NT$${purchase[0]}x${purchase[1]}堂`}</p>
-                                        <p className="text-warning">{`合計NT$${purchase[0] * purchase[1]}`}</p>
-                                    </div>
-                                    )}
-
-                                    {purchase && purchase[0] === "洽談報價" && (
-                                    <div className="text-white d-flex fw-bold">
-                                        <p className="me-2">方案:</p>
-                                        <p className="me-1">客製化課程</p>
-                                        <p className="text-warning">(洽談報價)</p>
-                                    </div>
-                                    )}
-
                                     <div className="mt-3 d-flex flex-column flex-sm-row justify-content-sm-between">
                                         <Link className="btn border px-12 py-2 text-white w-sm-48" to="/placeOrder">修改訂單</Link>
                                         <button type="button" className="btn bg-linear px-12 py-2 text-white w-sm-48 mt-3 mt-sm-0" onClick={handleGoPay}>前往付款</button>

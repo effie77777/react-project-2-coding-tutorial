@@ -96,12 +96,8 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
 
     function checkIfOrderExists() {
         if (localStorage.getItem("purchase")) {
-            let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
-            let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
-            if (pricePerClass !== "洽談報價") {
-                pricePerClass = Number(pricePerClass);
-                amounts = Number(amounts);
-            }
+            let pricePerClass = Number(JSON.parse(localStorage.getItem("purchase"))[0]);
+            let amounts = Number(JSON.parse(localStorage.getItem("purchase"))[1]);
             setPurchase([pricePerClass, amounts]);
             if (!orderFromCustomer || orderFromCustomer.length === 0) {
                 setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
@@ -211,22 +207,6 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
                                     <input type="text" name="address" id="address" className="form-control" value={orderFromCustomer[0].address} onChange={handleChangeInputs} />
                                 </div>
                                 <div className="mt-9 mt-sm-15 d-flex flex-column justify-content-between w-100">
-                                    
-                                    {purchase[0] !== "洽談報價" && (
-                                    <div className="text-white d-flex align-items-sm-center">
-                                        <p className="me-5">{`NT$${purchase[0]}x${purchase[1]}堂`}</p>
-                                        <p className="text-warning fs-sm-3">{`合計NT$${purchase[0] * purchase[1]}`}</p>
-                                    </div>
-                                    )}
-
-                                    {purchase[0] === "洽談報價" && (
-                                    <div className="text-white d-flex fw-bold">
-                                        <p className="me-2">方案:</p>
-                                        <p className="me-1">{purchase[1]}</p>
-                                        <p className="text-warning">({purchase[0]})</p>
-                                    </div>
-                                    )}
-
                                     <div className="mt-3 d-flex flex-column flex-sm-row justify-content-sm-between">
                                         <Link className="btn border px-12 py-2 text-white w-sm-48" to="/detail">重選方案</Link>
                                         <button type="button" className="btn bg-linear px-12 py-2 text-white w-sm-48 mt-3 mt-sm-0" onClick={handleCheckOut}>確認訂單</button>

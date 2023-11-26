@@ -10,6 +10,7 @@ const authRoute = require("./routes/index").authRoute;
 const Instructor = require("./models/index").Instructor;
 require("./config/passport");
 const ecpay_payment = require('ecpay_aio_nodejs');
+const Course = require("./models/course-model");
 const { MERCHANTID, HASHKEY, HASHIV, FRONTEND_HOST, BACKEND_HOST } = process.env;
 const options = {
     OperationMode: 'Test', //Test or Production
@@ -98,8 +99,23 @@ app.post("/return", async(req, res) => {
     }
 })
 
-app.get("/", (req, res) => {
-    return res.send("welcome");
+app.get("/", async(req, res) => {
+    // return res.send("welcome");
+    // let arr = [];
+    // await Course.find({})
+    // .then((d) => {
+    //     arr.push(d);
+    // })
+    // console.log(arr);
+    // arr[0].forEach((i) => {
+    //     if (i.plan.includes("洽談")) {
+    //         i.plan = i.plan.substring(0, i.plan.indexOf("洽談") - 1);
+    //         i.save()
+    //         .then(() => {
+    //             console.log("saved");
+    //         })
+    //     }
+    // })
 })
 
 app.listen(8080, () => {

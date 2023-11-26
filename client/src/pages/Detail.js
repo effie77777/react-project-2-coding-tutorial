@@ -33,15 +33,8 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
         if (!targetId) {
             targetId = e.target.closest("button").id;
         }
-        let amounts;
-        let pricePerClass;
-        if (targetId === "洽談報價 客製化課程") {
-            amounts = "客製化課程";
-            pricePerClass = "洽談報價"
-        } else {
-            amounts = targetId.substring(targetId.indexOf(" ") + 1, targetId.indexOf("堂"));
-            pricePerClass = targetId.substring(targetId.indexOf("$") + 1, targetId.indexOf(" "));
-        }
+        let amounts = targetId.substring(targetId.indexOf(" ") + 1, targetId.indexOf("堂"));
+        let pricePerClass = targetId.substring(targetId.indexOf("$") + 1, targetId.indexOf(" "));
         localStorage.setItem("purchase", JSON.stringify([pricePerClass, amounts]));
         setPurchase([pricePerClass, amounts]);
         Navigate("/placeOrder");
