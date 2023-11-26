@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-project-2-coding-tutorial/static/css/main.b36365d8.css",
-    "main.js": "/react-project-2-coding-tutorial/static/js/main.bb63e09e.js",
+    "main.css": "/react-project-2-coding-tutorial/static/css/main.c1ca2946.css",
+    "main.js": "/react-project-2-coding-tutorial/static/js/main.48cf75f0.js",
     "static/js/600.b92e50ae.chunk.js": "/react-project-2-coding-tutorial/static/js/600.b92e50ae.chunk.js",
     "static/js/824.5c046469.chunk.js": "/react-project-2-coding-tutorial/static/js/824.5c046469.chunk.js",
     "static/js/864.040a3982.chunk.js": "/react-project-2-coding-tutorial/static/js/864.040a3982.chunk.js",
     "static/js/486.e7c146bf.chunk.js": "/react-project-2-coding-tutorial/static/js/486.e7c146bf.chunk.js",
     "static/js/756.9b88dbc7.chunk.js": "/react-project-2-coding-tutorial/static/js/756.9b88dbc7.chunk.js",
-    "static/js/876.c8246190.chunk.js": "/react-project-2-coding-tutorial/static/js/876.c8246190.chunk.js",
+    "static/js/876.13e206e4.chunk.js": "/react-project-2-coding-tutorial/static/js/876.13e206e4.chunk.js",
     "static/js/619.df53ae85.chunk.js": "/react-project-2-coding-tutorial/static/js/619.df53ae85.chunk.js",
     "static/js/183.00bf7955.chunk.js": "/react-project-2-coding-tutorial/static/js/183.00bf7955.chunk.js",
-    "static/js/598.970aba03.chunk.js": "/react-project-2-coding-tutorial/static/js/598.970aba03.chunk.js",
+    "static/js/598.e5f4e16c.chunk.js": "/react-project-2-coding-tutorial/static/js/598.e5f4e16c.chunk.js",
     "static/js/922.06216bff.chunk.js": "/react-project-2-coding-tutorial/static/js/922.06216bff.chunk.js",
     "static/media/homepage_section5-2.png": "/react-project-2-coding-tutorial/static/media/homepage_section5-2.b450a106a65fead648e5.png",
     "static/media/homepage_section5-3.png": "/react-project-2-coding-tutorial/static/media/homepage_section5-3.b3baa9dc8f1130f3f570.png",
@@ -24,21 +24,21 @@
     "static/media/icon_google.svg": "/react-project-2-coding-tutorial/static/media/icon_google.bbce75f8c7f6cd3d1c0db56d81258450.svg",
     "index.html": "/react-project-2-coding-tutorial/index.html",
     "static/media/icon_fb.svg": "/react-project-2-coding-tutorial/static/media/icon_fb.2e02184f0e9670d6a01f25ca0d4b4d3b.svg",
-    "main.b36365d8.css.map": "/react-project-2-coding-tutorial/static/css/main.b36365d8.css.map",
-    "main.bb63e09e.js.map": "/react-project-2-coding-tutorial/static/js/main.bb63e09e.js.map",
+    "main.c1ca2946.css.map": "/react-project-2-coding-tutorial/static/css/main.c1ca2946.css.map",
+    "main.48cf75f0.js.map": "/react-project-2-coding-tutorial/static/js/main.48cf75f0.js.map",
     "600.b92e50ae.chunk.js.map": "/react-project-2-coding-tutorial/static/js/600.b92e50ae.chunk.js.map",
     "824.5c046469.chunk.js.map": "/react-project-2-coding-tutorial/static/js/824.5c046469.chunk.js.map",
     "864.040a3982.chunk.js.map": "/react-project-2-coding-tutorial/static/js/864.040a3982.chunk.js.map",
     "486.e7c146bf.chunk.js.map": "/react-project-2-coding-tutorial/static/js/486.e7c146bf.chunk.js.map",
     "756.9b88dbc7.chunk.js.map": "/react-project-2-coding-tutorial/static/js/756.9b88dbc7.chunk.js.map",
-    "876.c8246190.chunk.js.map": "/react-project-2-coding-tutorial/static/js/876.c8246190.chunk.js.map",
+    "876.13e206e4.chunk.js.map": "/react-project-2-coding-tutorial/static/js/876.13e206e4.chunk.js.map",
     "619.df53ae85.chunk.js.map": "/react-project-2-coding-tutorial/static/js/619.df53ae85.chunk.js.map",
     "183.00bf7955.chunk.js.map": "/react-project-2-coding-tutorial/static/js/183.00bf7955.chunk.js.map",
-    "598.970aba03.chunk.js.map": "/react-project-2-coding-tutorial/static/js/598.970aba03.chunk.js.map",
+    "598.e5f4e16c.chunk.js.map": "/react-project-2-coding-tutorial/static/js/598.e5f4e16c.chunk.js.map",
     "922.06216bff.chunk.js.map": "/react-project-2-coding-tutorial/static/js/922.06216bff.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b36365d8.css",
-    "static/js/main.bb63e09e.js"
+    "static/css/main.c1ca2946.css",
+    "static/js/main.48cf75f0.js"
   ]
 }
