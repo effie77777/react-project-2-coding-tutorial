@@ -8,13 +8,6 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
 
     const handleEnroll = (e) => {
         console.log(e.target.textContent);
-        newCourseService.enroll(currentUser.data._id, currentSearch[0]._id)
-        .then((d) => {
-            console.log("successfully enrolled", d);
-        })
-        .catch((e) => {
-            console.log(e);
-        });
         if (e.target.textContent === "探索更多課程") {
             Navigate("/class");
         } else if (e.target.textContent === "回到個人頁面") {
@@ -37,6 +30,17 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
                 Navigate("/login");
             }, 2000);
         } else if (localStorage.getItem("submitted_ecpay_form")) {
+            let studentId = currentUser.data._id;
+            let courseId = JSON.parse(localStorage.getItem("current_search"))[0]._id;
+            let orderDetail = JSON.parse(localStorage.getItem("order_from_customer"));
+            let orderPrice = JSON.parse(localStorage.getItem("purchase"));
+            newCourseService.enroll(studentId, courseId, orderDetail, orderPrice)
+            .then((d) => {
+                console.log("successfully enrolled", d);
+            })
+            .catch((e) => {
+                console.log(e);
+            });    
             localStorage.removeItem("submitted_ecpay_form");
             localStorage.removeItem("form_from_ecpay");
             localStorage.removeItem("order_from_customer");

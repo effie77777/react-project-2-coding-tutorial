@@ -103,7 +103,7 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
                 amounts = Number(amounts);
             }
             setPurchase([pricePerClass, amounts]);
-            if (orderFromCustomer.length === 0) {
+            if (!orderFromCustomer || orderFromCustomer.length === 0) {
                 setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
             } else {
                 //代表使用者已經到第二步驟 checkOut 了，但是又按修改訂單，回到第一步驟 placeOrder，這種情況就將使用者上一次輸入的內容帶入表單

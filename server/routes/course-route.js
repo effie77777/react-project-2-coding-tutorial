@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Instructor = require("../models/index").Instructor;
 const Course = require("../models/index").Course;
+const User = require("../models/index").User;
 
 router.get("/search/:limit", async(req, res) => {
     let { limit } = req.params;
@@ -32,29 +33,32 @@ router.get("/search/:limit", async(req, res) => {
 
 
 router.post("/enroll", async(req, res) => {
-    let { studentId, courseId } = req.body;
-    await Course.findOne({ _id: courseId })
-    .then((foundCourse) => {
-        if (!foundCourse) {
-            return res.status(400).send("查無此課程");
-        } else if (foundCourse && studentId) {
-            let hasEnrolled = []; //只有當該課程學生人數 > 0 的時候才會跑下面的 if 區塊，若該課程學生人數 === 0 則會維持 empty array
-            if (foundCourse.students.length > 0) {
-                hasEnrolled = foundCourse.students.filter((i) => i === studentId);
-            }
-            if (hasEnrolled.length === 0) { // (1)該課程學生人數 === 0 或 (2)該課程學生人數 > 0 但這個學生之前還沒註冊過該課程
-                foundCourse.students.push(studentId);
-                foundCourse.save()
-                .then((d) => {
-                    console.log("saved successfully!");
-                    return res.send(d);
-                })
-                .catch((e) => {
-                    console.log(e);
-                    return res.status(400).send("出了一些問題...");
-                })    
-            }    
+    let { studentId, courseId, orderDetail, orderPrice } = req.body;
+    await User.findOne({ _id: studentId })
+    .then((foundUser) => {
+        if (!foundUser) {
+            return res.status(400).send("查無這個使用者");
+        } else {
+            console.log(req.body);
         }
+        // } else if (foundCourse && studentId) {
+        //     let hasEnrolled = []; //只有當該課程學生人數 > 0 的時候才會跑下面的 if 區塊，若該課程學生人數 === 0 則會維持 empty array
+        //     if (foundCourse.students.length > 0) {
+        //         hasEnrolled = foundCourse.students.filter((i) => i === studentId);
+        //     }
+        //     if (hasEnrolled.length === 0) { // (1)該課程學生人數 === 0 或 (2)該課程學生人數 > 0 但這個學生之前還沒註冊過該課程
+        //         foundCourse.students.push(studentId);
+        //         foundCourse.save()
+        //         .then((d) => {
+        //             console.log("saved successfully!");
+        //             return res.send(d);
+        //         })
+        //         .catch((e) => {
+        //             console.log(e);
+        //             return res.status(400).send("出了一些問題...");
+        //         })    
+        //     }    
+        // }
     })
     .catch((e) => {
         console.log(e);

@@ -10,7 +10,6 @@ const authRoute = require("./routes/index").authRoute;
 const Instructor = require("./models/index").Instructor;
 require("./config/passport");
 const ecpay_payment = require('ecpay_aio_nodejs');
-const { totalmem } = require("os");
 const { MERCHANTID, HASHKEY, HASHIV, FRONTEND_HOST, BACKEND_HOST } = process.env;
 const options = {
     OperationMode: 'Test', //Test or Production
@@ -93,6 +92,8 @@ app.post("/return", async(req, res) => {
         "checkValue: " + checkValue
     );
     if (CheckMacValue === checkValue) {
+        console.log("verified");
+
         return res.send("1|OK");
     }
 })

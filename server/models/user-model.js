@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
     facebookID: {
         type: Number,
     },
+    order: {
+        type: Array,
+    }
 }) 
 
 const User = mongoose.model("User", userSchema);

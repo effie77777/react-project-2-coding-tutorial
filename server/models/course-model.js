@@ -32,10 +32,10 @@ const courseSchema = new mongoose.Schema({
         ref: "Instructor",
         required: true,
     },
-    students: {
-        type: [String],
-        required: true,
-    }
+    // students: {
+    //     type: [String],
+    //     required: true,
+    // }
 })
 
 const Course = mongoose.model("Course", courseSchema);

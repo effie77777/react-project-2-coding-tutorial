@@ -31,14 +31,14 @@ class courseService {
         )
     }
 
-    enroll(studentId, courseId) {
+    enroll(studentId, courseId, orderDetail, orderPrice) {
         let token;
         localStorage.getItem("user_data")
         ? token = JSON.parse(localStorage.getItem("user_data")).token
         : token = "";
         return axios.post(
             `${basic_api}/enroll`,
-            { studentId, courseId },
+            { studentId, courseId, orderDetail, orderPrice },
             { headers: { Authorization: token } }
         );
     }
