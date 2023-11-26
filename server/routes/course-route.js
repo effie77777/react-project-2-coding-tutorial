@@ -39,13 +39,16 @@ router.post("/enroll", async(req, res) => {
         if (!foundUser) {
             return res.status(400).send("查無這個使用者");
         } else {
-            foundUser.order.push({ courseId, date: orderDetail.data.date, address: orderDetail.data.address, plan: orderPrice });
-            foundUser.save()
-            .then((d) => {
-                console.log(d);
-            })
-            .catch((e) => {
-                console.log(e);
+            Course.findOne({ _id: courseId })
+            .then((foundCourse) => {
+                foundUser.orders.push({ courseId, courseTitle: foundCourse.title, instructor: foundCourse.instructor.name, date: orderDetail.data.date, address: orderDetail.data.address, plan: orderPrice });
+                foundUser.save()
+                .then((d) => {
+                    console.log(d);
+                })
+                .catch((e) => {
+                    console.log(e);
+                })    
             })
         }
         // } else if (foundCourse && studentId) {

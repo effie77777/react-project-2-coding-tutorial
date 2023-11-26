@@ -42,39 +42,41 @@ const Homepage = () => {
                 </section>
             </div>
 
-            <div className="container-fluid bg-third bg-opacity-10">
-                <section className="section pb-md-12 pb-lg-20">
-                    <div className="row">
-                        <div className="col-12 d-flex flex-wrap align-items-center">
-                            <div className="col-12 col-lg-3 d-flex flex-column align-items-center align-items-lg-start pb-6 pb-lg-0">
-                                <h3 className="title">手把手帶你</h3>
-                                <h3 className="title">親自到家教到會</h3>
-                                <div className="title-vr"></div>
-                            </div>
-                            <div className="section2-card">
-                                <span className="material-symbols-outlined fs-10">
-                                    code
-                                </span>
-                                <p className="mt-5 fw-bold fs-3 text-center">超過100種專業課程</p>
-                                <p className="mt-4 text-center">學習標準化的電腦形式語言培養運算思維和邏輯素養</p>
-                            </div>
-                            <div className="section2-card mt-6 mt-md-0">
-                                <span className="material-symbols-outlined fs-10 font-fill-1">
-                                    rocket_launch
-                                </span>
-                                <p className="mt-5 fw-bold fs-3">高效學習</p>
-                                <p className="mt-4 text-center">客製化專屬課表讓學習變簡單</p>
-                            </div>
-                            <div className="section2-card mt-6 mt-md-0">
-                                <span className="material-symbols-outlined fs-10">
-                                    location_on
-                                </span>
-                                <p className="mt-5 fw-bold fs-3">指定地點</p>
-                                <p className="mt-4 text-center">專業老師到你指定的地點一對一高效學習</p>
+            <div className="bg-third bg-opacity-10">
+                <div className="container-fluid">
+                    <section className="section pb-md-12 pb-lg-20">
+                        <div className="row">
+                            <div className="col-12 d-flex flex-wrap align-items-center">
+                                <div className="col-12 col-lg-3 d-flex flex-column align-items-center align-items-lg-start pb-6 pb-lg-0">
+                                    <h3 className="title">手把手帶你</h3>
+                                    <h3 className="title">親自到家教到會</h3>
+                                    <div className="title-vr"></div>
+                                </div>
+                                <div className="section2-card">
+                                    <span className="material-symbols-outlined fs-10">
+                                        code
+                                    </span>
+                                    <p className="mt-5 fw-bold fs-3 text-center">超過100種專業課程</p>
+                                    <p className="mt-4 text-center">學習標準化的電腦形式語言培養運算思維和邏輯素養</p>
+                                </div>
+                                <div className="section2-card mt-6 mt-md-0">
+                                    <span className="material-symbols-outlined fs-10 font-fill-1">
+                                        rocket_launch
+                                    </span>
+                                    <p className="mt-5 fw-bold fs-3">高效學習</p>
+                                    <p className="mt-4 text-center">客製化專屬課表讓學習變簡單</p>
+                                </div>
+                                <div className="section2-card mt-6 mt-md-0">
+                                    <span className="material-symbols-outlined fs-10">
+                                        location_on
+                                    </span>
+                                    <p className="mt-5 fw-bold fs-3">指定地點</p>
+                                    <p className="mt-4 text-center">專業老師到你指定的地點一對一高效學習</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
 
             <div className="container-fluid bg-fourth">

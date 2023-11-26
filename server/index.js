@@ -93,14 +93,12 @@ app.post("/return", async(req, res) => {
         "checkValue: " + checkValue
     );
     if (CheckMacValue === checkValue) {
-        console.log("verified");
-
         return res.send("1|OK");
     }
 })
 
 app.get("/", async(req, res) => {
-    // return res.send("welcome");
+    return res.send("welcome");
     // let arr = [];
     // await Course.find({})
     // .then((d) => {
