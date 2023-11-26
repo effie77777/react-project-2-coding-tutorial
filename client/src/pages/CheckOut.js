@@ -10,20 +10,22 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         let form = document.getElementById("_form_aiochk");
         console.log(form);
         if (form) {
+            localStorage.setItem("submitted_ecpay_form", "true");
+            console.log("set item");
             window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n如您使用「網路 ATM 」付款，建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可觀看模擬的交易結果。");
             form.submit();
         }
     }
 
-    async function checkIfCurrentSearchExists() {
+    function checkIfCurrentSearchExists() {
         if (localStorage.getItem("current_search")) {
             setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
-            // checkIfOrderExists();
+            console.log("inside checkIfCurrentSearchIsValid. result: true");
         } else {
             setErrorMsg("您還沒有選擇要購買的課程哦，將為您導向課程頁面");
             setTimeout(() => {
                 Navigate("/class");
-            }, 2000);
+            }, 2000);        
         }
     }
 
@@ -36,35 +38,22 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                 amounts = Number(amounts);
             }
             setPurchase([pricePerClass, amounts]);
-            // if (orderFromCustomer.length === 0) {
-            //     setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
-            // } else {
-            //     //代表使用者已經到第二步驟 checkOut 了，但是又按修改訂單，回到第一步驟 placeOrder，這種情況就將使用者上一次輸入的內容帶入表單
-            //     let previousInfo = JSON.parse(localStorage.getItem("order_from_customer"));
-            //     setOrderFromCustomer([previousInfo]);
-            // }
-            return true;
+            console.log("inside checkIfOrderExists. result: true");
         } else {
             setErrorMsg("您還沒有選擇購買方案哦，將為您導向課程頁面");
             setTimeout(() => {
                 Navigate("/detail");
-            }, 2000);
+            }, 2000);    
         }
     }
 
     function checkIfOrderIsValid() {
-        if (!localStorage.getItem("order_from_customer") || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
-            setErrorMsg("目前還沒有有效訂單哦，將為您導向訂單頁面");
-            setTimeout(() => {
-                Navigate("/placeOrder");
-            }, 2000);
-        } else {
-            let result = purchase[0] * purchase[1];
-            newCourseService.checkOut(currentSearch[0].title, result)
+        if (localStorage.getItem("order_from_customer") && JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
+            setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer")).data]);
+            newCourseService.checkOut(currentSearch[0].title, purchase[0] * purchase[1])
             .then((d) => {
                 console.log(d.data);
-                localStorage.setItem("order_from_customer", JSON.stringify(d.data.substring(0, d.data.indexOf("<script")) + "</form>"));
-                // setOrderFromCustomer(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
+                localStorage.setItem("form_from_ecpay", d.data.substring(0, d.data.indexOf("<script")) + "</form>");
                 let parentElement = document.getElementById("parentElement");
                 console.log(parentElement);
                 if (parentElement) {
@@ -73,32 +62,24 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             })
             .catch((e) => {
                 console.log(e);
-            })    
-            // let parentElement = document.getElementById("parentElement");
-            // console.log(parentElement);
-            // if (parentElement) {
-            //     // let purchase = JSON.parse(localStorage.getItem("purchase"));
-            //     let result = purchase[0] * purchase[1];
-            //     // newCourseService.checkOut(JSON.parse(localStorage.getItem("current_search"))[0].title, result)
-            //     newCourseService.checkOut(currentSearch[0].title, result)
-            //     .then((d) => {
-            //         console.log(d.data);
-            //         parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
-            //     })
-            //     .catch((e) => {
-            //         console.log(e);
-            //     })    
-            // }        
+            })
+        } else {
+            setErrorMsg("目前沒有有效的訂單哦，將為您導回修改訂單的頁面");
+            setTimeout(() => {
+                Navigate("/placeOrder");
+            }, 2000);
         }
     }
 
-    // function appendECPayForm() {
-    //     let parentElement = document.getElementById("parentElement");
-    //     console.log(parentElement);
-    //     if (parentElement) {
-    //         parentElement.innerHTML = orderFromCustomer;
-    //     }
-    // }
+    // setTimeout(() => {
+        if (localStorage.getItem("submitted_ecpay_form")) {
+            console.log("inside settimeout. localstorage has submitted_ecpay_form");
+            localStorage.removeItem("submitted_ecpay_form");
+            console.log("has removed this item");
+            checkIfCurrentSearchExists();
+        }    
+    // }, 5000);
+
 
     useEffect(() => {
         if (currentSearch && currentSearch.length > 0) {
@@ -112,12 +93,6 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }, [purchase]);
 
-    // useEffect(() => {
-    //     if (orderFromCustomer) {
-    //         appendECPayForm();
-    //     }
-    // }, [orderFromCustomer]);
-
     useEffect(() => {
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
@@ -125,42 +100,10 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                 Navigate("/login");
             }, 2000);
         } else {
-            // setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
-            // setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer"))]);
-            // let pricePerClass = JSON.parse(localStorage.getItem("purchase"))[0];
-            // let amounts = JSON.parse(localStorage.getItem("purchase"))[1];
-            // if (pricePerClass !== "洽談報價") {
-            //     pricePerClass = Number(pricePerClass);
-            //     amounts = Number(amounts);
+            // let result = checkIfOrderIsValid();
+            // if(!result) {
+            //     checkIfCurrentSearchExists();
             // }
-            // setPurchase([pricePerClass, amounts]);
-
-            // if (checkIfCurrentSearchExists()) {
-            //     checkIfOrderExists();
-            // }
-            // if (!localStorage.getItem("order_from_customer") || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
-            //     setErrorMsg("目前還沒有有效訂單哦，將為您導向訂單頁面");
-            //     setTimeout(() => {
-            //         Navigate("/placeOrder");
-            //     }, 2000);
-            // } else {
-            //     setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer")).data]);
-            //     let parentElement = document.getElementById("parentElement");
-            //     console.log(parentElement);
-            //     if (parentElement) {
-            //         let purchase = JSON.parse(localStorage.getItem("purchase"));
-            //         let result = purchase[0] * purchase[1];
-            //         newCourseService.checkOut(JSON.parse(localStorage.getItem("current_search"))[0].title, result)
-            //         .then((d) => {
-            //             console.log(d.data);
-            //             parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
-            //         })
-            //         .catch((e) => {
-            //             console.log(e);
-            //         })    
-            //     }        
-            // }
-
             checkIfCurrentSearchExists();
         }
     }, []);

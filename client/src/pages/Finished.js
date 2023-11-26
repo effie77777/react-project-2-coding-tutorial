@@ -22,20 +22,38 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
         }
     }
 
+    function checkUnfinishedOrder() {
+        if (localStorage.getItem("order_from_customer")) {
+            if (JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
+                Navigate("/checkOut");
+            } else {
+                Navigate("/placeOrder");
+            }
+        } else if (!localStorage.getItem("purchase") && localStorage.getItem("current_search")) {
+            Navigate("/detail");
+        } else {
+            Navigate("/class");
+        }
+    }
+
     useEffect(() => {
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
             setTimeout(() => {
                 Navigate("/login");
             }, 2000);
+        } else if (localStorage.getItem("submitted_ecpay_form")) {
+            localStorage.removeItem("submitted_ecpay_form");
+            localStorage.removeItem("form_from_ecpay");
+            localStorage.removeItem("order_from_customer");
+            localStorage.removeItem("purchase");
         } else {
-            setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
+            setErrorMsg("如欲查看已完成的訂單，請至個人頁面查詢");
+            setTimeout(() => {
+                checkUnfinishedOrder();                
+            }, 1500);
         }
     }, []);
-
-    useEffect(() => {
-        console.log(currentSearch);
-    }, [currentSearch]);
 
     return (
         <div className="container-fluid">
