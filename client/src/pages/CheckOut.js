@@ -15,11 +15,10 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
-    function checkIfCurrentSearchExists() {
+    async function checkIfCurrentSearchExists() {
         if (localStorage.getItem("current_search")) {
             setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
             // checkIfOrderExists();
-            return true;
         } else {
             setErrorMsg("您還沒有選擇要購買的課程哦，將為您導向課程頁面");
             setTimeout(() => {
@@ -53,6 +52,72 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
+    function checkIfOrderIsValid() {
+        if (!localStorage.getItem("order_from_customer") || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
+            setErrorMsg("目前還沒有有效訂單哦，將為您導向訂單頁面");
+            setTimeout(() => {
+                Navigate("/placeOrder");
+            }, 2000);
+        } else {
+            let result = purchase[0] * purchase[1];
+            newCourseService.checkOut(currentSearch[0].title, result)
+            .then((d) => {
+                console.log(d.data);
+                localStorage.setItem("order_from_customer", JSON.stringify(d.data.substring(0, d.data.indexOf("<script")) + "</form>"));
+                // setOrderFromCustomer(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
+                let parentElement = document.getElementById("parentElement");
+                console.log(parentElement);
+                if (parentElement) {
+                    parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
+                }        
+            })
+            .catch((e) => {
+                console.log(e);
+            })    
+            // let parentElement = document.getElementById("parentElement");
+            // console.log(parentElement);
+            // if (parentElement) {
+            //     // let purchase = JSON.parse(localStorage.getItem("purchase"));
+            //     let result = purchase[0] * purchase[1];
+            //     // newCourseService.checkOut(JSON.parse(localStorage.getItem("current_search"))[0].title, result)
+            //     newCourseService.checkOut(currentSearch[0].title, result)
+            //     .then((d) => {
+            //         console.log(d.data);
+            //         parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
+            //     })
+            //     .catch((e) => {
+            //         console.log(e);
+            //     })    
+            // }        
+        }
+    }
+
+    // function appendECPayForm() {
+    //     let parentElement = document.getElementById("parentElement");
+    //     console.log(parentElement);
+    //     if (parentElement) {
+    //         parentElement.innerHTML = orderFromCustomer;
+    //     }
+    // }
+
+    useEffect(() => {
+        if (currentSearch && currentSearch.length > 0) {
+            checkIfOrderExists();
+        }
+    }, [currentSearch]);
+
+    useEffect(() => {
+        if (purchase && purchase.length > 0) {
+            checkIfOrderIsValid();
+        }
+    }, [purchase]);
+
+    // useEffect(() => {
+    //     if (orderFromCustomer) {
+    //         appendECPayForm();
+    //     }
+    // }, [orderFromCustomer]);
+
     useEffect(() => {
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
@@ -69,31 +134,34 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             //     amounts = Number(amounts);
             // }
             // setPurchase([pricePerClass, amounts]);
-            if (checkIfCurrentSearchExists()) {
-                checkIfOrderExists();
-            }
-            if (!localStorage.getItem("order_from_customer") || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
-                setErrorMsg("目前還沒有有效訂單哦，將為您導向訂單頁面");
-                setTimeout(() => {
-                    Navigate("/placeOrder");
-                }, 2000);
-            } else {
-                setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer")).data]);
-                let parentElement = document.getElementById("parentElement");
-                console.log(parentElement);
-                if (parentElement) {
-                    let purchase = JSON.parse(localStorage.getItem("purchase"));
-                    let result = purchase[0] * purchase[1];
-                    newCourseService.checkOut(JSON.parse(localStorage.getItem("current_search"))[0].title, result)
-                    .then((d) => {
-                        console.log(d.data);
-                        parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
-                    })
-                    .catch((e) => {
-                        console.log(e);
-                    })    
-                }        
-            }
+
+            // if (checkIfCurrentSearchExists()) {
+            //     checkIfOrderExists();
+            // }
+            // if (!localStorage.getItem("order_from_customer") || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
+            //     setErrorMsg("目前還沒有有效訂單哦，將為您導向訂單頁面");
+            //     setTimeout(() => {
+            //         Navigate("/placeOrder");
+            //     }, 2000);
+            // } else {
+            //     setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer")).data]);
+            //     let parentElement = document.getElementById("parentElement");
+            //     console.log(parentElement);
+            //     if (parentElement) {
+            //         let purchase = JSON.parse(localStorage.getItem("purchase"));
+            //         let result = purchase[0] * purchase[1];
+            //         newCourseService.checkOut(JSON.parse(localStorage.getItem("current_search"))[0].title, result)
+            //         .then((d) => {
+            //             console.log(d.data);
+            //             parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
+            //         })
+            //         .catch((e) => {
+            //             console.log(e);
+            //         })    
+            //     }        
+            // }
+
+            checkIfCurrentSearchExists();
         }
     }, []);
     
