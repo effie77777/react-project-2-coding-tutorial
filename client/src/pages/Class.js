@@ -42,6 +42,9 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
 
     useEffect(() => {
         console.log(allCourses);
+        if (allCourses.length > 0) {
+            getCourses("unlimited");
+        }
     }, [allCourses]);
 
     useEffect(() => {
@@ -52,7 +55,6 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
             }, 2000);
         } else {
             getCourses(5);
-            getCourses("unlimited");
             // newCourseService.searchAllCourses(5)
             // .then((d) => {
             //     let { newData, profile } = d.data;

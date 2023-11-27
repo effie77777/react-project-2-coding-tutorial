@@ -67,7 +67,7 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
                             <div className="col-10 offset-1">
                             
                                 {myCourses.length > 0 && myCourses.map((i) =>                            
-                                <div className="d-flex flex-column flex-md-row py-4 px-6 border" key={i.courseId}>
+                                <div className="d-flex flex-column flex-md-row py-4 px-6 border mb-6" key={i.courseId}>
                                     <div className="d-flex flex-column flex-lg-row flex-grow-1 profile-card-div">
                                         <div className="flex-grow-1">
                                             <p className="mb-3">{i.courseTitle} ({i.instructor})</p>
