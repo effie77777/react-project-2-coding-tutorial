@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
+const Finished = ({ currentUser }) => {
     const Navigate = useNavigate();
     const [ errorMsg, setErrorMsg ] = useState(null);
 
+    // 檢查使用者目前是否有尚未完成的訂單
     function checkUnfinishedOrder() {
         if (localStorage.getItem("order_from_customer") && JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
             Navigate("/checkOut");
@@ -20,22 +21,14 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
             setTimeout(() => {
                 Navigate("/login");
             }, 2000);
-        } else if (localStorage.getItem("submitted_ecpay_form")) {
+        } else if (localStorage.getItem("submitted_ecpay_form")) { // 使用者剛付款成功，從綠界頁面過來
             let studentId = currentUser.data._id;
             let course = JSON.parse(localStorage.getItem("current_search"))[0];
             let orderDetail = JSON.parse(localStorage.getItem("order_from_customer"));
             let classAmounts = JSON.parse(localStorage.getItem("purchase"))[1];
-            newCourseService.enroll(studentId, course, orderDetail, classAmounts)
+            newCourseService.enroll(studentId, course, orderDetail, classAmounts) // 存入 db
             .then((d) => {
                 console.log("successfully enrolled", d);
-                // let { msg, token, data, orders } = JSON.parse(localStorage.getItem("user_data"));
-                // if (orders.length === 0) {
-                //     orders = [d.data];
-                // } else {
-                //     orders.push(d.data);
-                // }
-                // console.log("orders: ", orders);
-                // localStorage.setItem("user_data", JSON.stringify({ msg, token, data, orders }));
             })
             .catch((e) => {
                 console.log(e);
@@ -57,7 +50,7 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
     return (
         <div className="container-fluid">
             
-            {!localStorage.getItem("form_from_ecpay") || errorMsg
+            {errorMsg
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">

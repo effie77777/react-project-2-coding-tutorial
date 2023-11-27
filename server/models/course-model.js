@@ -13,7 +13,6 @@ const courseSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
-        // maxLength: 60,
     },
     expectToObtain: {
         type: String,
@@ -32,10 +31,6 @@ const courseSchema = new mongoose.Schema({
         ref: "Instructor",
         required: true,
     },
-    // students: {
-    //     type: [String],
-    //     required: true,
-    // }
 })
 
 const Course = mongoose.model("Course", courseSchema);

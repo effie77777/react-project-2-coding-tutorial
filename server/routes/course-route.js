@@ -1,22 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Instructor = require("../models/index").Instructor;
 const Course = require("../models/index").Course;
 const User = require("../models/index").User;
+const { FRONTEND_HOST, BACKEND_HOST } = process.env;
 
 router.get("/search", async(req, res) => {
-    // let { limit } = req.params;
-    // console.log(typeof limit);
-    // if (limit === "unlimited") {
-    //     await Course.find({}).populate("instructor")
-    //     .then((data) => {
-    //         processData(data);
-    //     })
-    //     .catch((e) => {
-    //         console.log("error");
-    //         return res.status(400).send(e);
-    //     })
-    // } else if (Number(limit)) {
     await Course.find({}).populate("instructor")
     .then((data) => {
         let newData = [...data]; //專門傳 instructor profile 以外的所有資料
@@ -32,16 +20,43 @@ router.get("/search", async(req, res) => {
             let { _id, name, simpleBio, education, workingExp, language, languageLevel } = newData[i].instructor; //原本 instructor 這個 object 當中包含 _id, name, profile 三個屬性，但我們只需要前兩個
             newData[i].instructor = { _id, name, simpleBio, education, workingExp, language, languageLevel }; //指定讓 { _id, name } 覆寫掉原本 instructor 的值，也就是拿掉 profile 這個屬性的意思
         }
-        return res.json({ newData, profile }); //解構賦值的寫法，回傳一個 object    
+        return res.json({ newData, profile }); // 解構賦值的寫法，回傳一個 object    
     })
     .catch((e) => {
         console.log("error");
         return res.status(400).send(e);
     })
-    // }
 })
 
+// 產生訂單資料
+router.get("/payment/:ItemName/:TotalAmount", (req, res) => {
+    let { ItemName, TotalAmount } = req.params;
+    const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZone: 'UTC',
+    });
+    let TradeNo = "test000" + new Date().getTime().toString().slice(0, 13); //目前 new Date().getTime() 會得到 13 碼數字，而 MerchantTrade 要帶 20 碼，所以前面再隨便加 7 個字
+    let base_param = {
+        MerchantTradeNo: TradeNo, //請帶20碼uid, ex: f0a0d7e9fae1bb72bc93
+        MerchantTradeDate,
+        TotalAmount,
+        TradeDesc: ItemName,
+        ItemName,
+        ReturnURL: `${BACKEND_HOST}/return`,
+        ClientBackURL: `${FRONTEND_HOST}/#/finished`,
+    };
+    const create = new ecpay_payment(options);
+    const html = create.payment_client.aio_check_out_all(base_param);
+    return res.send(html);
+})
 
+// 註冊 (購買) 課程
 router.post("/enroll", async(req, res) => {
     let { studentId, course, orderDetail, classAmounts } = req.body;
     await User.findOne({ _id: studentId })
@@ -61,24 +76,6 @@ router.post("/enroll", async(req, res) => {
                 })    
             })
         }
-        // } else if (foundCourse && studentId) {
-        //     let hasEnrolled = []; //只有當該課程學生人數 > 0 的時候才會跑下面的 if 區塊，若該課程學生人數 === 0 則會維持 empty array
-        //     if (foundCourse.students.length > 0) {
-        //         hasEnrolled = foundCourse.students.filter((i) => i === studentId);
-        //     }
-        //     if (hasEnrolled.length === 0) { // (1)該課程學生人數 === 0 或 (2)該課程學生人數 > 0 但這個學生之前還沒註冊過該課程
-        //         foundCourse.students.push(studentId);
-        //         foundCourse.save()
-        //         .then((d) => {
-        //             console.log("saved successfully!");
-        //             return res.send(d);
-        //         })
-        //         .catch((e) => {
-        //             console.log(e);
-        //             return res.status(400).send("出了一些問題...");
-        //         })    
-        //     }    
-        // }
     })
     .catch((e) => {
         console.log(e);
@@ -86,6 +83,7 @@ router.post("/enroll", async(req, res) => {
     })
 })
 
+// 查詢使用者已完成的訂單
 router.get("/getMyOrders/:studentId", async(req, res) => {
     let { studentId } = req.params;
     await User.findOne({ _id: studentId })

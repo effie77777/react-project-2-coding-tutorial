@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import newAuthService from "../services/auth-service";
 import icon_fb from "../assets/images/icon_fb.svg";
-import icon_google from "../assets/images/icon_google.svg";
 
 const Login = ({ currentUser, setCurrentUser }) => {
     const Navigate = useNavigate();
@@ -28,10 +27,10 @@ const Login = ({ currentUser, setCurrentUser }) => {
         : pwd.type = "password";
     }
 
+    // 本地登入
     const handleLogin = (e) => {
         e.preventDefault();
         let emailInputTag = document.querySelector("#email");
-        // let passwordInputTag = document.querySelector("#password");
         console.log(emailInputTag.validity);
         if (email.length === 0 || emailInputTag.validity.patternMismatch) {
             return setErrorMsg("信箱格式錯誤");
@@ -40,17 +39,14 @@ const Login = ({ currentUser, setCurrentUser }) => {
         }
         newAuthService.login(email, password)
         .then((d) => {
-            console.log("successful! ", d);
             setErrorMsg(null);
             setSuccessMsg(d.data.msg);
             setTimeout(() => {
                 localStorage.setItem("user_data", JSON.stringify(d.data));
-                let currentUser = newAuthService.getCurrentUser();
-                setCurrentUser(currentUser); //不涉及 db 所以回傳資料的形式不是 promise，不用 .then .catch      
+                let currentUser = newAuthService.getCurrentUser(); //不涉及 db 所以回傳資料的形式不是 promise，不用 .then .catch
+                setCurrentUser(currentUser);      
                 setSuccessMsg(null);
                 Navigate("/profile");
-                               
-                //(待檢驗)如果在 navigate 到 class 頁面前就先設定 currentUser，這樣在 login 頁面就有 currentUser 存在，就會跳出錯誤訊息
             }, 2000);
         })
         .catch((e) => {
@@ -59,6 +55,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
         })
     }
 
+    // Facebook 登入
     const handleLoginWithFacebook = () => {
         window.FB.login(
             function(response) {
@@ -67,7 +64,6 @@ const Login = ({ currentUser, setCurrentUser }) => {
                     window.FB.api("/me", "GET", { fields: "name,email" }, (userData) => {
                         newAuthService.loginWithFacebook(accessToken, userData)
                         .then((d) => {
-                            console.log(d);
                             setCurrentUser(d.data);
                             localStorage.setItem("user_data", JSON.stringify(d.data));
                             Navigate("/profile");
@@ -82,6 +78,21 @@ const Login = ({ currentUser, setCurrentUser }) => {
         );
     }
 
+    useEffect(() => {
+        if (currentUser && currentUser.access_token) { // 向 Google 拿使用者的資料
+            axios.get(
+                `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${currentUser.access_token}`,
+                { headers: { Authorization: `Bearer ${currentUser.access_token}`, Accept: "application/json" } }
+            )
+            .then((res) => {
+                console.log("res: ", res);
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+        }
+    }, [currentUser]);
+
     useEffect(() => {    
         if (currentUser) {
             setErrorMsg("您已經登入過囉 ! 將為您導向個人頁面");
@@ -90,6 +101,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
                 Navigate("/profile");
             }, 2000);
         } else {
+            // Facebook 登入初始化
             window.fbAsyncInit = function() {
                 window.FB.init({
                     appId: process.env.REACT_APP_FACEBOOK_LOGIN_APPID,
@@ -97,7 +109,6 @@ const Login = ({ currentUser, setCurrentUser }) => {
                     xfbml: true,
                     version: "v18.0",
                 });
-                console.log("after init");
                 window.FB.AppEvents.logPageView();
             };
             (function(d, s, id) {
@@ -113,23 +124,6 @@ const Login = ({ currentUser, setCurrentUser }) => {
             }(document, "script", "facebook-jssdk"));
         }
     }, []);
-
-    useEffect(() => {
-        if (currentUser && currentUser.access_token) { //向 Google 拿使用者的資料
-            axios.get(
-                `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${currentUser.access_token}`,
-                { headers: { Authorization: `Bearer ${currentUser.access_token}`, Accept: "application/json" } }
-            )
-            .then((res) => {
-                console.log("res: ", res);
-                // localStorage.setItem("user_data", JSON.stringify(res.data));
-                // setProfile(res.data);
-            })
-            .catch((e) => {
-                console.log(e);
-            })
-        }
-    }, [currentUser]);
 
     return (
         <div className="container-fluid">

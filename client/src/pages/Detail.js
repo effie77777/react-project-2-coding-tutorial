@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import instructor from "../assets/images/instructor.jpg";
+import { useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurrentSearch, purchase, setPurchase }) => {
+const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurrentSearch, setPurchase }) => {
     const [ similarCourses, setSimilarCourses ] = useState([]);
     const [ errorMsg, setErrorMsg ] = useState(null);
     const Navigate = useNavigate();
 
+    // 選擇課程方案
+    const handleSelectPlan = (e) => {
+        let targetId = e.target.id;
+        if (!targetId) {
+            targetId = e.target.closest("button").id;
+        }
+        let amounts = targetId.substring(targetId.indexOf(" ") + 1, targetId.indexOf("堂"));
+        let pricePerClass = targetId.substring(targetId.indexOf("$") + 1, targetId.indexOf(" "));
+        localStorage.setItem("purchase", JSON.stringify([pricePerClass, amounts]));
+        setPurchase([pricePerClass, amounts]);
+        Navigate("/placeOrder");
+    }
+
+    // 使用者點選「其他人也看了這些課程」區塊的卡片
     const handleSearch = (e) => {
         let targetClass;
         if (e.target.id) {
@@ -28,18 +41,42 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
         });
     }
 
-    const handleSelectPlan = (e) => {
-        let targetId = e.target.id;
-        if (!targetId) {
-            targetId = e.target.closest("button").id;
-        }
-        let amounts = targetId.substring(targetId.indexOf(" ") + 1, targetId.indexOf("堂"));
-        let pricePerClass = targetId.substring(targetId.indexOf("$") + 1, targetId.indexOf(" "));
-        localStorage.setItem("purchase", JSON.stringify([pricePerClass, amounts]));
-        setPurchase([pricePerClass, amounts]);
-        Navigate("/placeOrder");
-    }
+    // 將所有課程重新排列，將每一門課程 category 和當前搜尋課程的 category 做比較。和當前搜尋的課程完全吻合的放在最前面，剩下的則依照吻合程度排列
+    function sortAllCourses(allCourses, currentSearch) {
+        let sortingResult = []; 
+        allCourses.map((i) => {
+            if (currentSearch[0] && i._id !== currentSearch[0]._id) {
+                if (i.category === currentSearch[0].category) {
+                    sortingResult.unshift({ "completelyMatch": true, i }); //完全吻合的放在 sortingResult 的最前面
+                } else {
+                    let matchCount = 0;
+                    for (let j = 0; j < currentSearch[0].category.split("、").length; j ++) {
+                        if (i.category.includes(currentSearch[0].category.split("、")[j])) {
+                            matchCount += 1;
+                        }
+                    }
+                    if (matchCount > 0) {
+                        sortingResult.push({ matchCount, i });
+                    }
+                }
+            }
+        })
+        sortingResult.sort(function(a, b) {
+            if (!a.completelyMatch && !b.completelyMatch) {
+                // 篩選出所有符合條件的課程後，只針對「category 並非完全吻合」的項目，依照其 matchCount 的數量進行排序。也就是「category 完全吻合」的項目不會納入排序，所以一開始裝進 sortingResult 的時候要用 unshift 而非 push
+                return b.matchCount - a.matchCount;
+            }
+        }) 
+        sortingResult = sortingResult.map((item) => item.i); // 我們真正需要的資料只有「課程內容本身」而已，也就是 i 這個 property 對應到的 value
+        return sortingResult;
+    }    
 
+    //下面這些不寫在 useEffect(() => {}, []) 裡面，是因為即使頁面不是第一次 loading，但每當使用者點選任何一張卡片 ( 重設 currentSearch ) 的時候都要執行
+    useEffect(() => {
+        let sortingResult = sortAllCourses(allCourses, currentSearch);
+        setSimilarCourses(sortingResult);
+    }, [currentSearch]);
+    
     useEffect(() => {
         if (!currentUser) {
             setErrorMsg("請先登入或註冊");
@@ -69,43 +106,6 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
             })
         }
     }, []);
-
-    //下面這段程式碼不寫在 useEffect(() => {}, []) 裡面，是因為即使頁面不是第一次 loading，但每當使用者點選任何一張卡片(重設 currentSearch )的時候都要執行
-    useEffect(() => {
-        let sortingResult = sortAllCourses(allCourses, currentSearch);
-        setSimilarCourses(sortingResult);
-    }, [currentSearch]);
-
-    function sortAllCourses(allCourses, currentSearch) {
-        //將所有課程重新排列，將每一門課程 category 和當前搜尋課程的 category 做比較。和當前搜尋的課程完全吻合的放在最前面，剩下的則依照吻合程度排列
-        let sortingResult = []; 
-        allCourses.map((i) => {
-            if (currentSearch[0] && i._id !== currentSearch[0]._id) {
-                if (i.category === currentSearch[0].category) {
-                    sortingResult.unshift({ "completelyMatch": true, i }); //完全吻合的放在 sortingResult 的最前面
-                } else {
-                    let matchCount = 0;
-                    for (let j = 0; j < currentSearch[0].category.split("、").length; j ++) {
-                        if (i.category.includes(currentSearch[0].category.split("、")[j])) {
-                            matchCount += 1;
-                        }
-                    }
-                    if (matchCount > 0) {
-                        sortingResult.push({ matchCount, i });
-                    }
-                }
-            }
-        })
-        sortingResult.sort(function(a, b) {
-            if (!a.completelyMatch && !b.completelyMatch) {
-                //篩選出所有符合條件的課程後，只針對「category 並非完全吻合」的項目，依照其 matchCount 的數量進行排序。也就是「category 完全吻合」的項目不會納入排序，所以一開始裝進 sortingResult 的時候要用 unshift 而非 push
-                return b.matchCount - a.matchCount;
-            }
-        }) 
-        sortingResult = sortingResult.map((item) => item.i); //我們真正需要的資料只有「課程內容本身」而已，也就是 i 這個 property 對應到的 value
-        return sortingResult;
-    }
-
 
     return (
         <div className="bg-fourth">

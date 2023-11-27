@@ -29,13 +29,11 @@ const Register = () => {
         }
     }
 
-    const handleRegister = (e) => {
-        e.preventDefault();
+    const handleRegister = () => {
         newAuthService.register(username, email, password)
         .then((d) => {
-            console.log(d);
             setErrorMsg(null);
-            setSuccessMsg(`${d.data} 將為您導向登入頁面`);
+            setSuccessMsg("註冊成功 ! 將為您導向登入頁面");
             setTimeout(() => {
                 setSuccessMsg(null);
                 Navigate("/login");
@@ -66,7 +64,7 @@ const Register = () => {
                     </div>
                     <div className="mb-6">
                         <label htmlFor="email" className="form-label">信箱</label>
-                        <input type="email" className="form-control px-3 py-2" id="email" name="email" placeholder="example@gmail.com" required onChange={changeEmail} />
+                        <input type="email" className="form-control px-3 py-2" id="email" name="email" placeholder="example@gmail.com" required max="60" pattern=".+@.+\.+.{2,}" onChange={changeEmail} />
                     </div>
                     <div className="mb-11">
                         <div className="position-relative">
@@ -81,7 +79,7 @@ const Register = () => {
                         </div>
                         <p className="mt-3">8位數以上，至少一個大寫英文字母、一個數字、一個特殊符號(僅限<span className="text-warning">!@#%&=_?</span>)且<span className="text-warning">不可有空格</span></p>
                     </div>
-                    <button type="submit" className="btn bg-linear text-white px-6 w-100 w-sm-40 w-md-30 w-lg-25 border-0 px-3 py-2" style={{paddingTop: "0.625rem", paddingBottom: "0.625rem"}} onClick={handleRegister}>註冊</button>
+                    <button type="button" className="btn bg-linear text-white px-6 w-100 w-sm-40 w-md-30 w-lg-25 border-0 px-3 py-2" style={{paddingTop: "0.625rem", paddingBottom: "0.625rem"}} onClick={handleRegister}>註冊</button>
                 </form>
             </section>
         </div>

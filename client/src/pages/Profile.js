@@ -52,7 +52,6 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
             })
             newCourseService.getMyOrders(currentUser.data._id)
             .then((d) => {
-                console.log(d);
                 setMyCourses(d.data);
             })
             .catch((e) => {
@@ -76,11 +75,11 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
                                 {myCourses.length > 0 && myCourses.map((i) =>                            
                                 <div className="d-flex flex-column flex-md-row py-4 px-6 border mb-6" key={i.courseId}>
                                     <div className="d-flex flex-column flex-lg-row flex-grow-1 profile-card-div">
-                                        <div className="flex-grow-1">
+                                        <div className="w-lg-50">
                                             <p className="mb-3">{i.courseTitle} ({i.instructor})</p>
                                             <p className="mb-3 mb-lg-0">課程方案: 共 {i.plan} 堂</p>
                                         </div>
-                                        <div className="flex-grow-1">                 
+                                        <div className="w-lg-50">                 
                                             <p className="mb-3">上課日期: {i.date}</p>                       
                                             <p className="pb-4 pb-md-0 profile-card-p">上課地點: {i.address}</p>
                                         </div>

@@ -4,7 +4,6 @@ const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/
 
 class courseService {
     searchAllCourses() {
-        // console.log(limit);
         let token;
         if (localStorage.getItem("user_data")) {
             token = JSON.parse(localStorage.getItem("user_data")).token;
@@ -17,6 +16,7 @@ class courseService {
         );
     }
 
+    // 準備結帳
     checkOut(ItemName, TotalAmount) {
         let token;
         if (localStorage.getItem("user_data")) {
@@ -24,13 +24,13 @@ class courseService {
         } else {
             token = "";
         }
-        console.log("ask for html from the server");
         return axios.get(
             `${basic_api}/payment/${ItemName}/${TotalAmount}`,
             { headers: { Authorization: token } }
         )
     }
 
+    // 付款成功後
     enroll(studentId, course, orderDetail, classAmounts) {
         let token;
         localStorage.getItem("user_data")

@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { jwtDecode } = require("jwt-decode"); //驗證 Google 登入的使用者
-const axios = require("axios"); //驗證 FB 登入的使用者
+const { jwtDecode } = require("jwt-decode"); // 驗證 Google 登入的使用者
+const axios = require("axios"); // 驗證 FB 登入的使用者
 const User = require("../models/user-model");
 const registrationVal = require("../validation").registrationVal;
 const loginVal = require("../validation").loginVal;
@@ -14,9 +14,9 @@ router.post("/register", async(req, res) => {
     .then((d) => {
         if (d && d.password) {
             return res.status(400).send("這個 email 已經註冊過囉");
-        } else if (d && !password && googleID) {
+        } else if (d && !d.password && d.googleID) {
             return res.status(400).send("這個 email 已經存在，請改使用 Google 登入");
-        } else if (d && !password && facebookID) {
+        } else if (d && !d.password && d.facebookID) {
             return res.status(400).send("這個 email 已經存在，請改使用 Facebook 登入");
         } else if (!d) {
             let result = registrationVal(req.body);
@@ -121,7 +121,6 @@ router.post("/login/google", async(req, res) => {
             console.log(e);
             return res.status(400).send("發生一些錯誤...");
         })
-
     } else {
         return res.status(401).send("google 登入驗證失敗");
     }
@@ -130,7 +129,7 @@ router.post("/login/google", async(req, res) => {
 
 router.post("/login/facebook", (req, res) => {
     let { accessToken, userData } = req.body;
-    //把拿到的 accessToken 傳給 Facebook 來驗證使用者的身分
+    // 把拿到的 accessToken 傳給 Facebook 來驗證使用者的身分
     axios.get(`https://graph.facebook.com/me?fields=id&access_token=${accessToken}`)
     .then((d) => {
         let result = d.data.id; // Facebook 依據 accessToken 回傳該使用者的 id
@@ -138,11 +137,11 @@ router.post("/login/facebook", (req, res) => {
             console.log("verified");
             User.findOne({ email: userData.email })
             .then((foundUser) => {
-                if (foundUser) { //過去曾經使用 facebook 登入過
+                if (foundUser) { // 過去曾經使用 facebook 登入過
                     const tokenObj = { id: foundUser._id, email: foundUser.email };
                     const sentTokenObj = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
                     return res.send({ msg: "成功登入 !", token: `JWT ${sentTokenObj}`, data: foundUser });    
-                } else { //第一次使用 facebook 登入
+                } else { // 第一次使用 facebook 登入
                     let newUser = new User({
                         username: userData.name,
                         email: userData.email,

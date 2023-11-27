@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { googleLogout } from "@react-oauth/google";
 import newAuthService from "../services/auth-service";
 import logo from "../assets/images/logo2.svg";
 
@@ -18,7 +17,6 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
 
     const handleGoToOtherPages = (e) => {
         let btn = document.querySelector(".btn-close");
-        console.log(btn);
         switch (e.target.innerText) {
             case "首頁":
                 Navigate("/");
@@ -85,18 +83,6 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                         </li>
                         )}
 
-                        {/* {currentUser && currentUser.access_token && (
-                        <li>
-                            <button type="button" className="nav-link btn" onClick={handleLogout}>Google 登出</button>
-                        </li>
-                        )} */}
-
-                        {/* {currentUser && (
-                        <li>
-                            <button type="button" className="nav-link btn" onClick={handleFacebookLogout}>FB 登出</button>
-                        </li>
-                        )} */}
-
                     </ul>
                 </div>
             </nav>
@@ -124,7 +110,6 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
 
                             {currentUser && (
                             <li>
-                                {/* <Link to="/class">課程介紹</Link> */}
                                 <button type="button" className="btn text-start" onClick={handleGoToOtherPages}>課程介紹</button>
                             </li>
                             )}

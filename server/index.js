@@ -7,11 +7,10 @@ const passport = require("passport");
 const fs = require("fs");
 const courseRoute = require("./routes/index").courseRoute;
 const authRoute = require("./routes/index").authRoute;
-const Instructor = require("./models/index").Instructor;
 require("./config/passport");
 const ecpay_payment = require('ecpay_aio_nodejs');
 const Course = require("./models/course-model");
-const { MERCHANTID, HASHKEY, HASHIV, FRONTEND_HOST, BACKEND_HOST } = process.env;
+const { MERCHANTID, HASHKEY, HASHIV } = process.env;
 const options = {
     OperationMode: 'Test', //Test or Production
     MercProfile: {
@@ -52,41 +51,10 @@ app.use(cors());
 
 app.use("/api/auth", authRoute);
 app.use("/api/google/course", courseRoute);
-
-app.get("/api/course/payment/:ItemName/:TotalAmount", (req, res) => {
-    console.log("inside route");
-    let { ItemName, TotalAmount } = req.params;
-    const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-        timeZone: 'UTC',
-    });
-    let TradeNo = "test000" + new Date().getTime().toString().slice(0, 13);
-    let base_param = {
-        MerchantTradeNo: TradeNo, //請帶20碼uid, ex: f0a0d7e9fae1bb72bc93
-        MerchantTradeDate,
-        TotalAmount,
-        TradeDesc: ItemName,
-        ItemName,
-        ReturnURL: `${BACKEND_HOST}/return`,
-        ClientBackURL: `${FRONTEND_HOST}/#/finished`,
-    };
-    const create = new ecpay_payment(options);
-    const html = create.payment_client.aio_check_out_all(base_param);
-    console.log("html: ", html);
-    return res.send(html);
-})
-
 app.use("/api/course", passport.authenticate("jwt", { session: false }), courseRoute);
 
-//尚未解決
+// 交易完成後綠界回傳的資料
 app.post("/return", async(req, res) => {
-    console.log("req.body: ", req.body);
     const { CheckMacValue } = req.body;
     const data = req.body;
     delete data.CheckMacValue;
@@ -103,23 +71,12 @@ app.post("/return", async(req, res) => {
     }
 })
 
-app.get("/", async(req, res) => {
+app.get("/", (req, res) => {
     return res.send("welcome");
-    // let arr = [];
-    // await Course.find({})
-    // .then((d) => {
-    //     arr.push(d);
-    // })
-    // console.log(arr);
-    // arr[0].forEach((i) => {
-    //     if (i.plan.includes("洽談")) {
-    //         i.plan = i.plan.substring(0, i.plan.indexOf("洽談") - 1);
-    //         i.save()
-    //         .then(() => {
-    //             console.log("saved");
-    //         })
-    //     }
-    // })
+})
+
+app.get("/*", (req, res) => {
+    return res.status(400).send("not found");
 })
 
 app.listen(8080, () => {

@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilterCategory, currentSearch, setCurrentSearch }) => {
-    const [ errorMsg, setErrorMsg ] = useState(null);
-    // const [ filterCategory, setFilterCategory ] = useState(null);
+const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilterCategory, setCurrentSearch }) => {
     const Navigate = useNavigate();
+    const [ errorMsg, setErrorMsg ] = useState(null);
 
+    // 使用者點擊「卡片本身」以搜尋特定課程
     const handleSearch = (e) => {
         let result;
-        if (e.target.id) { //使用者點到的剛好是 button 那個標籤
+        if (e.target.id) { // 點擊到的剛好是 button 那個標籤
             result = filterCategory.filter((i) => i._id === e.target.id);
-        } else { //使用者點到 button 標籤底下的任何一個子標籤
+        } else { // 點擊到 button 標籤底下的任何一個子標籤
             result = filterCategory.filter((i) => i._id === e.target.closest("button").id);
         }
         setCurrentSearch(result);
@@ -19,18 +19,12 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
         Navigate("/detail");
     }
 
+    // 使用者點擊「卡片裡面的標籤」以篩選課程類別
     const handleFilterCategory = (e) => {
-        e.stopPropagation(); //不加的話，會因為 event bubbling 而讓整張卡片都被點擊到，就會觸發 handleSearch 這個 eventListener，然後導向 detail 頁面
+        e.stopPropagation(); // 不加的話，會因為 event bubbling 而讓整張卡片都被點擊到，就會觸發 handleSearch 這個 eventListener，然後導向 detail 頁面
         let result = allCourses.filter((i) => i.category.includes(e.target.outerText));
         setFilterCategory(result);
     }
-
-    // useEffect(() => {
-    //     console.log(allCourses);
-    //     if (allCourses.length === 1) {
-    //         getCourses("unlimited");
-    //     }
-    // }, [allCourses]);
 
     useEffect(() => {
         if (!currentUser) {
@@ -39,22 +33,6 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
                 Navigate("/login");
             }, 2000);
         } else {
-            // getCourses();
-            // setTimeout(() => {
-            //     getCourses("unlimited");
-            // }, 1000);
-            // newCourseService.searchAllCourses(5)
-            // .then((d) => {
-            //     let { newData, profile } = d.data;
-            //     for (let i = 0; i < newData.length; i ++) {
-            //         newData[i].instructorPhoto = profile[i];
-            //     }
-            //     setAllCourses(newData); // newData 是一整個 array，裡面包含很多個 object，每一個 object 都代表一個課程
-            //     setFilterCategory(newData); //雖然使用者一開始還沒選擇課程類別，但還是先設定這個 state 的預設值，之後再依照類別篩選
-            // })
-            // .catch((e) => {
-            //     console.log(e);
-            // })
             newCourseService.searchAllCourses()
             .then((d) => {
                 let { newData, profile } = d.data;
@@ -62,7 +40,7 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
                     newData[i].instructorPhoto = profile[i];
                 }
                 setAllCourses(newData); // newData 是一整個 array，裡面包含很多個 object，每一個 object 都代表一個課程
-                setFilterCategory(newData); //雖然使用者一開始還沒選擇課程類別，但還是先設定這個 state 的預設值，之後再依照類別篩選
+                setFilterCategory(newData); // 雖然使用者一開始還沒選擇課程類別，但還是先設定這個 state 的預設值，之後再依照類別篩選
             })
             .catch((e) => {
                 console.log(e);

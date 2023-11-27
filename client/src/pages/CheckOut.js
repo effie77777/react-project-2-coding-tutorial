@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setPurchase, orderFromCustomer, setOrderFromCustomer, orderFromECPAY, setOrderFromECPAY }) => {
+const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setPurchase, orderFromCustomer, setOrderFromCustomer }) => {
     const Navigate = useNavigate();
     const [ errorMsg, setErrorMsg ] = useState(null);
 
@@ -15,10 +15,10 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
+    // 檢查 current_search (欲購買的課程) 是否存在
     function checkIfCurrentSearchExists() {
         if (localStorage.getItem("current_search")) {
             setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
-            console.log("inside checkIfCurrentSearchIsValid. result: true");
         } else {
             setErrorMsg("您還沒有選擇要購買的課程哦，將為您導向課程頁面");
             setTimeout(() => {
@@ -27,12 +27,12 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
+    // 檢查 purchase (購買方案) 是否存在
     function checkIfOrderExists() {
         if (localStorage.getItem("purchase")) {
             let pricePerClass = Number(JSON.parse(localStorage.getItem("purchase"))[0]);
             let amounts = Number(JSON.parse(localStorage.getItem("purchase"))[1]);
             setPurchase([pricePerClass, amounts]);
-            console.log("inside checkIfOrderExists. result: true");
         } else {
             setErrorMsg("您還沒有選擇購買方案哦，將為您導向課程頁面");
             setTimeout(() => {
@@ -41,15 +41,15 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
+    // 檢查有效訂單是否存在
     function checkIfOrderIsValid() {
         if (localStorage.getItem("order_from_customer") && JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
             setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer")).data]);
             newCourseService.checkOut(currentSearch[0].title, purchase[0] * purchase[1])
             .then((d) => {
-                console.log(d.data);
+                // 後端傳回來的 html 即為待會要提交給綠界的訂單
                 localStorage.setItem("form_from_ecpay", d.data.substring(0, d.data.indexOf("<script")) + "</form>");
                 let parentElement = document.getElementById("parentElement");
-                console.log(parentElement);
                 if (parentElement) {
                     parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
                 }        
@@ -65,12 +65,9 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
-    console.log("line 68")
-    console.log(localStorage.getItem("submitted_ecpay_form"))
-
     // if 區塊為 true 代表使用者曾經進到綠界頁面，但是沒有完成付款，就按「返回上一頁」回到 CheckOut，這時需要去後端再拿一次訂單編號，這樣訂單編號才不會重複。因為使用者不是按「重新整理」，不會跑 useEffect(() => {}, [])，所以要額外寫
+    // 這個功能在 localhost 上測試沒問題，但部署到 render 上就沒效了
     if (localStorage.getItem("submitted_ecpay_form")) {
-        console.log("the user had submitted ecpay form");
         localStorage.removeItem("submitted_ecpay_form");
         checkIfCurrentSearchExists();
     }    
@@ -94,15 +91,9 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                 Navigate("/login");
             }, 2000);
         } else {
-            // let result = checkIfOrderIsValid();
-            // if(!result) {
-            //     checkIfCurrentSearchExists();
-            // }
             checkIfCurrentSearchExists();
         }
     }, []);
-
-    console.log(localStorage.getItem("form_from_ecpay"));
     
     return (
         <div className="container-fluid">

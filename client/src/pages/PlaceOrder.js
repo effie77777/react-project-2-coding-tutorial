@@ -1,13 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import newCourseService from "../services/course-service";
 
-const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromECPAY, orderFromCustomer, setOrderFromCustomer, currentSearch, setCurrentSearch, purchase, setPurchase }) => {
+const PlaceOrder = ({ currentUser, orderFromCustomer, setOrderFromCustomer, currentSearch, setCurrentSearch, purchase, setPurchase }) => {
     const [ errorMsg, setErrorMsg ] = useState(null);
     const [ invalidInputMsg, setInvalidInputMsg ] = useState(null);
     const Navigate = useNavigate();
 
-    //檢查各 input 是否為空白
+    // 將各 inputs 的值同步更新至 state
+    const handleChangeInputs = (e) => {
+        
+        // if 區塊為 true 代表使用者曾經進入到第二步驟 checkOut，但又返回到第一步驟 placeOrder，這種情況下當偵測到 input 欄位的值有改變，就將 isValid 設為 false，然後在 handleCheckOut 會再檢驗一次新輸入的內容是否符合規定，若符合規定就將 isValid 設為 true
+        if (localStorage.getItem("order_from_customer")) {
+            let { data, isValid } = JSON.parse(localStorage.getItem("order_from_customer"));
+            localStorage.setItem("order_from_customer", JSON.stringify({ data, isValid: false }));
+        }
+        let inputName = e.target.name;
+        let inputValue = e.target.value;
+        let copy = [...orderFromCustomer];
+        copy.forEach((i) => {
+            for (let prop in i) {
+                if (inputName === prop) {
+                    i[prop] = inputValue;
+                    setOrderFromCustomer(copy);
+                    break;
+                }
+            }
+        })        
+    }
+
+    // 檢查各 inputs 是否為空白
     function checkIfItsEmpty() {
         for (let prop in orderFromCustomer[0]) {
             if (orderFromCustomer[0][prop].length === 0) {
@@ -28,6 +49,7 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
         return "true";
     }
 
+    // 檢查各 inputs 內容是否符合規定
     const handleCheckOut = () => {
         let isNotEmpty = checkIfItsEmpty();
         let telRegexp = /^09\d{8}$/;
@@ -49,39 +71,11 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
         } else {
             localStorage.setItem("order_from_customer", JSON.stringify({ data: orderFromCustomer[0], isValid: true }));
             setInvalidInputMsg(null);   
-            // let result = purchase[0] * purchase[1];
-            // newCourseService.checkOut(currentSearch[0].title, result)
-            // .then((d) => {
-                // setOrderFromECPAY(d.data.substring(0, d.data.indexOf("<script")) + "</form>");
-                // localStorage.setItem("order_from_ecpay", JSON.stringify(d.data.substring(0, d.data.indexOf("<script")) + "</form>"));
-                Navigate("/checkOut");
-            // })
-            // .catch((e) => {
-            //     console.log(e);
-            // })
+            Navigate("/checkOut");
         }
     }
 
-    const handleChangeInputs = (e) => {
-        // if 區塊為 true 代表使用者曾經進入到第二步驟 checkOut，但又返回到第一步驟 placeOrder，這種情況下當偵測到 input 欄位的值有改變，就將 isValid 設為 false，然後在 handleCheckOut 會再檢驗一次新輸入的內容是否符合規定，若符合規定就將 isValid 設為 true
-        if (localStorage.getItem("order_from_customer")) {
-            let { data, isValid } = JSON.parse(localStorage.getItem("order_from_customer"));
-            localStorage.setItem("order_from_customer", JSON.stringify({ data, isValid: false }));
-        }
-        let inputName = e.target.name;
-        let inputValue = e.target.value;
-        let copy = [...orderFromCustomer];
-        copy.forEach((i) => {
-            for (let prop in i) {
-                if (inputName === prop) {
-                    i[prop] = inputValue;
-                    setOrderFromCustomer(copy);
-                    break;
-                }
-            }
-        })        
-    }
-
+    // 檢查 current_search (欲購買的課程) 是否存在
     function checkIfCurrentSearchExists() {
         if (localStorage.getItem("current_search")) {
             setCurrentSearch(JSON.parse(localStorage.getItem("current_search")));
@@ -94,6 +88,7 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
         }
     }
 
+    // 檢查 purchase (購買方案) 是否存在
     function checkIfOrderExists() {
         if (localStorage.getItem("purchase")) {
             let pricePerClass = Number(JSON.parse(localStorage.getItem("purchase"))[0]);
@@ -113,12 +108,6 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
             }, 2000);
         }
     }
-
-    // useEffect(() => {
-    //     if (orderFromCustomer.length > 0) {
-    //         localStorage.setItem("order_from_customer", JSON.stringify({ data:orderFromCustomer[0] }))
-    //     }
-    // }, [orderFromCustomer]);
 
     useEffect(() => {
         if (!currentUser) {
