@@ -29,14 +29,6 @@ const options = {
     ],
     IsProjectContractor: false,
 };
-const noCache = (req, res, next) => {
-    res.setHeader(
-        'Cache-Control',
-        'no-store, no-cache, must-revalidate, proxy-revalidate'
-    );
-    next();
-}
-
 
 mongoose.connect(process.env.DB_CONNECT)
 .then(() => {
@@ -50,7 +42,13 @@ mongoose.connect(process.env.DB_CONNECT)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(noCache);
+app.use((req, res, next) => {
+    res.setHeader(
+        'Cache-Control',
+        'no-store, no-cache, must-revalidate, proxy-revalidate'
+    );
+    next();
+});
 
 app.use("/api/auth", authRoute);
 app.use("/api/google/course", courseRoute);

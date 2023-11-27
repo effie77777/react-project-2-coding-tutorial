@@ -10,7 +10,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         let form = document.getElementById("_form_aiochk");
         if (form) {
             localStorage.setItem("submitted_ecpay_form", "true");
-            window.alert("將為您導向綠界金流頁面。\n提醒您，本專案僅為 demo 性質，切勿輸入真實信用卡卡號等機敏資料。\n為方便觀看模擬的交易結果，付款方式請您選擇「網路 ATM 」，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
+            window.alert("將為您導向綠界金流頁面。\n本專案僅為 demo 性質，為方便觀看模擬的交易結果，付款方式請選擇「網路 ATM 」，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
             form.submit();
         }
     }
@@ -155,7 +155,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                                 </div>
                                 <div className="mt-6 w-100 w-sm-48 bg-third bg-opacity-25 px-4 py-2">
                                     <label htmlFor="email" className="me-3">Email</label>
-                                    <input type="email" name="email" id="email" value={orderFromCustomer[0].email} className="bg-transparent border-0 text-white px-0" disabled />
+                                    <input type="email" name="email" id="email" value={orderFromCustomer[0].email} className="bg-transparent border-0 text-white px-0 overflow-auto w-100" disabled />
                                 </div>
                                 <div className="mt-6 w-100 w-sm-48 bg-third bg-opacity-25 px-4 py-2">
                                     <label htmlFor="date" className="me-3">上課日期</label>
@@ -178,6 +178,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                             </form>
                             )}
 
+                            <p className="col-12 col-sm-10 col-md-8 mt-8">*若綠界交易頁面顯示「訂單編號重複」訊息，請回到本頁面後按「重新整理」即可。這個動作<span className="text-warning">不會</span>遺失已填寫好的資料或進行重複扣款。</p>
                         </div>
                     </div>
                 </section>
