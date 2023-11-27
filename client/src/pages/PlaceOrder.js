@@ -31,7 +31,7 @@ const PlaceOrder = ({ currentUser, setCurrentUser, orderFromECPAY, setOrderFromE
     const handleCheckOut = () => {
         let isNotEmpty = checkIfItsEmpty();
         let telRegexp = /^09\d{8}$/;
-        let emailExp = /^\w{2,}@\w{2,}\.\w{2,}$/;
+        let emailExp = /^\w{2,}@\w{2,}\.\w{2,}/;
         let appointmentDate = Number(orderFromCustomer[0].date.replaceAll("-", ""));
         let localeDate = new Date().toLocaleDateString();
         localeDate = Number(localeDate.replaceAll("/", ""));

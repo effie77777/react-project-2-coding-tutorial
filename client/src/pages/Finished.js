@@ -49,7 +49,7 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
     return (
         <div className="container-fluid">
             
-            {errorMsg
+            {!currentUser || errorMsg
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">

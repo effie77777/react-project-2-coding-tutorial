@@ -42,7 +42,7 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
 
     useEffect(() => {
         console.log(allCourses);
-        if (allCourses.length > 0) {
+        if (allCourses.length === 1) {
             getCourses("unlimited");
         }
     }, [allCourses]);
