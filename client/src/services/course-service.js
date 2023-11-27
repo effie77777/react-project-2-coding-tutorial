@@ -43,16 +43,16 @@ class courseService {
         );
     }
 
-    // getMyOrders(studentId) {
-    //     let token;
-    //     localStorage.getItem("user_data")
-    //     ? token = JSON.parse(localStorage.getItem("user_data")).token
-    //     : token = "";
-    //     return axios.get(
-    //         `${basic_api}/getMyOrders/${studentId}`,
-    //         { headers: { Authorization: token } }
-    //     );
-    // }
+    getMyOrders(studentId) {
+        let token;
+        localStorage.getItem("user_data")
+        ? token = JSON.parse(localStorage.getItem("user_data")).token
+        : token = "";
+        return axios.get(
+            `${basic_api}/getMyOrders/${studentId}`,
+            { headers: { Authorization: token } }
+        );
+    }
 }
 
 const newCourseService = new courseService();

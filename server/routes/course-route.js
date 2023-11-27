@@ -89,16 +89,20 @@ router.post("/enroll", async(req, res) => {
     })
 })
 
-// router.get("/getMyOrders/:studentId", async(req, res) => {
-//     let { studentId } = req.params;
-//     await User.findOne({ _id: studentId })
-//     .then((foundUser) => {
-//         if (!foundUser) {
-//             return res.status(400).send("查無這個使用者");
-//         } else {
-//             return res.send(foundUser)
-//         }
-//     })
-// })
+router.get("/getMyOrders/:studentId", async(req, res) => {
+    let { studentId } = req.params;
+    await User.findOne({ _id: studentId })
+    .then((foundUser) => {
+        if (!foundUser) {
+            return res.status(400).send("查無這個使用者");
+        } else {
+            return res.send(foundUser.orders);
+        }
+    })
+    .catch((e) => {
+        console.log(e);
+        return res.status(400).send("發生一些問題...");
+    })
+})
 
 module.exports = router;

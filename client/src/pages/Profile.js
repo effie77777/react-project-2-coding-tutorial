@@ -50,7 +50,13 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
             .catch((e) => {
                 console.log(e);
             })
-            setMyCourses(currentUser.data.orders);
+            newCourseService.getMyOrders(currentUser._id)
+            .then((d) => {
+                setMyCourses(d.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            })
         }
     }, []);
 
