@@ -6,6 +6,7 @@ import logo from "../assets/images/logo2.svg";
 const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) => {
     const Navigate = useNavigate();
     
+    // 登出
     const handleLogout = (e) => {
         newAuthService.logout();
         localStorage.clear();
@@ -16,7 +17,7 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
         handleGoToOtherPages(e);
     }
 
-    // 因為還要控制 offcanvas 的開合，所以不直接用 Link
+    // 因為還要關閉 offcanvas，所以不直接用 Link
     const handleGoToOtherPages = (e) => {
         let btn = document.querySelector(".btn-close");
         switch (e.target.innerText) {
@@ -39,7 +40,7 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                 Navigate("/register");
                 break;
         }
-        btn.click(); // 關閉 offcanvas
+        btn.click();
     }
 
     return (
