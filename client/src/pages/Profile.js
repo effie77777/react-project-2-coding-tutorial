@@ -39,7 +39,7 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
                 Navigate("/login");
             }, 2000);
         } else {
-            newCourseService.searchAllCourses()
+            newCourseService.searchAllCourses("unlimited")
             .then((d) => {
                 let { newData, profile } = d.data;
                 for (let i = 0; i < newData.length; i ++) {
