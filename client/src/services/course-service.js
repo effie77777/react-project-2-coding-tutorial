@@ -3,7 +3,7 @@ const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/
 // const basic_api = "http://localhost:8080/api/course";
 
 class courseService {
-    searchAllCourses(limit = "unlimited") {
+    searchAllCourses(limit) {
         console.log(limit);
         let token;
         if (localStorage.getItem("user_data")) {
