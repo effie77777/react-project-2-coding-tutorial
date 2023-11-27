@@ -65,6 +65,9 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
+    console.log("line 68")
+    console.log(localStorage.getItem("submitted_ecpay_form"))
+
     // if 區塊為 true 代表使用者曾經進到綠界頁面，但是沒有完成付款，就按「返回上一頁」回到 CheckOut，這時需要去後端再拿一次訂單編號，這樣訂單編號才不會重複。因為使用者不是按「重新整理」，不會跑 useEffect(() => {}, [])，所以要額外寫
     if (localStorage.getItem("submitted_ecpay_form")) {
         console.log("the user had submitted ecpay form");
@@ -98,6 +101,8 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             checkIfCurrentSearchExists();
         }
     }, []);
+
+    console.log(localStorage.getItem("form_from_ecpay"));
     
     return (
         <div className="container-fluid">

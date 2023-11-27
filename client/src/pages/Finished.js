@@ -28,6 +28,14 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
             newCourseService.enroll(studentId, course, orderDetail, classAmounts)
             .then((d) => {
                 console.log("successfully enrolled", d);
+                let { msg, token, data, orders } = JSON.parse(localStorage.getItem("user_data"));
+                if (orders.length === 0) {
+                    orders = [d.data];
+                } else {
+                    orders.push(d.data);
+                }
+                console.log("orders: ", orders);
+                localStorage.setItem("user_data", JSON.stringify({ msg, token, data, orders }));
             })
             .catch((e) => {
                 console.log(e);
@@ -49,7 +57,7 @@ const Finished = ({ currentUser, currentSearch, setCurrentSearch }) => {
     return (
         <div className="container-fluid">
             
-            {!currentUser || errorMsg
+            {!localStorage.getItem("form_from_ecpay") || errorMsg
             ? <div className="error_msg">{errorMsg}</div>
             : <div>
                 <section className="py-11">
