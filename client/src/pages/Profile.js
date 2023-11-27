@@ -29,7 +29,6 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
     useEffect(() => {
         if (allCourses.length > 0) {
             setFilterCategory(allCourses);
-            setMyCourses(currentUser.data.orders);
         }
     }, [allCourses]);
 
@@ -51,6 +50,7 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
             .catch((e) => {
                 console.log(e);
             })
+            setMyCourses(currentUser.data.orders);
         }
     }, []);
 

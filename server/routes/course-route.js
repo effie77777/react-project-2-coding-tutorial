@@ -6,29 +6,42 @@ const User = require("../models/index").User;
 
 router.get("/search/:limit", async(req, res) => {
     let { limit } = req.params;
-    if (limit === "0" || Number(limit)) {
-        await Course.find({}).limit(limit).populate("instructor")
+    console.log(typeof limit);
+    if (limit === "unlimited") {
+        await Course.find({}).populate("instructor")
         .then((data) => {
-            let newData = [...data]; //專門傳 instructor profile 以外的所有資料
-            let profile = []; //專門傳 instructor profile
-            for (let i = 0; i < data.length; i ++) {
-
-                //將 instructor profile 的資料類型從原本的 Buffer 轉成 String
-                let rawBuffer = data[i].instructor.profile.toString("base64");
-                let bufferToString = "data:image/png;base64," + rawBuffer;
-                profile.push(bufferToString);
-
-                // instructor profile 以外的資料的部分
-                let { _id, name, simpleBio, education, workingExp, language, languageLevel } = newData[i].instructor; //原本 instructor 這個 object 當中包含 _id, name, profile 三個屬性，但我們只需要前兩個
-                newData[i].instructor = { _id, name, simpleBio, education, workingExp, language, languageLevel }; //指定讓 { _id, name } 覆寫掉原本 instructor 的值，也就是拿掉 profile 這個屬性的意思
-            }
-            return res.json({ newData, profile }); //解構賦值的寫法，回傳一個 object
+            processData(data);
         })
         .catch((e) => {
             console.log("error");
             return res.status(400).send(e);
         })
-    }  
+    } else if (Number(limit)) {
+        await Course.find({}).limit(limit).populate("instructor")
+        .then((data) => {
+            processData(data);
+        })
+        .catch((e) => {
+            console.log("error");
+            return res.status(400).send(e);
+        })
+    }
+    function processData(data) {
+        let newData = [...data]; //專門傳 instructor profile 以外的所有資料
+        let profile = []; //專門傳 instructor profile
+        for (let i = 0; i < data.length; i ++) {
+
+            //將 instructor profile 的資料類型從原本的 Buffer 轉成 String
+            let rawBuffer = data[i].instructor.profile.toString("base64");
+            let bufferToString = "data:image/png;base64," + rawBuffer;
+            profile.push(bufferToString);
+
+            // instructor profile 以外的資料的部分
+            let { _id, name, simpleBio, education, workingExp, language, languageLevel } = newData[i].instructor; //原本 instructor 這個 object 當中包含 _id, name, profile 三個屬性，但我們只需要前兩個
+            newData[i].instructor = { _id, name, simpleBio, education, workingExp, language, languageLevel }; //指定讓 { _id, name } 覆寫掉原本 instructor 的值，也就是拿掉 profile 這個屬性的意思
+        }
+        return res.json({ newData, profile }); //解構賦值的寫法，回傳一個 object
+    }
 })
 
 

@@ -52,7 +52,7 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
             }, 2000);
         } else {
             getCourses(5);
-            getCourses(0);
+            // getCourses(0);
             // newCourseService.searchAllCourses(5)
             // .then((d) => {
             //     let { newData, profile } = d.data;
