@@ -41,9 +41,9 @@ router.get("/payment/:ItemName/:TotalAmount", (req, res) => {
         hour12: false,
         timeZone: 'UTC',
     });
-    let TradeNo = "test000" + new Date().getTime().toString().slice(0, 13); //目前 new Date().getTime() 會得到 13 碼數字，而 MerchantTrade 要帶 20 碼，所以前面再隨便加 7 個字
+    let TradeNo = "test000" + new Date().getTime().toString().slice(0, 13); // 目前 new Date().getTime() 會得到 13 碼數字，而 MerchantTrade 要帶 20 碼，所以前面再隨便加 7 個字
     let base_param = {
-        MerchantTradeNo: TradeNo, //請帶20碼uid, ex: f0a0d7e9fae1bb72bc93
+        MerchantTradeNo: TradeNo, // 請帶20碼uid, ex: f0a0d7e9fae1bb72bc93
         MerchantTradeDate,
         TotalAmount,
         TradeDesc: ItemName,

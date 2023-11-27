@@ -5,6 +5,7 @@ import logo from "../assets/images/logo2.svg";
 
 const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) => {
     const Navigate = useNavigate();
+    
     const handleLogout = (e) => {
         newAuthService.logout();
         localStorage.clear();
@@ -15,6 +16,7 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
         handleGoToOtherPages(e);
     }
 
+    // 因為還要控制 offcanvas 的開合，所以不直接用 Link
     const handleGoToOtherPages = (e) => {
         let btn = document.querySelector(".btn-close");
         switch (e.target.innerText) {
@@ -37,7 +39,7 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                 Navigate("/register");
                 break;
         }
-        btn.click();
+        btn.click(); // 關閉 offcanvas
     }
 
     return (
@@ -105,7 +107,7 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                     <div className="offcanvas-body">
                         <ul>
                             <li>
-                            <button type="button" className="btn text-start" onClick={handleGoToOtherPages}>首頁</button>
+                                <button type="button" className="btn text-start" onClick={handleGoToOtherPages}>首頁</button>
                             </li>
 
                             {currentUser && (
