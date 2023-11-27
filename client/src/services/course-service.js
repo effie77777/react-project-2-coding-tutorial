@@ -3,8 +3,8 @@ const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/
 // const basic_api = "http://localhost:8080/api/course";
 
 class courseService {
-    searchAllCourses(limit) {
-        console.log(limit);
+    searchAllCourses() {
+        // console.log(limit);
         let token;
         if (localStorage.getItem("user_data")) {
             token = JSON.parse(localStorage.getItem("user_data")).token;
@@ -12,7 +12,7 @@ class courseService {
             token = "";
         }
         return axios.get(
-            `${basic_api}/search/${limit}`,
+            `${basic_api}/search`,
             { headers: { Authorization: token } }
         );
     }
@@ -44,6 +44,7 @@ class courseService {
     }
 
     getMyOrders(studentId) {
+        console.log(studentId);
         let token;
         localStorage.getItem("user_data")
         ? token = JSON.parse(localStorage.getItem("user_data")).token
