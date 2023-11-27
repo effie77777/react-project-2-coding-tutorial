@@ -40,12 +40,12 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
         })
     }
 
-    useEffect(() => {
-        console.log(allCourses);
-        if (allCourses.length === 1) {
-            getCourses("unlimited");
-        }
-    }, [allCourses]);
+    // useEffect(() => {
+    //     console.log(allCourses);
+    //     if (allCourses.length === 1) {
+    //         getCourses("unlimited");
+    //     }
+    // }, [allCourses]);
 
     useEffect(() => {
         if (!currentUser) {
@@ -55,6 +55,9 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
             }, 2000);
         } else {
             getCourses(5);
+            setTimeout(() => {
+                getCourses("unlimited");
+            }, 1000);
             // newCourseService.searchAllCourses(5)
             // .then((d) => {
             //     let { newData, profile } = d.data;
