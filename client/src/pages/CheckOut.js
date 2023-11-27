@@ -178,7 +178,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                             </form>
                             )}
 
-                            <p className="col-12 col-sm-10 col-md-8 mt-8">*若綠界交易頁面顯示「訂單編號重複」訊息，請回到本頁面後按「重新整理」即可。這個動作<span className="text-warning">不會</span>遺失已填寫好的資料或進行重複扣款。</p>
+                            <p className="col-12 col-sm-10 col-md-8 mt-8">*若綠界交易頁面顯示「訂單編號重複」訊息，請回到本頁面後按「重新整理」即可。這個動作<span className="text-warning">不會</span>使資料遺失或進行重複扣款。</p>
                         </div>
                     </div>
                 </section>

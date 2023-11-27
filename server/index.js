@@ -42,13 +42,13 @@ mongoose.connect(process.env.DB_CONNECT)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use((req, res, next) => {
-    res.setHeader(
-        'Cache-Control',
-        'no-store, no-cache, must-revalidate, proxy-revalidate'
-    );
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader(
+//         'Cache-Control',
+//         'no-store, no-cache, must-revalidate, proxy-revalidate'
+//     );
+//     next();
+// });
 
 app.use("/api/auth", authRoute);
 app.use("/api/google/course", courseRoute);
