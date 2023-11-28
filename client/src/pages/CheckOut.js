@@ -92,11 +92,17 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             }, 2000);
         } else {
             checkIfCurrentSearchExists();
-            console.log("inside useEffect")
+            console.log("inside useEffect", new Date().toLocaleTimeString())
+            if (localStorage.getItem("submitted_ecpay_form")) {
+                localStorage.removeItem("submitted_ecpay_form");
+            }
         }
     }, []);
 
-    console.log("line 99")
+    if (localStorage.getItem("submitted_ecpay_form")) {
+        console.log("line 100. time: ", new Date().toLocaleTimeString())
+        localStorage.removeItem("submitted_ecpay_form");
+    }
     
     return (
         <div className="container-fluid">
