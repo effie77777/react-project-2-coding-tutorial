@@ -95,7 +95,7 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
                 if (foundData) {
                     setCurrentSearch(foundData); 
                 } else {
-                    setErrorMsg("尚未選擇想查詢的課程，將為您導向課程頁面");
+                    setErrorMsg("您還沒有選擇想查詢的課程哦，將為您導向課程頁面");
                     setTimeout(() => {
                         Navigate("/class");
                     }, 2000);

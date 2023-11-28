@@ -72,6 +72,11 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
+    // if 區塊為 true 代表使用者已經進到綠界的頁面，但還沒完成付款，就按上一頁回到 CheckOut。這種情況就先把 submitted_ecpay_form 移除，等使用者按下「前往付款」時再加到 localStorage 裡面
+    if (localStorage.getItem("submitted_ecpay_form")) {
+        localStorage.removeItem("submitted_ecpay_form");
+    }
+
     useEffect(() => {
         if (currentSearch && currentSearch.length > 0) {
             checkIfOrderExists();
@@ -94,11 +99,6 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             checkIfCurrentSearchExists();
         }
     }, []);
-
-    if (localStorage.getItem("submitted_ecpay_form")) {
-        console.log("line 99. time: ", new Date().toLocaleTimeString())
-        localStorage.removeItem("submitted_ecpay_form");
-    }
     
     return (
         <div className="container-fluid">
