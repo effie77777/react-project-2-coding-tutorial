@@ -50,6 +50,7 @@ const Profile = ({ currentUser, allCourses, setAllCourses, filterCategory, setFi
             .catch((e) => {
                 console.log(e);
             })
+            // 雖然 localStorage user_data 的 data.orders 也是放使用者完成購買的課程，但因為不想更動到 localStorage 的內容，所以選擇不直接更新 orders，而是向 db 拿資料。因此這時 orders 的資料還是舊的，要到下一次使用者登出、登入之後才會更新
             newCourseService.getMyOrders(currentUser.data._id)
             .then((d) => {
                 setMyCourses(d.data);

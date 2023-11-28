@@ -44,7 +44,6 @@ class courseService {
     }
 
     getMyOrders(studentId) {
-        console.log(studentId);
         let token;
         localStorage.getItem("user_data")
         ? token = JSON.parse(localStorage.getItem("user_data")).token

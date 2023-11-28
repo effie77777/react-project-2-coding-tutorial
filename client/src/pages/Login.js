@@ -124,8 +124,6 @@ const Login = ({ currentUser, setCurrentUser }) => {
             }(document, "script", "facebook-jssdk"));
         }
     }, []);
-    let googleDiv = document.querySelector("#ssJRIf");
-    console.log(googleDiv);
 
     return (
         <div className="container-fluid">

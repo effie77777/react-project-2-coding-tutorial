@@ -32,7 +32,7 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
         setCurrentSearch(result);
         localStorage.setItem("current_search", JSON.stringify(result));
         window.scrollTo({
-            top: "0",
+            top: 0,
             behavior: "smooth",
         });
         const scrollToLeft = document.querySelector("#scroll-to-left-control");

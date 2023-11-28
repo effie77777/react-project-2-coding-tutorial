@@ -19,11 +19,16 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
         Navigate("/detail");
     }
 
-    // 使用者點擊「卡片裡面的標籤」以篩選課程類別
+    // 使用者點擊「卡片裡面的標籤」或「ul - li」以篩選課程類別
     const handleFilterCategory = (e) => {
         e.stopPropagation(); // 不加的話，會因為 event bubbling 而讓整張卡片都被點擊到，就會觸發 handleSearch 這個 eventListener，然後導向 detail 頁面
         let result = allCourses.filter((i) => i.category.includes(e.target.outerText));
         setFilterCategory(result);
+        let scrollControlDiv = document.querySelector(".scroll-control-div");
+        scrollControlDiv.scrollTo({
+            left: 0,
+            behavior: "smooth",
+        });
     }
 
     useEffect(() => {
@@ -81,7 +86,7 @@ const Class = ({ currentUser, allCourses, setAllCourses, filterCategory, setFilt
                 <section>
                     <div className="row">
                         <div className="col-12">
-                            <div className="col-10 offset-1 d-flex flex-wrap flex-md-nowrap overflow-md-auto">
+                            <div className="col-10 offset-1 d-flex flex-wrap flex-md-nowrap overflow-md-auto scroll-control-div">
 
                                 {filterCategory.length > 0 && filterCategory.map((i) =>
                                 <button type="button" className="class-card btn" id={i._id} onClick={handleSearch} key={i._id}>

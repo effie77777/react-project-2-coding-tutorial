@@ -92,8 +92,11 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             }, 2000);
         } else {
             checkIfCurrentSearchExists();
+            console.log("inside useEffect")
         }
     }, []);
+
+    console.log("line 99")
     
     return (
         <div className="container-fluid">
