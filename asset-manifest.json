@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/react-project-2-coding-tutorial/static/css/main.2f5a6a14.css",
-    "main.js": "/react-project-2-coding-tutorial/static/js/main.6838cc60.js",
+    "main.js": "/react-project-2-coding-tutorial/static/js/main.4ca039d7.js",
     "static/js/600.04d3bb13.chunk.js": "/react-project-2-coding-tutorial/static/js/600.04d3bb13.chunk.js",
-    "static/js/824.89253f33.chunk.js": "/react-project-2-coding-tutorial/static/js/824.89253f33.chunk.js",
-    "static/js/892.e55e97c1.chunk.js": "/react-project-2-coding-tutorial/static/js/892.e55e97c1.chunk.js",
+    "static/js/824.10d513af.chunk.js": "/react-project-2-coding-tutorial/static/js/824.10d513af.chunk.js",
+    "static/js/892.4689b5eb.chunk.js": "/react-project-2-coding-tutorial/static/js/892.4689b5eb.chunk.js",
     "static/js/787.33fdce8c.chunk.js": "/react-project-2-coding-tutorial/static/js/787.33fdce8c.chunk.js",
     "static/js/756.9c411187.chunk.js": "/react-project-2-coding-tutorial/static/js/756.9c411187.chunk.js",
-    "static/js/876.95525474.chunk.js": "/react-project-2-coding-tutorial/static/js/876.95525474.chunk.js",
+    "static/js/876.ea92ffc0.chunk.js": "/react-project-2-coding-tutorial/static/js/876.ea92ffc0.chunk.js",
     "static/js/619.6395c008.chunk.js": "/react-project-2-coding-tutorial/static/js/619.6395c008.chunk.js",
-    "static/js/183.d0063261.chunk.js": "/react-project-2-coding-tutorial/static/js/183.d0063261.chunk.js",
-    "static/js/598.bd3792de.chunk.js": "/react-project-2-coding-tutorial/static/js/598.bd3792de.chunk.js",
+    "static/js/183.abdd12ce.chunk.js": "/react-project-2-coding-tutorial/static/js/183.abdd12ce.chunk.js",
+    "static/js/598.ea4c18e4.chunk.js": "/react-project-2-coding-tutorial/static/js/598.ea4c18e4.chunk.js",
     "static/js/922.06216bff.chunk.js": "/react-project-2-coding-tutorial/static/js/922.06216bff.chunk.js",
     "static/media/homepage_section5-2.png": "/react-project-2-coding-tutorial/static/media/homepage_section5-2.b450a106a65fead648e5.png",
     "static/media/homepage_section5-3.png": "/react-project-2-coding-tutorial/static/media/homepage_section5-3.b3baa9dc8f1130f3f570.png",
@@ -23,20 +23,20 @@
     "index.html": "/react-project-2-coding-tutorial/index.html",
     "static/media/icon_fb.svg": "/react-project-2-coding-tutorial/static/media/icon_fb.2e02184f0e9670d6a01f25ca0d4b4d3b.svg",
     "main.2f5a6a14.css.map": "/react-project-2-coding-tutorial/static/css/main.2f5a6a14.css.map",
-    "main.6838cc60.js.map": "/react-project-2-coding-tutorial/static/js/main.6838cc60.js.map",
+    "main.4ca039d7.js.map": "/react-project-2-coding-tutorial/static/js/main.4ca039d7.js.map",
     "600.04d3bb13.chunk.js.map": "/react-project-2-coding-tutorial/static/js/600.04d3bb13.chunk.js.map",
-    "824.89253f33.chunk.js.map": "/react-project-2-coding-tutorial/static/js/824.89253f33.chunk.js.map",
-    "892.e55e97c1.chunk.js.map": "/react-project-2-coding-tutorial/static/js/892.e55e97c1.chunk.js.map",
+    "824.10d513af.chunk.js.map": "/react-project-2-coding-tutorial/static/js/824.10d513af.chunk.js.map",
+    "892.4689b5eb.chunk.js.map": "/react-project-2-coding-tutorial/static/js/892.4689b5eb.chunk.js.map",
     "787.33fdce8c.chunk.js.map": "/react-project-2-coding-tutorial/static/js/787.33fdce8c.chunk.js.map",
     "756.9c411187.chunk.js.map": "/react-project-2-coding-tutorial/static/js/756.9c411187.chunk.js.map",
-    "876.95525474.chunk.js.map": "/react-project-2-coding-tutorial/static/js/876.95525474.chunk.js.map",
+    "876.ea92ffc0.chunk.js.map": "/react-project-2-coding-tutorial/static/js/876.ea92ffc0.chunk.js.map",
     "619.6395c008.chunk.js.map": "/react-project-2-coding-tutorial/static/js/619.6395c008.chunk.js.map",
-    "183.d0063261.chunk.js.map": "/react-project-2-coding-tutorial/static/js/183.d0063261.chunk.js.map",
-    "598.bd3792de.chunk.js.map": "/react-project-2-coding-tutorial/static/js/598.bd3792de.chunk.js.map",
+    "183.abdd12ce.chunk.js.map": "/react-project-2-coding-tutorial/static/js/183.abdd12ce.chunk.js.map",
+    "598.ea4c18e4.chunk.js.map": "/react-project-2-coding-tutorial/static/js/598.ea4c18e4.chunk.js.map",
     "922.06216bff.chunk.js.map": "/react-project-2-coding-tutorial/static/js/922.06216bff.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2f5a6a14.css",
-    "static/js/main.6838cc60.js"
+    "static/js/main.4ca039d7.js"
   ]
 }
