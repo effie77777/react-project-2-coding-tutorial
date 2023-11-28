@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import newCourseService from "../services/course-service";
 
-
 const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setPurchase, orderFromCustomer, setOrderFromCustomer }) => {
     const Navigate = useNavigate();
     const [ errorMsg, setErrorMsg ] = useState(null);
@@ -13,13 +12,12 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         newCourseService.checkOut(currentSearch[0].title, purchase[0] * purchase[1])
         .then((d) => {
             // 後端傳回來的 html 即為待會要提交給綠界的訂單
-            console.log(d.data);
-            localStorage.setItem("form_from_ecpay", d.data.html.substring(0, d.data.html.indexOf("<script")) + "</form>");
+            localStorage.setItem("form_from_ecpay", d.data.substring(0, d.data.indexOf("<script")) + "</form>");
             let parentElement = document.getElementById("parentElement");
             if (parentElement) {
-                parentElement.innerHTML = d.data.html.substring(0, d.data.html.indexOf("<script")) + "</form>";
+                parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
             }
-            selectForm(d.data.hashedResult);
+            selectForm();
         })
         .catch((e) => {
             console.log(e);
@@ -27,10 +25,10 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
     }
 
     // 如果在 handleGoPay() 裡面拿到表單後就直接搜尋 form，會沒辦法找到 form
-    function selectForm(hashedResult) {
+    function selectForm() {
         let form = document.getElementById("_form_aiochk");
         if (form) {
-            localStorage.setItem("submission_hashed_result", JSON.stringify(hashedResult));
+            localStorage.setItem("submitted_ecpay_form", "true");
             window.alert("將為您導向綠界金流頁面。\n本專案僅為 demo 性質，為方便觀看模擬的交易結果，付款方式請選擇「網路 ATM 」，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
             form.submit();
         }

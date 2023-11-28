@@ -43,6 +43,7 @@ class courseService {
         );
     }
 
+    // 搜尋使用者所有已購買的課程
     getMyOrders(studentId) {
         let token;
         localStorage.getItem("user_data")
@@ -50,18 +51,6 @@ class courseService {
         : token = "";
         return axios.get(
             `${basic_api}/getMyOrders/${studentId}`,
-            { headers: { Authorization: token } }
-        );
-    }
-
-    checkIfPaymentFinished(hashed_result, studentId, course, orderDetail, classAmounts) {
-        let token;
-        localStorage.getItem("user_data")
-        ? token = JSON.parse(localStorage.getItem("user_data")).token
-        : token = "";
-        return axios.post(
-            `${basic_api}/checkIfPaymentFinished`,
-            { hashed_result, studentId, course, orderDetail, classAmounts },
             { headers: { Authorization: token } }
         );
     }

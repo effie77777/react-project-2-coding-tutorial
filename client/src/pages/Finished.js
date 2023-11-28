@@ -21,32 +21,22 @@ const Finished = ({ currentUser }) => {
             setTimeout(() => {
                 Navigate("/login");
             }, 2000);
-        } else if (localStorage.getItem("submission_hashed_result")) { // 使用者剛付款成功，從綠界頁面過來
-            let hashedResult = JSON.parse(localStorage.getItem("submission_hashed_result"));
+        } else if (localStorage.getItem("submitted_ecpay_form")) { // 使用者剛付款成功，從綠界頁面過來
             let studentId = currentUser.data._id;
             let course = JSON.parse(localStorage.getItem("current_search"))[0];
             let orderDetail = JSON.parse(localStorage.getItem("order_from_customer"));
             let classAmounts = JSON.parse(localStorage.getItem("purchase"))[1];
-            newCourseService.checkIfPaymentFinished(hashedResult, studentId, course, orderDetail, classAmounts)
+            newCourseService.enroll(studentId, course, orderDetail, classAmounts) // 存入 db
             .then((d) => {
-                console.log("d is: ", d);
-                // if (d.data === "訂單儲存成功") {
-                //     localStorage.removeItem("submitted_ecpay_form");
-                //     localStorage.removeItem("form_from_ecpay");
-                //     localStorage.removeItem("order_from_customer");
-                //     localStorage.removeItem("purchase");        
-                // } else if (d.data === "訂單驗證失敗") {
-                //     if (localStorage.getItem("purchase")) {
-                //         setErrorMsg("訂單尚未完成，將為您重新導向");
-                //         checkUnfinishedOrder();
-                //     } else {
-                //         setErrorMsg("目前沒有進行中的訂單哦，如欲查詢已完成的訂單請至個人頁面");
-                //     }
-                // }
+                console.log("successfully enrolled", d);
             })
             .catch((e) => {
                 console.log(e);
-            })
+            });    
+            localStorage.removeItem("submitted_ecpay_form");
+            localStorage.removeItem("form_from_ecpay");
+            localStorage.removeItem("order_from_customer");
+            localStorage.removeItem("purchase");
         } else if (localStorage.getItem("purchase")) {
             setErrorMsg("訂單尚未完成，將為您重新導向");
             setTimeout(() => {
