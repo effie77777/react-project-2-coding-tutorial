@@ -12,12 +12,13 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             // 後端傳回來的 html 即為待會要提交給綠界的訂單
             localStorage.setItem("form_from_ecpay", d.data.substring(0, d.data.indexOf("<script")) + "</form>");
             let parentElement = document.getElementById("parentElement");
-            console.log(parentElement);
+            console.log("parentElement: ", parentElement);
             if (parentElement) {
                 parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
             }
             while(!parentElement) {
                 parentElement = document.getElementById("parentElement");
+                console.log("parentElement: ", parentElement);
             }
         })
         .catch((e) => {
