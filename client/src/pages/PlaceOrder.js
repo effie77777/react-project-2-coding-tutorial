@@ -94,10 +94,10 @@ const PlaceOrder = ({ currentUser, orderFromCustomer, setOrderFromCustomer, curr
             let pricePerClass = Number(JSON.parse(localStorage.getItem("purchase"))[0]);
             let amounts = Number(JSON.parse(localStorage.getItem("purchase"))[1]);
             setPurchase([pricePerClass, amounts]);
+            // if 區塊第一種情形代表「初次進入到 placeOrder 頁面」。if 區塊第二種情形代表「之前有進到 placeOrder 頁面過，但是又按重選方案，回到 detail 頁面」(不會有 isValid 是因為沒有進到 checkOut 頁面過)
             if (orderFromCustomer.length === 0 || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
                 setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
-            } else {
-                //代表使用者已經到第二步驟 checkOut 了，但是又按修改訂單，回到第一步驟 placeOrder，這種情況就將使用者上一次輸入的內容帶入表單
+            } else { // else 區塊代表「使用者已經到 checkOut 了，但是又按修改訂單，回到 placeOrder 」。這種情況就將使用者上一次輸入的內容帶入表單
                 let previousInfo = JSON.parse(localStorage.getItem("order_from_customer")).data;
                 setOrderFromCustomer([previousInfo]);
             }

@@ -6,7 +6,8 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
     const Navigate = useNavigate();
     const [ errorMsg, setErrorMsg ] = useState(null);
 
-    // 使用者按下「前往付款」按鈕
+    // (修正訂單編號重複的問題)
+    // 如果一進到頁面就向後端拿表單，這樣當使用者曾經進到綠界頁面，但沒有完成付款就按「返回上一頁」回到 CheckOut，這種情況下再次提交表單，就會發生訂單編號重複的問題。所以改成使用者按下「前往付款」按鈕的時候再去跟後端要表單
     const handleGoPay = () => {
         newCourseService.checkOut(currentSearch[0].title, purchase[0] * purchase[1])
         .then((d) => {
@@ -63,18 +64,6 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
     function checkIfOrderIsValid() {
         if (localStorage.getItem("order_from_customer") && JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
             setOrderFromCustomer([JSON.parse(localStorage.getItem("order_from_customer")).data]);
-            // newCourseService.checkOut(currentSearch[0].title, purchase[0] * purchase[1])
-            // .then((d) => {
-            //     // 後端傳回來的 html 即為待會要提交給綠界的訂單
-            //     localStorage.setItem("form_from_ecpay", d.data.substring(0, d.data.indexOf("<script")) + "</form>");
-            //     let parentElement = document.getElementById("parentElement");
-            //     if (parentElement) {
-            //         parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
-            //     }        
-            // })
-            // .catch((e) => {
-            //     console.log(e);
-            // })
         } else {
             setErrorMsg("目前沒有有效的訂單哦，將為您導回修改訂單的頁面");
             setTimeout(() => {
@@ -82,13 +71,6 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             }, 2000);
         }
     }
-
-    // if 區塊為 true 代表使用者曾經進到綠界頁面，但是沒有完成付款，就按「返回上一頁」回到 CheckOut，這時需要去後端再拿一次訂單編號，這樣訂單編號才不會重複。因為使用者不是按「重新整理」，不會跑 useEffect(() => {}, [])，所以要額外寫
-    // 這個功能在 localhost 上測試沒問題，但部署到 render 上就沒效了
-    if (localStorage.getItem("submitted_ecpay_form")) {
-        localStorage.removeItem("submitted_ecpay_form");
-        checkIfCurrentSearchExists();
-    }    
 
     useEffect(() => {
         if (currentSearch && currentSearch.length > 0) {
