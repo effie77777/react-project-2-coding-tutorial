@@ -1,5 +1,6 @@
 const Joi = require("joi");
 
+// 檢查註冊
 const registrationVal = (data) => {
     const schema = Joi.object({
         username: Joi.string().required().max(50),
@@ -20,20 +21,20 @@ const registrationVal = (data) => {
             result = "密碼需要包含至少一個數字";
         } else if (!specialCharVal.test(password)) {
             result = "密碼需要包含一個特殊符號，僅限!@#%&=_?";
-        } else { //檢查 password 當中是否包含「非規定範圍內的」特殊符號
-            let specialCharInPwd = password.match(/[^\w]/g); //找出 password 當中所有特殊符號。[^\w] 代表非文字或數字(亦即特殊符號)，g代表符合條件的「全部」都要回傳
-            specialCharInPwd = specialCharInPwd.join(""); //將回傳的 array 當中的每一項連接起來，變成一個 string
-            if (/[^!@#%&=_?]/.test(specialCharInPwd)) { //如果 password 當中所有特殊符號裡面，有不符合規定的
+        } else { // 檢查 password 當中是否包含「非規定範圍內的」特殊符號
+            let specialCharInPwd = password.match(/[^\w]/g); // 找出 password 當中所有特殊符號。[^\w] 代表非文字或數字(亦即特殊符號)，g代表符合條件的「全部」都要回傳
+            specialCharInPwd = specialCharInPwd.join(""); // 將回傳的 array 當中的每一項連接起來，變成一個 string
+            if (/[^!@#%&=_?]/.test(specialCharInPwd)) { // 如果 password 當中所有特殊符號裡面，有不符合規定的
                 result = "密碼不可包含!@#%&=_?以外的特殊符號或空格"
             } else {
                 result = "通過檢驗";
             }
         }
     }
-    console.log("result: ", result);
     return result;
 }
 
+// 檢查登入
 const loginVal = (data) => {
     const schema = Joi.object({
         email: Joi.string().required().max(50),
@@ -46,7 +47,7 @@ const loginVal = (data) => {
     return result;
 }
 
-
+// 若沒有通過 Joi 檢驗，將錯誤訊息從英文翻譯成中文
 function translateErrorMsg(result) {
     let errorMsg = "";
     let key = result.error.details[0].context.key;
@@ -86,7 +87,7 @@ function translateErrorMsg(result) {
             errorMsg = `下限為 ${limit}`;
             break;                
     }
-    if (errorMsg !== "") { //為上述所列的錯誤類型之一的話，就將原本 Joi 的錯誤訊息改成翻譯過後的
+    if (errorMsg !== "") { // 為上述所列的錯誤類型之一的話，就將原本 Joi 的錯誤訊息改成翻譯過後的。非上述所列的錯誤類型的話，就維持原本英文的
         errorMsg = key + errorMsg;
         result.error.details[0].message = errorMsg;
     }

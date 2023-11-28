@@ -5,7 +5,7 @@ const Course = require("../models/index").Course;
 const User = require("../models/index").User;
 const { MERCHANTID, HASHKEY, HASHIV, FRONTEND_HOST, BACKEND_HOST } = process.env;
 const options = {
-    OperationMode: 'Test', //Test or Production
+    OperationMode: 'Test', // Test or Production
     MercProfile: {
       MerchantID: MERCHANTID,
       HashKey: HASHKEY,
@@ -25,11 +25,11 @@ const options = {
 router.get("/search", async(req, res) => {
     await Course.find({}).populate("instructor")
     .then((data) => {
-        let newData = [...data]; //專門傳 instructor profile 以外的所有資料
-        let profile = []; //專門傳 instructor profile
+        let newData = [...data]; // 專門傳 instructor profile 以外的所有資料
+        let profile = []; // 專門傳 instructor profile
         for (let i = 0; i < data.length; i ++) {
 
-            //將 instructor profile 的資料類型從原本的 Buffer 轉成 String
+            // 將 instructor profile 的資料類型從原本的 Buffer 轉成 String
             let rawBuffer = data[i].instructor.profile.toString("base64");
             let bufferToString = "data:image/png;base64," + rawBuffer;
             profile.push(bufferToString);
@@ -61,7 +61,7 @@ router.get("/payment/:ItemName/:TotalAmount", (req, res) => {
     });
     let TradeNo = "test000" + new Date().getTime().toString().slice(0, 13); // 目前 new Date().getTime() 會得到 13 碼數字，而 MerchantTrade 要帶 20 碼，所以前面再隨便加 7 個字
     let base_param = {
-        MerchantTradeNo: TradeNo, // 請帶20碼uid, ex: f0a0d7e9fae1bb72bc93
+        MerchantTradeNo: TradeNo, // 請帶 20 碼 uid, ex: f0a0d7e9fae1bb72bc93
         MerchantTradeDate,
         TotalAmount,
         TradeDesc: ItemName,

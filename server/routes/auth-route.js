@@ -8,6 +8,7 @@ const User = require("../models/user-model");
 const registrationVal = require("../validation").registrationVal;
 const loginVal = require("../validation").loginVal;
 
+// 本地註冊
 router.post("/register", async(req, res) => {
     let { username, email, password } = req.body;
     await User.findOne({ email })
@@ -22,7 +23,7 @@ router.post("/register", async(req, res) => {
             let result = registrationVal(req.body);
             if (result.error) {
                 return res.status(400).send(result.error.details[0].message);
-            } else if (typeof result === "string" && result !== "通過檢驗") { //有通過 Joi 的檢驗，但是沒有通過我們自訂的其它檢驗規定
+            } else if (typeof result === "string" && result !== "通過檢驗") { // 有通過 Joi 的檢驗，但是沒有通過我們自訂的其它檢驗規定
                 return res.status(400).send(result);
             } else {
                 bcrypt.hash(password, 10, (err, hashed) => {
@@ -50,6 +51,7 @@ router.post("/register", async(req, res) => {
     })
 })
 
+// 本地登入
 router.post("/login", async(req, res) => {
     let { email, password } = req.body;
     await User.findOne({ email })
@@ -68,7 +70,7 @@ router.post("/login", async(req, res) => {
                     if (!result) {
                         return res.status(401).send("帳號或密碼錯誤");
                     } else {
-                        //製作 token
+                        // 製作 token
                         const tokenObj = { id: d._id, email: d.email };
                         const sentTokenObj = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
                         return res.send({ msg: "成功登入 !", token: `JWT ${sentTokenObj}`, data: d });
@@ -87,10 +89,10 @@ router.post("/login", async(req, res) => {
     })
 })
 
+// Google 登入
 router.post("/login/google", async(req, res) => {
     let { credential } = req.body;
     let decodedResult = jwtDecode(credential);
-    console.log(decodedResult);
     if (decodedResult.iss && decodedResult.iss === "https://accounts.google.com" && decodedResult.aud && decodedResult.aud === process.env.GOOGLE_CLIENT_ID && decodedResult.email_verified && decodedResult.email_verified === true) {
         await User.findOne({ email: decodedResult.email })
         .then((foundUser) => {
@@ -102,7 +104,6 @@ router.post("/login/google", async(req, res) => {
                 })
                 newUser.save()
                 .then((d) => {
-                    console.log(d);
                     const tokenObj = { id: d._id, email: d.email };
                     const sentTokenObj = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
                     return res.send({ msg: "成功登入 !", token: `JWT ${sentTokenObj}`, data: d });
@@ -126,7 +127,7 @@ router.post("/login/google", async(req, res) => {
     }
 });
 
-
+// FB 登入
 router.post("/login/facebook", (req, res) => {
     let { accessToken, userData } = req.body;
     // 把拿到的 accessToken 傳給 Facebook 來驗證使用者的身分

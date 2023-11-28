@@ -10,7 +10,7 @@ const courseRoute = require("./routes/index").courseRoute;
 const authRoute = require("./routes/index").authRoute;
 const { MERCHANTID, HASHKEY, HASHIV } = process.env;
 const options = {
-    OperationMode: 'Test', //Test or Production
+    OperationMode: 'Test', // Test or Production
     MercProfile: {
       MerchantID: MERCHANTID,
       HashKey: HASHKEY,
@@ -35,20 +35,13 @@ mongoose.connect(process.env.DB_CONNECT)
     console.log(e);
 })
 
-//middlewares
+// middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-// app.use((req, res, next) => {
-//     res.setHeader(
-//         'Cache-Control',
-//         'no-store, no-cache, must-revalidate, proxy-revalidate'
-//     );
-//     next();
-// });
 
+// routes
 app.use("/api/auth", authRoute);
-app.use("/api/google/course", courseRoute);
 app.use("/api/course", passport.authenticate("jwt", { session: false }), courseRoute);
 
 // 交易完成後綠界回傳的資料
