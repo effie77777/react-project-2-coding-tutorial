@@ -4,7 +4,6 @@ const ecpay_payment = require('ecpay_aio_nodejs');
 const Course = require("../models/index").Course;
 const User = require("../models/index").User;
 const { MERCHANTID, HASHKEY, HASHIV, FRONTEND_HOST, BACKEND_HOST } = process.env;
-const { ORDER_HASH_SECRET } = process.env;
 const options = {
     OperationMode: 'Test', // Test or Production
     MercProfile: {
@@ -72,13 +71,7 @@ router.get("/payment/:ItemName/:TotalAmount", (req, res) => {
     };
     const create = new ecpay_payment(options);
     const html = create.payment_client.aio_check_out_all(base_param);
-    bcrypt.hash(ORDER_HASH_SECRET, 10, (err, hashedResult) => {
-        if (err) {
-            console.log(err);
-        } else {
-            return res.send({ html, hashedResult });
-        }
-    })
+    return res.send(html);
 })
 
 // 註冊 (購買) 課程
