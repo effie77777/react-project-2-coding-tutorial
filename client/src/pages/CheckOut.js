@@ -12,9 +12,13 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             // 後端傳回來的 html 即為待會要提交給綠界的訂單
             localStorage.setItem("form_from_ecpay", d.data.substring(0, d.data.indexOf("<script")) + "</form>");
             let parentElement = document.getElementById("parentElement");
+            console.log(parentElement);
             if (parentElement) {
                 parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
-            }        
+            }
+            while(!parentElement) {
+                parentElement = document.getElementById("parentElement");
+            }
         })
         .catch((e) => {
             console.log(e);
@@ -26,7 +30,8 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
             localStorage.setItem("submitted_ecpay_form", "true");
             window.alert("將為您導向綠界金流頁面。\n本專案僅為 demo 性質，為方便觀看模擬的交易結果，付款方式請選擇「網路 ATM 」，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
             form.submit();
-        } else {
+        }
+        while (!form) {
             form = document.getElementById("_form_aiochk");
             console.log("form: ", form);
         }
