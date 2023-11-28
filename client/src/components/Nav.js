@@ -14,10 +14,10 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
         setCurrentSearch([]);
         setAllCourses([]);
         window.alert("成功登出 ! 將為您導回首頁 : )");
-        handleGoToOtherPages(e);
+        handleGoToOtherPages(e); // 不直接用 Navigate 是因為還要關閉 offcanvas
     }
 
-    // 因為還要關閉 offcanvas，所以不直接用 Link
+    // 不直接用 Link 是因為還要關閉 offcanvas
     const handleGoToOtherPages = (e) => {
         let btn = document.querySelector(".btn-close");
         switch (e.target.innerText) {
@@ -41,6 +41,10 @@ const Nav = ({ currentUser, setCurrentUser, setCurrentSearch, setAllCourses }) =
                 break;
         }
         btn.click();
+        window.scrollTo({ // 這個是專門因應「登出前就已經在 Homepage」的情形
+            top: "0",
+            behavior: "instant",
+        });
     }
 
     return (

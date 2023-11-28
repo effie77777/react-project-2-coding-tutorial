@@ -79,7 +79,7 @@ const Register = () => {
                         </div>
                         <p className="mt-3">8位數以上，至少一個大寫英文字母、一個數字、一個特殊符號(僅限<span className="text-warning">!@#%&=_?</span>)且<span className="text-warning">不可有空格</span></p>
                     </div>
-                    <button type="button" className="btn bg-linear text-white px-6 w-100 w-sm-40 w-md-30 w-lg-25 border-0 px-3 py-2" style={{paddingTop: "0.625rem", paddingBottom: "0.625rem"}} onClick={handleRegister}>註冊</button>
+                    <button type="button" className="btn bg-linear text-white border-0" style={{paddingTop: "0.625rem", paddingBottom: "0.625rem", width: "200px", height: "40px"}} onClick={handleRegister}>註冊</button>
                 </form>
             </section>
         </div>

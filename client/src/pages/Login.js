@@ -124,6 +124,8 @@ const Login = ({ currentUser, setCurrentUser }) => {
             }(document, "script", "facebook-jssdk"));
         }
     }, []);
+    let googleDiv = document.querySelector("#ssJRIf");
+    console.log(googleDiv);
 
     return (
         <div className="container-fluid">
@@ -156,7 +158,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
                             </div>
                             <p className="mt-3">8位數以上，至少一個大寫英文字母、一個數字、一個特殊符號(僅限<span className="text-warning">!@#%&=_?</span>)且<span className="text-warning">不可有空格</span></p>
                         </div>
-                        <button type="submit" className="btn bg-linear text-white border-0 local-login-btn" style={{paddingTop: "0.625rem", paddingBottom: "0.625rem", height: "40px"}} onClick={handleLogin}>登入</button>
+                        <button type="submit" className="btn bg-linear text-white border-0 rounded-1" style={{paddingTop: "0.625rem", paddingBottom: "0.625rem", width: "200px", height: "40px"}} onClick={handleLogin}>登入</button>
                     </form>
                 </section>
                 <section>
@@ -164,8 +166,8 @@ const Login = ({ currentUser, setCurrentUser }) => {
                         <p className="position-absolute px-5 bg-fourth" style={{transform: "translateY(-50%)"}}>其它登入方式</p>
                     </div>
                     <div className="d-flex mt-12 flex-wrap">
-                        <button type="button" className="btn border bg-white text-dark me-5 mb-4 mb-sm-0 rounded-1" style={{fontSize: "14px", width: "194px", height: "40px", fontFamily: "sans-serif", paddingRight: "6px", paddingLeft: "6px"}} onClick={handleLoginWithFacebook}>
-                            <img src={icon_fb} alt="Facebook icon" style={{marginRight: "6px", height: "18px"}} />
+                        <button type="button" className="btn border bg-white text-dark me-5 mb-4 mb-sm-0 rounded-1" style={{fontSize: "14px", width: "200px", height: "40px", fontFamily: "sans-serif", paddingRight: "6px", paddingLeft: "6px" }} onClick={handleLoginWithFacebook}>
+                            <img src={icon_fb} alt="Facebook icon" style={{marginRight: "8px", height: "18px"}} />
                             使用 Facebook 帳戶登入
                         </button>
                         <GoogleLogin
@@ -184,6 +186,7 @@ const Login = ({ currentUser, setCurrentUser }) => {
                             onError={() => {
                                 console.log('Login Failed');
                             }}
+                            width="200px"
                         ></GoogleLogin>
                     </div>
                 </section>

@@ -46,7 +46,7 @@ const Homepage = () => {
                 <div className="container-fluid">
                     <section className="section pb-md-12 pb-lg-20">
                         <div className="row">
-                            <div className="col-12 d-flex flex-wrap align-items-center">
+                            <div className="col-12 d-flex flex-wrap align-items-center justify-content-center">
                                 <div className="col-12 col-lg-3 d-flex flex-column align-items-center align-items-lg-start pb-6 pb-lg-0">
                                     <h3 className="title">手把手帶你</h3>
                                     <h3 className="title">親自到家教到會</h3>
@@ -153,7 +153,7 @@ const Homepage = () => {
                     <div className="title-vr mb-6 mb-md-18 mx-auto"></div>
                     <div className="row mt-12">
                         <div className="col-12 d-flex justify-content-center">
-                            <div className="col-8 col-md-6 col-lg-8">
+                            <div className="col-11 col-sm-8 col-md-6 col-lg-8">
                                 <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-indicators w-lg-60">
                                         <button className="me-2 active" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1"></button>

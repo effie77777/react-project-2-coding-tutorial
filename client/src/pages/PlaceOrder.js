@@ -95,7 +95,7 @@ const PlaceOrder = ({ currentUser, orderFromCustomer, setOrderFromCustomer, curr
             let amounts = Number(JSON.parse(localStorage.getItem("purchase"))[1]);
             setPurchase([pricePerClass, amounts]);
             // if 區塊第一種情形代表「初次進入到 placeOrder 頁面」。if 區塊第二種情形代表「之前有進到 placeOrder 頁面過，但是又按重選方案，回到 detail 頁面」(不會有 isValid 是因為沒有進到 checkOut 頁面過)
-            if (orderFromCustomer.length === 0 || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
+            if (!localStorage.getItem("order_from_customer") || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
                 setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
             } else { // else 區塊代表「使用者已經到 checkOut 了，但是又按修改訂單，回到 placeOrder 」。這種情況就將使用者上一次輸入的內容帶入表單
                 let previousInfo = JSON.parse(localStorage.getItem("order_from_customer")).data;
@@ -179,7 +179,7 @@ const PlaceOrder = ({ currentUser, orderFromCustomer, setOrderFromCustomer, curr
                                     <label htmlFor="name" className="mb-1">姓名</label>
                                     <input type="text" name="name" id="name" className="form-control" value={orderFromCustomer[0].name} onChange={handleChangeInputs} />
                                 </div>
-                                <div className="w-100 w-sm-48 mt-3">
+                                <div className="w-100 w-sm-48 mt-6 mt-sm-3">
                                     <label htmlFor="tel" className="mb-1">手機號碼</label>
                                     <input type="tel" name="tel" id="tel" className="form-control" value={orderFromCustomer[0].tel} placeholder="格式: 09xxxxxxxx" onChange={handleChangeInputs} />
                                 </div>

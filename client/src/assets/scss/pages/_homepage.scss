@@ -20,6 +20,7 @@
 
 .section2-card {
     @extend .col-12;
+    @extend .col-sm-9;
     @extend .col-md-4;
     @extend .col-lg-3;
     @extend .px-6;

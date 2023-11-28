@@ -138,27 +138,27 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                             <form className="col-12 col-sm-10 col-md-8 d-flex flex-wrap justify-content-between text-white">
                                 <div className="w-100 w-sm-48 mt-6 bg-third bg-opacity-25 px-4 py-2">
                                     <label htmlFor="name" className="me-3">姓名</label>
-                                    <input type="text" name="name" id="name" value={orderFromCustomer[0].name} className="bg-transparent border-0 text-white px-0" disabled />
+                                    <input type="text" name="name" id="name" value={orderFromCustomer[0].name} className="bg-transparent border-0 text-white px-0 w-100 w-xl-fit-content overflow-auto" disabled />
                                 </div>
                                 <div className="w-100 w-sm-48 mt-6 bg-third bg-opacity-25 px-4 py-2">
                                     <label htmlFor="tel" className="me-3">手機號碼</label>
-                                    <input type="tel" name="tel" id="tel" value={orderFromCustomer[0].tel} className="bg-transparent border-0 text-white px-0" disabled />
+                                    <input type="tel" name="tel" id="tel" value={orderFromCustomer[0].tel} className="bg-transparent border-0 text-white px-0 w-100 w-xl-fit-content overflow-auto" disabled />
                                 </div>
                                 <div className="mt-6 w-100 w-sm-48 bg-third bg-opacity-25 px-4 py-2">
                                     <label htmlFor="email" className="me-3">Email</label>
-                                    <input type="email" name="email" id="email" value={orderFromCustomer[0].email} className="bg-transparent border-0 text-white px-0 overflow-auto w-100" disabled />
+                                    <input type="email" name="email" id="email" value={orderFromCustomer[0].email} className="bg-transparent border-0 text-white px-0 w-100 w-xl-fit-content overflow-auto" disabled />
                                 </div>
                                 <div className="mt-6 w-100 w-sm-48 bg-third bg-opacity-25 px-4 py-2">
                                     <label htmlFor="date" className="me-3">上課日期</label>
-                                    <input type="date" name="date" id="date" value={orderFromCustomer[0].date} className="bg-transparent border-0 text-white px-0" disabled />
+                                    <input type="date" name="date" id="date" value={orderFromCustomer[0].date} className="bg-transparent border-0 text-white px-0 w-100 w-xl-fit-content overflow-auto" disabled />
                                 </div>
                                 <div className="w-100 mt-6 bg-third bg-opacity-25 px-4 py-2">
                                     <label htmlFor="address" className="me-3">上課地點</label>
-                                    <input type="text" name="address" id="address" value={orderFromCustomer[0].address} className="bg-transparent border-0 text-white px-0 overflow-auto d-inline-block w-100 w-sm-fit-content" disabled />
+                                    <input type="text" name="address" id="address" value={orderFromCustomer[0].address} className="bg-transparent border-0 text-white px-0 w-100 w-lg-fit-content overflow-auto" disabled />
                                 </div>
                                 <div className="w-100 mt-6 bg-third bg-opacity-25 px-4 py-2 d-flex flex-wrap">
                                     <label htmlFor="address" className="me-3">課程名稱</label>
-                                    <p>{currentSearch[0].title} ({currentSearch[0].instructor.name} 老師)</p>
+                                    <p className="w-100 w-lg-fit-content">{currentSearch[0].title} ({currentSearch[0].instructor.name} 老師)</p>
                                 </div>
                                 <div className="mt-9 d-flex flex-column justify-content-between w-100">
                                     <p className="text-warning">{`NT$${purchase[0]} x ${purchase[1]}堂 = NT$${purchase[0] * purchase[1]}`}</p>
