@@ -4,10 +4,10 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
-const fs = require("fs");
+const ecpay_payment = require('ecpay_aio_nodejs');
+require("./config/passport");
 const courseRoute = require("./routes/index").courseRoute;
 const authRoute = require("./routes/index").authRoute;
-require("./config/passport");
 const { MERCHANTID, HASHKEY, HASHIV } = process.env;
 const options = {
     OperationMode: 'Test', //Test or Production
