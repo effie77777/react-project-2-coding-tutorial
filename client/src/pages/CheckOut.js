@@ -178,7 +178,8 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                                     <label htmlFor="address" className="me-3">課程名稱</label>
                                     <p>{currentSearch[0].title} ({currentSearch[0].instructor.name} 老師)</p>
                                 </div>
-                                <div className="mt-9 mt-sm-12 d-flex flex-column justify-content-between w-100">
+                                <div className="mt-9 d-flex flex-column justify-content-between w-100">
+                                    <p className="text-warning">{`NT$${purchase[0]} x ${purchase[1]}堂 = NT$${purchase[0] * purchase[1]}`}</p>
                                     <div className="mt-3 d-flex flex-column flex-sm-row justify-content-sm-between">
                                         <Link className="btn border px-12 py-2 text-white w-sm-48" to="/placeOrder">修改訂單</Link>
                                         <button type="button" className="btn bg-linear px-12 py-2 text-white w-sm-48 mt-3 mt-sm-0" onClick={handleGoPay}>前往付款</button>
@@ -187,7 +188,6 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
                             </form>
                             )}
 
-                            <p className="col-12 col-sm-10 col-md-8 mt-8">*若綠界交易頁面顯示「訂單編號重複」訊息，請回到本頁面後按「重新整理」即可。這個動作<span className="text-warning">不會</span>使資料遺失或進行重複扣款。</p>
                         </div>
                     </div>
                 </section>

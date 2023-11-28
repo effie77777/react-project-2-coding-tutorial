@@ -94,7 +94,7 @@ const PlaceOrder = ({ currentUser, orderFromCustomer, setOrderFromCustomer, curr
             let pricePerClass = Number(JSON.parse(localStorage.getItem("purchase"))[0]);
             let amounts = Number(JSON.parse(localStorage.getItem("purchase"))[1]);
             setPurchase([pricePerClass, amounts]);
-            if (!orderFromCustomer || orderFromCustomer.length === 0) {
+            if (orderFromCustomer.length === 0 || !JSON.parse(localStorage.getItem("order_from_customer")).isValid) {
                 setOrderFromCustomer([{"name": currentUser.data.username, "tel": "", "email": currentUser.data.email, "date": "", "address": "" }]);
             } else {
                 //代表使用者已經到第二步驟 checkOut 了，但是又按修改訂單，回到第一步驟 placeOrder，這種情況就將使用者上一次輸入的內容帶入表單
@@ -195,7 +195,8 @@ const PlaceOrder = ({ currentUser, orderFromCustomer, setOrderFromCustomer, curr
                                     <label htmlFor="address" className="mb-1">上課地點(詳細地址)</label>
                                     <input type="text" name="address" id="address" className="form-control" value={orderFromCustomer[0].address} onChange={handleChangeInputs} />
                                 </div>
-                                <div className="mt-9 mt-sm-15 d-flex flex-column justify-content-between w-100">
+                                <div className="mt-9 d-flex flex-column justify-content-between w-100">
+                                    <p className="text-warning">{`NT$${purchase[0]} x ${purchase[1]}堂 = NT$${purchase[0] * purchase[1]}`}</p>
                                     <div className="mt-3 d-flex flex-column flex-sm-row justify-content-sm-between">
                                         <Link className="btn border px-12 py-2 text-white w-sm-48" to="/detail">重選方案</Link>
                                         <button type="button" className="btn bg-linear px-12 py-2 text-white w-sm-48 mt-3 mt-sm-0" onClick={handleCheckOut}>確認訂單</button>
