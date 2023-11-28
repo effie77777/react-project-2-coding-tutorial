@@ -8,8 +8,6 @@ const fs = require("fs");
 const courseRoute = require("./routes/index").courseRoute;
 const authRoute = require("./routes/index").authRoute;
 require("./config/passport");
-const ecpay_payment = require('ecpay_aio_nodejs');
-const Course = require("./models/course-model");
 const { MERCHANTID, HASHKEY, HASHIV } = process.env;
 const options = {
     OperationMode: 'Test', //Test or Production

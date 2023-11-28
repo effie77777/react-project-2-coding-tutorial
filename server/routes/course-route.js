@@ -1,8 +1,26 @@
 const express = require("express");
 const router = express.Router();
+const ecpay_payment = require('ecpay_aio_nodejs');
 const Course = require("../models/index").Course;
 const User = require("../models/index").User;
-const { FRONTEND_HOST, BACKEND_HOST } = process.env;
+const { MERCHANTID, HASHKEY, HASHIV, FRONTEND_HOST, BACKEND_HOST } = process.env;
+const options = {
+    OperationMode: 'Test', //Test or Production
+    MercProfile: {
+      MerchantID: MERCHANTID,
+      HashKey: HASHKEY,
+      HashIV: HASHIV,
+    },
+    IgnorePayment: [
+      //    "Credit",
+      //    "WebATM",
+      //    "ATM",
+      //    "CVS",
+      //    "BARCODE",
+      //    "AndroidPay"
+    ],
+    IsProjectContractor: false,
+};
 
 router.get("/search", async(req, res) => {
     await Course.find({}).populate("instructor")
