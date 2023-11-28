@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const ecpay_payment = require('ecpay_aio_nodejs');
+const bcrypt = require("bcrypt");
 const Course = require("../models/index").Course;
 const User = require("../models/index").User;
 const { MERCHANTID, HASHKEY, HASHIV, FRONTEND_HOST, BACKEND_HOST } = process.env;
+const { ORDER_HASH_SECRET } = process.env;
 const options = {
     OperationMode: 'Test', // Test or Production
     MercProfile: {
@@ -71,35 +73,60 @@ router.get("/payment/:ItemName/:TotalAmount", (req, res) => {
     };
     const create = new ecpay_payment(options);
     const html = create.payment_client.aio_check_out_all(base_param);
-    return res.send(html);
+    bcrypt.hash(ORDER_HASH_SECRET, 10, (err, hashedResult) => {
+        if (err) {
+            console.log(err);
+        } else {
+            return res.send({ html, hashedResult });
+        }
+    })
 })
 
-// 註冊 (購買) 課程
-router.post("/enroll", async(req, res) => {
-    let { studentId, course, orderDetail, classAmounts } = req.body;
-    await User.findOne({ _id: studentId })
-    .then((foundUser) => {
-        if (!foundUser) {
-            return res.status(400).send("查無這個使用者");
+router.post("/checkIfPaymentFinished", (req, res) => {
+    console.log("inside checkIfPaymentFinished");
+    let { hashed_result, studentId, course, orderDetail, classAmounts } = req.body;
+    bcrypt.compare(ORDER_HASH_SECRET, hashed_result, (err, isMatched) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).send("發生一些問題...");
         } else {
-            Course.findOne({ _id: course._id }).populate("instructor", ["name"])
-            .then((foundCourse) => {
-                foundUser.orders.push({ courseId: course._id, courseTitle: course.title, instructor: foundCourse.instructor.name, date: orderDetail.data.date, address: orderDetail.data.address, plan: classAmounts });
-                foundUser.save()
-                .then((d) => {
-                    console.log(d);
+            console.log(isMatched, typeof isMatched);
+            if (!isMatched) {
+                return res.status(401).send("訂單驗證失敗");
+            } else {
+                User.findOne({ _id: studentId })
+                .then((foundUser) => {
+                    if (!foundUser) {
+                        return res.status(400).send("查無這個使用者");
+                    } else {
+                        Course.findOne({ _id: course._id }).populate("instructor", ["name"])
+                        .then((foundCourse) => {
+                            foundUser.orders.push({ courseId: course._id, courseTitle: course.title, instructor: foundCourse.instructor.name, date: orderDetail.data.date, address: orderDetail.data.address, plan: classAmounts });
+                            foundUser.save()
+                            .then((d) => {
+                                console.log(d);
+                                return res.send("訂單儲存成功");
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                                return res.send("訂單儲存失敗");
+                            })    
+                        })
+                    }
                 })
                 .catch((e) => {
                     console.log(e);
-                })    
-            })
+                    return res.status(400).send("出了一些問題...");
+                })            
+            }
         }
     })
-    .catch((e) => {
-        console.log(e);
-        return res.status(400).send("出了一些問題...");
-    })
 })
+
+// // 註冊 (購買) 課程
+// router.post("/enroll", async(req, res) => {
+//     let { studentId, course, orderDetail, classAmounts } = req.body;
+// })
 
 // 查詢使用者已完成的訂單
 router.get("/getMyOrders/:studentId", async(req, res) => {

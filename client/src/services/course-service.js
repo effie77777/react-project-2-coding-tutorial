@@ -1,6 +1,6 @@
 import axios from "axios";
-const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/course";
-// const basic_api = "http://localhost:8080/api/course";
+// const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/course";
+const basic_api = "http://localhost:8080/api/course";
 
 class courseService {
     searchAllCourses() {
@@ -50,6 +50,18 @@ class courseService {
         : token = "";
         return axios.get(
             `${basic_api}/getMyOrders/${studentId}`,
+            { headers: { Authorization: token } }
+        );
+    }
+
+    checkIfPaymentFinished(hashed_result, studentId, course, orderDetail, classAmounts) {
+        let token;
+        localStorage.getItem("user_data")
+        ? token = JSON.parse(localStorage.getItem("user_data")).token
+        : token = "";
+        return axios.post(
+            `${basic_api}/checkIfPaymentFinished`,
+            { hashed_result, studentId, course, orderDetail, classAmounts },
             { headers: { Authorization: token } }
         );
     }
