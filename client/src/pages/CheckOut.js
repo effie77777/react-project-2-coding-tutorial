@@ -12,7 +12,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         newCourseService.checkOut(currentSearch[0].title, purchase[0] * purchase[1])
         .then((d) => {
             // 後端傳回來的 html 即為待會要提交給綠界的訂單
-            localStorage.setItem("form_from_ecpay", d.data.substring(0, d.data.indexOf("<script")) + "</form>");
+            localStorage.setItem("form_to_ecpay", d.data.substring(0, d.data.indexOf("<script")) + "</form>");
             let parentElement = document.getElementById("parentElement");
             if (parentElement) {
                 parentElement.innerHTML = d.data.substring(0, d.data.indexOf("<script")) + "</form>";
@@ -28,7 +28,6 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
     function selectForm() {
         let form = document.getElementById("_form_aiochk");
         if (form) {
-            localStorage.setItem("submitted_ecpay_form", "true");
             window.alert("將為您導向綠界金流頁面。\n本專案僅為 demo 性質，為方便觀看模擬的交易結果，付款方式請選擇「網路 ATM 」，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
             form.submit();
         }
@@ -72,9 +71,9 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
         }
     }
 
-    // if 區塊為 true 代表使用者已經進到綠界的頁面，但還沒完成付款，就按上一頁回到 CheckOut。這種情況就先把 submitted_ecpay_form 移除，等使用者按下「前往付款」時再加到 localStorage 裡面
-    if (localStorage.getItem("submitted_ecpay_form")) {
-        localStorage.removeItem("submitted_ecpay_form");
+    // if 區塊為 true 代表使用者已經進到綠界的頁面，但還沒完成付款，就按上一頁回到 CheckOut。這種情況就先把 form_to_ecpay 移除，等使用者按下「前往付款」時再加到 localStorage 裡面
+    if (localStorage.getItem("form_to_ecpay")) {
+        localStorage.removeItem("form_to_ecpay");
     }
 
     useEffect(() => {

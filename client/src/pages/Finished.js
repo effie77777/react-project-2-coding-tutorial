@@ -21,7 +21,7 @@ const Finished = ({ currentUser }) => {
             setTimeout(() => {
                 Navigate("/login");
             }, 2000);
-        } else if (localStorage.getItem("submitted_ecpay_form")) { // 使用者剛付款成功，從綠界頁面過來
+        } else if (localStorage.getItem("form_to_ecpay")) { // 使用者剛付款成功，從綠界頁面過來
             let studentId = currentUser.data._id;
             let course = JSON.parse(localStorage.getItem("current_search"))[0];
             let orderDetail = JSON.parse(localStorage.getItem("order_from_customer"));
@@ -33,7 +33,7 @@ const Finished = ({ currentUser }) => {
             .catch((e) => {
                 console.log(e);
             });    
-            localStorage.removeItem("submitted_ecpay_form");
+            localStorage.removeItem("form_to_ecpay");
             localStorage.removeItem("form_from_ecpay");
             localStorage.removeItem("order_from_customer");
             localStorage.removeItem("purchase");
