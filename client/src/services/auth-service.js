@@ -1,8 +1,8 @@
 import axios from "axios";
 const basic_api = "https://react-project-2-coding-tutorial-backend.onrender.com/api/auth";
-// const basic_api = "http://localhost:8080/api/auth";
 
 class authService {
+    // 本地註冊
     register(username, email, password) {
         return axios.post(
             `${basic_api}/register`,
@@ -10,6 +10,7 @@ class authService {
         );
     }
 
+    // 本地登入
     login(email, password) {
         return axios.post(
             `${basic_api}/login`,
@@ -17,14 +18,17 @@ class authService {
         );
     }
 
+    // 登出
     logout() {
         localStorage.removeItem("user_data");
     }
 
+    // 找出目前的使用者
     getCurrentUser() {
         return JSON.parse(localStorage.getItem("user_data"));
     }
 
+    // 使用 Google 登入
     loginWithGoogle(credential) {
         return axios.post(
             `${basic_api}/login/google`,
@@ -32,6 +36,7 @@ class authService {
         );
     }
 
+    // 使用 FB 登入
     loginWithFacebook(accessToken, userData) {
         return axios.post(
             `${basic_api}/login/facebook`,

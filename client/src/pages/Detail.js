@@ -71,7 +71,7 @@ const Detail = ({ currentUser, allCourses, setAllCourses, currentSearch, setCurr
         return sortingResult;
     }    
 
-    //下面這些不寫在 useEffect(() => {}, []) 裡面，是因為即使頁面不是第一次 loading，但每當使用者點選任何一張卡片 ( 重設 currentSearch ) 的時候都要執行
+    // 下面這些不寫在 useEffect(() => {}, []) 裡面，是因為即使頁面不是第一次 loading，但每當使用者點選任何一張卡片 ( 重設 currentSearch ) 的時候都要執行
     useEffect(() => {
         let sortingResult = sortAllCourses(allCourses, currentSearch);
         setSimilarCourses(sortingResult);

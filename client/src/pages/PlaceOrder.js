@@ -9,10 +9,10 @@ const PlaceOrder = ({ currentUser, orderFromCustomer, setOrderFromCustomer, curr
     // 將各 inputs 的值同步更新至 state
     const handleChangeInputs = (e) => {
         
-        // if 區塊為 true 代表使用者曾經進入到第二步驟 checkOut，但又返回到第一步驟 placeOrder，這種情況下當偵測到 input 欄位的值有改變，就將 isValid 設為 false，然後在 handleCheckOut 會再檢驗一次新輸入的內容是否符合規定，若符合規定就將 isValid 設為 true
+        // if 區塊為 true 代表使用者曾經進入到第二步驟 checkOut，但又返回到第一步驟 placeOrder，這種情況下當偵測到 input 欄位的值有改變，就將 isValid 移除，然後在 handleCheckOut 會再檢驗一次新輸入的內容是否符合規定，若符合規定就將 isValid 設為 true
         if (localStorage.getItem("order_from_customer")) {
-            let { data, isValid } = JSON.parse(localStorage.getItem("order_from_customer"));
-            localStorage.setItem("order_from_customer", JSON.stringify({ data, isValid: false }));
+            let { data } = JSON.parse(localStorage.getItem("order_from_customer"));
+            localStorage.setItem("order_from_customer", JSON.stringify({ data }));
         }
         let inputName = e.target.name;
         let inputValue = e.target.value;
