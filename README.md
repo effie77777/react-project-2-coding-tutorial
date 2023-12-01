@@ -7,7 +7,7 @@ Coding Tutorial is a platform where students can find courses with various codin
 後端: Node.js  
 React and Bootstrap 5 for Front-end. Node.js for Back-end.
 
-## 功能 Functions
+## 功能 Features
 * 註冊、登入、登出
 * OAuth (包含 Facebook 登入及 Google 登入)
 * 利用程式語言的類別，篩選符合條件的課程
