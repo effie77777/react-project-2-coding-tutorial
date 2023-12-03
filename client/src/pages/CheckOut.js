@@ -28,7 +28,7 @@ const CheckOut = ({ currentUser, currentSearch, setCurrentSearch, purchase, setP
     function selectForm() {
         let form = document.getElementById("_form_aiochk");
         if (form) {
-            window.alert("將為您導向綠界金流頁面。\n本專案僅為 demo 性質，為方便觀看模擬的交易結果，付款方式請選擇「網路 ATM 」，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
+            window.alert("將為您導向綠界金流頁面。\n本專案僅為 demo 性質，為方便觀看模擬的交易結果，付款方式請選擇「網路 ATM」( 或「ATM 櫃員機」)，銀行建議選擇「台灣土地銀行」或「台新銀行」，無須安裝軟體即可進行操作。");
             form.submit();
         }
     }
