@@ -17,7 +17,7 @@ React and Bootstrap 5 for Front-end. Node.js for Back-end.
 * OAuth, including **Login With Facebook** and **Login with Google**.
 * Filter courses according to the coding language.
 * Recommend similar courses to the user based on the courses previously searched.
-* Purchase courses, including placing orders and simulate the payment process. (use **ECPay**, a third-party payment provider of Taiwan)
+* Purchase courses, including placing orders and simulating the payment process. (use **ECPay**, a third-party payment provider of Taiwan)
 
 ## 技術 Technologies
 * Axios
