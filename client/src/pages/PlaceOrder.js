@@ -56,6 +56,9 @@ const PlaceOrder = ({ currentUser, orderFromCustomer, setOrderFromCustomer, curr
         let emailExp = /^\w{2,}@\w{2,}\.\w{2,}/;
         let appointmentDate = Number(orderFromCustomer[0].date.replaceAll("-", ""));
         let localeDate = new Date().toLocaleDateString();
+        if (localeDate.length < 10) { // 正常情況需要有 10 位數，包括日期本身 8 位數和 2 個 slash。如果只有 9 位數代表「日」為 1 號 ~ 9 號，格式為 YYYY/MM/D ( JS 沒有在「十位數」的位置補 0 )，這時候就需要我們手動把 0 補上去
+            localeDate = localeDate.substring(0, 8) + "0" + localeDate.at(8);
+        }
         localeDate = Number(localeDate.replaceAll("/", ""));
         
         if( isNotEmpty !== "true") {
