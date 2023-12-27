@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from axios;
 import banner from "../assets/images/homepage_banner.jpg";
 import share_1 from "../assets/images/homepage_section5-1.jpg";
 import share_2 from "../assets/images/homepage_section5-2.png";
@@ -21,6 +22,12 @@ const Homepage = () => {
             })
         }    
     }, 3000)
+
+    // 因為 server 太久沒有接受到請求會自動暫時關閉，再次開啟會需要一些時間，就會發生 lag 的情況。所以當使用者進到首頁就先送一個請求給 server
+    useEffect(() => {
+        const url = "https://react-project-2-coding-tutorial-backend.onrender.com/";
+        axios.get(url);
+    }, []);
 
     return (
         <div>
