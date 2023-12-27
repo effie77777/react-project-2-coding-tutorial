@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import axios from axios;
+import axios from "axios";
 import banner from "../assets/images/homepage_banner.jpg";
 import share_1 from "../assets/images/homepage_section5-1.jpg";
 import share_2 from "../assets/images/homepage_section5-2.png";
