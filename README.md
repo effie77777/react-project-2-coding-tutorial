@@ -63,3 +63,40 @@ Front-end:
   * images
   * models
   * routes
+
+## 畫面範例 Brief Demo
+<p>OAuth (Facebook + Google 登入)</p>
+<p>OAuth (Facebook & Google login)</p>
+<img
+  src="readme_images/oauth_login.png"
+  alt="OAuth (Facebook + Google 登入)"
+  width="375px">
+
+<p>已購買的課程</p>
+<p>Page showing all courses the user has purchased</p>
+<img
+  src="readme_images/mycourses_list.png"
+  alt="已購買的課程"
+  width="375px">
+
+<p>金流 (step1): 即將導向綠界頁面的提醒視窗</p>
+<p>Third-party payment (step1): alert window about redirecting to another website</p>
+<img
+  src="readme_images/ecpay-1.png"
+  alt="金流 (step1): 即將導向綠界頁面的提醒視窗"
+  width="375px">
+
+  
+<p>金流 (step2): 模擬訂單畫面</p>
+<p>Third-party payment (step2): a simulated order sheet</p>
+<img
+  src="readme_images/ecpay-2.png"
+  alt="金流 (step2): 模擬訂單畫面"
+  width="375px">
+
+<p>金流 (step3): 選擇付款方式</p>
+<p>Third-party payment (step3): choose the payment method</p>
+<img
+  src="readme_images/ecpay-3.png"
+  alt="金流 (step3): 選擇付款方式"
+  width="375px">
